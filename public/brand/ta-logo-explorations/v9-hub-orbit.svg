@@ -1,0 +1,79 @@
+<svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="TAI Hub Orbit">
+  <defs>
+    <radialGradient id="ho-bg" cx="0.5" cy="0.5" r="0.7">
+      <stop offset="0%"  stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </radialGradient>
+    <radialGradient id="ho-core" cx="0.5" cy="0.4" r="0.6">
+      <stop offset="0%"  stop-color="#312E81"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="256" height="256" rx="44" fill="url(#ho-bg)"/>
+
+  <circle cx="128" cy="128" r="108" fill="none"
+          stroke="#8B5CF6" stroke-width="1.2" stroke-dasharray="2 6" opacity="0.55"/>
+  <circle cx="128" cy="128" r="86" fill="none"
+          stroke="#0EA5E9" stroke-width="1" stroke-dasharray="2 6" opacity="0.35"/>
+
+  <g stroke="#475569" stroke-width="0.8" opacity="0.6">
+    <line x1="128" y1="128" x2="128" y2="20"/>
+    <line x1="128" y1="128" x2="221" y2="74"/>
+    <line x1="128" y1="128" x2="221" y2="182"/>
+    <line x1="128" y1="128" x2="128" y2="236"/>
+    <line x1="128" y1="128" x2="35"  y2="182"/>
+    <line x1="128" y1="128" x2="35"  y2="74"/>
+  </g>
+
+  <circle cx="128" cy="128" r="62" fill="url(#ho-core)" stroke="#8B5CF6" stroke-width="1.5"/>
+  <circle cx="128" cy="128" r="62" fill="none" stroke="#FFFFFF" stroke-width="0.8" opacity="0.15"/>
+
+  <rect x="98"  y="100" width="32" height="9" rx="2.5" fill="#FFFFFF"/>
+  <rect x="111" y="100" width="9"  height="48" rx="2.5" fill="#FFFFFF"/>
+
+  <path d="M 138 148 L 154 100 L 170 148"
+        fill="none" stroke="#FFFFFF" stroke-width="7"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="143" y="128" width="22" height="6" rx="2" fill="#FFFFFF"/>
+
+  <g>
+    <circle cx="128" cy="20"  r="14" fill="#0EA5E9"/>
+    <path d="M 122 16 h 12 v 8 h -4 l -3 4 v -4 h -5 z" fill="#FFFFFF" transform="translate(0, 0)"/>
+  </g>
+  <g>
+    <circle cx="221" cy="74"  r="14" fill="#8B5CF6"/>
+    <text x="221" y="75" font-family="Inter" font-weight="900" font-size="11"
+          fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">AI</text>
+  </g>
+  <g>
+    <circle cx="221" cy="182" r="14" fill="#10B981"/>
+    <path d="M 221 188 c -6 -4, -6 -10, -3 -10 c 1.5 0, 3 1.5, 3 3 c 0 -1.5, 1.5 -3, 3 -3 c 3 0, 3 6, -3 10 z"
+          fill="#FFFFFF"/>
+  </g>
+  <g>
+    <circle cx="128" cy="236" r="14" fill="#0EA5E9"/>
+    <g stroke="#FFFFFF" stroke-width="2" fill="#FFFFFF">
+      <circle cx="128" cy="231" r="2"/>
+      <circle cx="123" cy="240" r="2"/>
+      <circle cx="133" cy="240" r="2"/>
+      <line x1="128" y1="231" x2="123" y2="240"/>
+      <line x1="128" y1="231" x2="133" y2="240"/>
+    </g>
+  </g>
+  <g>
+    <circle cx="35"  cy="182" r="14" fill="#8B5CF6"/>
+    <text x="35" y="183" font-family="Inter" font-weight="900" font-size="11"
+          fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">$</text>
+  </g>
+  <g>
+    <circle cx="35"  cy="74"  r="14" fill="#10B981"/>
+    <g fill="#FFFFFF">
+      <rect x="29" y="70" width="2" height="8" rx="1"/>
+      <rect x="33" y="66" width="2" height="12" rx="1"/>
+      <rect x="37" y="72" width="2" height="6" rx="1"/>
+    </g>
+  </g>
+
+  <circle cx="128" cy="128" r="3" fill="#10B981"/>
+</svg>

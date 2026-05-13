@@ -1,0 +1,25 @@
+<svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="TAI Power Stack">
+  <defs>
+    <clipPath id="round">
+      <rect width="256" height="256" rx="48"/>
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#round)">
+    <rect width="256" height="128" fill="#0F172A"/>
+    <rect y="128" width="256" height="128" fill="#8B5CF6"/>
+    <polygon points="0,118 256,98 256,138 0,158" fill="#0EA5E9"/>
+
+    <rect x="74"  y="32"  width="108" height="20" rx="4" fill="#FFFFFF"/>
+    <rect x="118" y="32"  width="20"  height="68" rx="4" fill="#FFFFFF"/>
+
+    <polyline points="86,222 128,150 170,222"
+              fill="none" stroke="#FFFFFF" stroke-width="22"
+              stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="104" y="194" width="48" height="14" rx="4" fill="#FFFFFF"/>
+
+    <circle cx="216" cy="40" r="7" fill="#10B981"/>
+    <circle cx="40"  cy="216" r="6" fill="#FFFFFF" opacity="0.35"/>
+    <circle cx="56"  cy="222" r="3.5" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+</svg>

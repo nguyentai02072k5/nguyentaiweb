@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="vi" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>TAI · Logo Explorations · 9 hướng</title>
+<link rel="icon" type="image/svg+xml" href="v8-bot-buddy.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --navy: #0F172A;
+    --navy-2: #1E293B;
+    --violet: #8B5CF6;
+    --violet-2: #A78BFA;
+    --sky: #0EA5E9;
+    --emerald: #10B981;
+    --line: rgba(255,255,255,.08);
+    --bg: #0B1220;
+    --surface: #0F172A;
+    --surface-2: #131C2E;
+    --text: #E2E8F0;
+    --text-dim: #94A3B8;
+    --accent: #8B5CF6;
+  }
+  [data-theme="light"] {
+    --bg: #F8FAFC;
+    --surface: #FFFFFF;
+    --surface-2: #F1F5F9;
+    --text: #0F172A;
+    --text-dim: #475569;
+    --line: rgba(15,23,42,.08);
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html,body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    transition: background .35s ease, color .35s ease;
+    min-height: 100vh;
+  }
+  body::before {
+    content:""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background:
+      radial-gradient(60% 40% at 12% 10%, rgba(139,92,246,.18), transparent 60%),
+      radial-gradient(50% 35% at 88% 8%, rgba(14,165,233,.14), transparent 60%),
+      radial-gradient(40% 30% at 50% 92%, rgba(16,185,129,.10), transparent 60%);
+  }
+  [data-theme="light"] body::before {
+    background:
+      radial-gradient(50% 35% at 12% 10%, rgba(139,92,246,.10), transparent 60%),
+      radial-gradient(40% 30% at 88% 8%, rgba(14,165,233,.10), transparent 60%);
+  }
+
+  .wrap { position: relative; z-index: 1; max-width: 1280px; margin: 0 auto; padding: 56px 28px 96px; }
+
+  header {
+    display: flex; flex-wrap: wrap; gap: 24px; align-items: center; justify-content: space-between;
+    margin-bottom: 56px;
+  }
+  .brand { display: flex; gap: 16px; align-items: center; }
+  .brand-mark {
+    width: 56px; height: 56px; border-radius: 14px;
+    box-shadow: 0 12px 30px rgba(139,92,246,.28);
+  }
+  .brand-text { line-height: 1.1; }
+  .brand-text .eyebrow {
+    text-transform: uppercase; letter-spacing: .2em; font-size: 11px;
+    color: var(--text-dim); font-weight: 600;
+  }
+  .brand-text .name {
+    font-size: 22px; font-weight: 800; letter-spacing: -.02em;
+    background: linear-gradient(135deg, var(--violet-2), var(--sky));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+
+  .toggle {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--surface-2); border: 1px solid var(--line);
+    padding: 8px 14px; border-radius: 999px; cursor: pointer;
+    color: var(--text); font: inherit; font-size: 13px; font-weight: 600;
+    transition: transform .2s ease, border-color .2s ease;
+  }
+  .toggle:hover { transform: translateY(-1px); border-color: var(--violet); }
+  .toggle .dot { width: 8px; height: 8px; border-radius: 99px; background: var(--violet); box-shadow: 0 0 0 4px rgba(139,92,246,.18); }
+
+  .hero { margin-bottom: 64px; display: grid; gap: 18px; }
+  .hero h1 { margin: 0; font-size: clamp(34px, 6vw, 60px); line-height: 1.05; letter-spacing: -.035em; font-weight: 900; }
+  .hero h1 .accent {
+    background: linear-gradient(135deg, var(--violet) 0%, var(--sky) 60%, var(--emerald) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero p { margin: 0; max-width: 760px; color: var(--text-dim); font-size: 17px; line-height: 1.6; }
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .pill {
+    padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 600;
+    border: 1px solid var(--line); background: var(--surface-2); color: var(--text-dim);
+  }
+  .pill.violet { color: var(--violet-2); border-color: rgba(139,92,246,.35); }
+  .pill.sky    { color: var(--sky);     border-color: rgba(14,165,233,.35); }
+  .pill.emerald{ color: var(--emerald); border-color: rgba(16,185,129,.35); }
+
+  .section-head {
+    display: flex; align-items: end; justify-content: space-between; gap: 18px;
+    margin: 56px 0 24px; padding-bottom: 18px; border-bottom: 1px solid var(--line); flex-wrap: wrap;
+  }
+  .section-head h2 { margin: 0; font-size: 28px; font-weight: 900; letter-spacing: -.02em; }
+  .section-head .lead { color: var(--text-dim); font-size: 14px; max-width: 540px; line-height: 1.55; }
+  .section-head .num {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: var(--violet-2); letter-spacing: .2em; text-transform: uppercase;
+  }
+
+  .grid { display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+  .grid.compact { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 24px;
+    padding: 22px; display: flex; flex-direction: column; gap: 16px;
+    transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+    position: relative; overflow: hidden;
+  }
+  .card::before {
+    content:""; position: absolute; inset: -1px; border-radius: inherit;
+    padding: 1px; background: linear-gradient(135deg, transparent 50%, rgba(139,92,246,.45));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    opacity: 0; transition: opacity .25s ease; pointer-events: none;
+  }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 24px 48px rgba(8,12,24,.45); }
+  .card:hover::before { opacity: 1; }
+  .card.compact { padding: 16px; gap: 12px; border-radius: 18px; }
+
+  .stage {
+    background:
+      linear-gradient(135deg, rgba(139,92,246,.06), rgba(14,165,233,.06)),
+      var(--surface-2);
+    border: 1px solid var(--line); border-radius: 18px;
+    aspect-ratio: 1 / 1; display: grid; place-items: center; padding: 26px;
+  }
+  .compact .stage { padding: 16px; border-radius: 12px; }
+  .stage img { width: 100%; height: 100%; object-fit: contain; }
+
+  .meta { display: flex; flex-direction: column; gap: 10px; }
+  .meta .tag {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--text-dim);
+  }
+  .meta h3 { margin: 0; font-size: 18px; font-weight: 800; letter-spacing: -.01em; line-height: 1.25; }
+  .meta p  { margin: 0; color: var(--text-dim); font-size: 13.5px; line-height: 1.55; }
+  .compact .meta h3 { font-size: 15px; }
+  .compact .meta p { font-size: 12.5px; }
+
+  .story {
+    background: var(--surface-2); border: 1px solid var(--line);
+    border-radius: 12px; padding: 12px; font-size: 12.5px; line-height: 1.6;
+    color: var(--text-dim); display: grid; gap: 4px;
+  }
+  .story b { color: var(--text); font-weight: 700; }
+  .story .sym { color: var(--violet-2); }
+
+  .ecosystem { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; font-size: 11px; font-weight: 600; }
+  .ecosystem span {
+    background: var(--surface-2); border: 1px solid var(--line);
+    padding: 6px 10px; border-radius: 8px; color: var(--text-dim);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .ecosystem span::before { content:""; width: 6px; height: 6px; border-radius: 99px; background: var(--violet); }
+  .ecosystem span:nth-child(1)::before { background: var(--violet); }
+  .ecosystem span:nth-child(2)::before { background: var(--sky); }
+  .ecosystem span:nth-child(3)::before { background: var(--emerald); }
+  .ecosystem span:nth-child(4)::before { background: #F59E0B; }
+
+  .scales {
+    display: flex; align-items: end; gap: 12px; padding: 14px;
+    border-radius: 14px; background: var(--surface-2); border: 1px solid var(--line);
+    overflow-x: auto;
+  }
+  .scales .group { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 0 8px; border-right: 1px solid var(--line); flex: 0 0 auto; }
+  .scales .group:last-child { border-right: 0; }
+  .scales .group .name { font-size: 10px; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: .1em; }
+  .scales .row { display: flex; align-items: end; gap: 8px; }
+  .scales .item { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .scales .item .label { font-size: 9px; color: var(--text-dim); }
+  .scales img { display: block; }
+
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 9px 13px; border-radius: 10px; font-size: 12.5px; font-weight: 600;
+    text-decoration: none; transition: transform .2s, background .2s; border: 1px solid var(--line);
+  }
+  .btn-primary { background: linear-gradient(135deg, var(--violet), var(--sky)); color: #fff; border-color: transparent; }
+  .btn-primary:hover { transform: translateY(-1px); }
+  .btn-ghost { background: transparent; color: var(--text); }
+  .btn-ghost:hover { border-color: var(--violet); color: var(--violet-2); }
+
+  .best { font-size: 12px; color: var(--text-dim); margin-top: 4px; font-style: italic; }
+  .best b { color: var(--text); font-style: normal; font-weight: 700; }
+
+  .badge-new {
+    position: absolute; top: 14px; right: 14px;
+    background: linear-gradient(135deg, var(--emerald), var(--sky));
+    color: #FFFFFF; font-size: 10px; font-weight: 800; letter-spacing: .15em;
+    padding: 4px 8px; border-radius: 999px; text-transform: uppercase; z-index: 2;
+  }
+
+  footer {
+    margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--line);
+    color: var(--text-dim); font-size: 13px;
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  }
+  footer code {
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--surface-2); padding: 2px 8px; border-radius: 6px; font-size: 12px;
+  }
+
+  @media (max-width: 640px) {
+    .wrap { padding: 32px 18px 64px; }
+    .hero h1 { font-size: 36px; }
+    .section-head h2 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+
+    <header>
+      <div class="brand">
+        <img class="brand-mark" src="v8-bot-buddy.svg" alt="TAI mark" />
+        <div class="brand-text">
+          <div class="eyebrow">Logo Explorations · 9 huong</div>
+          <div class="name">TAI · AI Automation</div>
+        </div>
+      </div>
+      <button class="toggle" id="themeToggle" type="button">
+        <span class="dot"></span>
+        <span id="themeLabel">Dark mode</span>
+      </button>
+    </header>
+
+    <section class="hero">
+      <h1>Logo phai la <span class="accent">bieu tuong</span>,<br/>khong phai duong net vo hon.</h1>
+      <p>5 huong moi (V5&ndash;V9) duoc thiet ke nhu nhung &ldquo;symbol&rdquo; doc lap, moi cai compound 3&ndash;4 y nghia: AI / data pattern / chatbot / cham soc khach hang. T va A duoc &ldquo;an&rdquo; trong cau truc bieu tuong, khong loi ra ngoai. Cuon xuong duoi de so sanh voi V1&ndash;V4 (lettermark series).</p>
+      <div class="pills">
+        <span class="pill violet">AI Cognition</span>
+        <span class="pill sky">Chatbot · CSKH</span>
+        <span class="pill emerald">Data Patterns</span>
+        <span class="pill">Multi-channel Ecosystem</span>
+      </div>
+    </section>
+
+    <div class="section-head">
+      <div>
+        <div class="num">Series 02 · 5 phuong an moi</div>
+        <h2>Symbol Series - Compound Meaning</h2>
+        <p class="lead">Moi logo la mot bieu tuong tu than: than nao, hoi thoai, trai tim, robot, hub. T+A duoc tich hop vao cau truc, khong la chinh.</p>
+      </div>
+    </div>
+
+    <section class="grid">
+
+      <article class="card">
+        <span class="badge-new">New</span>
+        <div class="stage"><img src="v5-neural-mind.svg" alt="V5 Neural Mind" /></div>
+        <div class="meta">
+          <div class="tag">V5 · Neural Mind</div>
+          <h3>Mang no-ron AI &mdash; T input, A output</h3>
+          <p>3 lop neural network: T la cot input, A la nhanh output, dot xanh la lop an o giua. Pattern dot nho rai khap = bo nho du lieu.</p>
+        </div>
+        <div class="story">
+          <div><b class="sym">T</b> = 3 input neurons (data tu nhieu kenh vao)</div>
+          <div><b class="sym">A</b> = 2 output paths (response &amp; action)</div>
+          <div><b>Compound:</b> AI brain + neural net + data pattern</div>
+        </div>
+        <div class="actions">
+          <a class="btn btn-primary" href="v5-neural-mind.svg" download>Tai SVG</a>
+          <a class="btn btn-ghost" href="v5-neural-mind.svg" target="_blank">Mo full</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <span class="badge-new">New</span>
+        <div class="stage"><img src="v6-echo-bubble.svg" alt="V6 Echo Bubble" /></div>
+        <div class="meta">
+          <div class="tag">V6 · Echo Bubble</div>
+          <h3>Hoi thoai song &mdash; bot tra loi tu dong</h3>
+          <p>Bubble lon chua T+A va dot dang go. Bubble nho phia goc duoi co chu &ldquo;AI&rdquo; = bot tra loi ngay lap tuc. Co dau spark = phan ung thoi gian thuc.</p>
+        </div>
+        <div class="story">
+          <div><b class="sym">T</b> = thong diep cua khach (left)</div>
+          <div><b class="sym">A</b> = AI processing (right)</div>
+          <div><b>Compound:</b> chatbot + auto-reply loop + CSKH</div>
+        </div>
+        <div class="actions">
+          <a class="btn btn-primary" href="v6-echo-bubble.svg" download>Tai SVG</a>
+          <a class="btn btn-ghost" href="v6-echo-bubble.svg" target="_blank">Mo full</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <span class="badge-new">New</span>
+        <div class="stage"><img src="v7-care-beat.svg" alt="V7 Care Beat" /></div>
+        <div class="meta">
+          <div class="tag">V7 · Care Beat</div>
+          <h3>Trai tim CSKH &mdash; nhip dap song du lieu</h3>
+          <p>Hinh trai tim violet/navy chua T+A trang. EKG xanh emerald di xuyen ngang qua = nhip song cua he thong cham soc 24/7. Bubble nho goc tren = lang nghe.</p>
+        </div>
+        <div class="story">
+          <div><b class="sym">T+A</b> nam tron trong tim</div>
+          <div><b>Pulse line</b> = he thong CSKH luon hoat dong</div>
+          <div><b>Compound:</b> heart + EKG + chat + care</div>
+        </div>
+        <div class="actions">
+          <a class="btn btn-primary" href="v7-care-beat.svg" download>Tai SVG</a>
+          <a class="btn btn-ghost" href="v7-care-beat.svg" target="_blank">Mo full</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <span class="badge-new">New</span>
+        <div class="stage"><img src="v8-bot-buddy.svg" alt="V8 Bot Buddy" /></div>
+        <div class="meta">
+          <div class="tag">V8 · Bot Buddy</div>
+          <h3>Linh vat AI than thien &mdash; co tinh cach</h3>
+          <p>Mat bot dac trung: ang-ten T tren dau (bong xanh sang), visor violet, mat sky tron, nu cuoi cua A o duoi. Phia phai co bubble dot dang go = san sang chat.</p>
+        </div>
+        <div class="story">
+          <div><b class="sym">T</b> = ang-ten + visor (dau bot)</div>
+          <div><b class="sym">A</b> = ham + nu cuoi (mat bot)</div>
+          <div><b>Compound:</b> mascot + chat + AI personality</div>
+        </div>
+        <div class="actions">
+          <a class="btn btn-primary" href="v8-bot-buddy.svg" download>Tai SVG</a>
+          <a class="btn btn-ghost" href="v8-bot-buddy.svg" target="_blank">Mo full</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <span class="badge-new">New</span>
+        <div class="stage"><img src="v9-hub-orbit.svg" alt="V9 Hub Orbit" /></div>
+        <div class="meta">
+          <div class="tag">V9 · Hub Orbit</div>
+          <h3>Lo&#771;i T+A &mdash; 6 dich vu quay quanh</h3>
+          <p>Vong tron trung tam chua T+A. 6 nut quay tren 2 quy dao: chatbot, AI, CRM, social, ads, analytics. Cau truc rat &ldquo;he sinh thai&rdquo;, pattern cham noi tao chieu sau du lieu.</p>
+        </div>
+        <div class="story">
+          <div><b class="sym">Core</b> = T+A (he dieu hanh)</div>
+          <div><b>Orbit</b> = 6 module xoay tron</div>
+          <div><b>Compound:</b> hub + ecosystem + AI center</div>
+        </div>
+        <div class="actions">
+          <a class="btn btn-primary" href="v9-hub-orbit.svg" download>Tai SVG</a>
+          <a class="btn btn-ghost" href="v9-hub-orbit.svg" target="_blank">Mo full</a>
+        </div>
+      </article>
+
+    </section>
+
+    <section style="margin-top:48px">
+      <div class="num" style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px">Test scaling - V5 to V9 at favicon sizes</div>
+      <div class="scales">
+        <div class="group">
+          <div class="name">V5 · Mind</div>
+          <div class="row">
+            <div class="item"><img src="v5-neural-mind.svg" width="16" height="16" /><span class="label">16</span></div>
+            <div class="item"><img src="v5-neural-mind.svg" width="32" height="32" /><span class="label">32</span></div>
+            <div class="item"><img src="v5-neural-mind.svg" width="64" height="64" /><span class="label">64</span></div>
+          </div>
+        </div>
+        <div class="group">
+          <div class="name">V6 · Echo</div>
+          <div class="row">
+            <div class="item"><img src="v6-echo-bubble.svg" width="16" height="16" /><span class="label">16</span></div>
+            <div class="item"><img src="v6-echo-bubble.svg" width="32" height="32" /><span class="label">32</span></div>
+            <div class="item"><img src="v6-echo-bubble.svg" width="64" height="64" /><span class="label">64</span></div>
+          </div>
+        </div>
+        <div class="group">
+          <div class="name">V7 · Care</div>
+          <div class="row">
+            <div class="item"><img src="v7-care-beat.svg" width="16" height="16" /><span class="label">16</span></div>
+            <div class="item"><img src="v7-care-beat.svg" width="32" height="32" /><span class="label">32</span></div>
+            <div class="item"><img src="v7-care-beat.svg" width="64" height="64" /><span class="label">64</span></div>
+          </div>
+        </div>
+        <div class="group">
+          <div class="name">V8 · Bot</div>
+          <div class="row">
+            <div class="item"><img src="v8-bot-buddy.svg" width="16" height="16" /><span class="label">16</span></div>
+            <div class="item"><img src="v8-bot-buddy.svg" width="32" height="32" /><span class="label">32</span></div>
+            <div class="item"><img src="v8-bot-buddy.svg" width="64" height="64" /><span class="label">64</span></div>
+          </div>
+        </div>
+        <div class="group">
+          <div class="name">V9 · Hub</div>
+          <div class="row">
+            <div class="item"><img src="v9-hub-orbit.svg" width="16" height="16" /><span class="label">16</span></div>
+            <div class="item"><img src="v9-hub-orbit.svg" width="32" height="32" /><span class="label">32</span></div>
+            <div class="item"><img src="v9-hub-orbit.svg" width="64" height="64" /><span class="label">64</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-head">
+      <div>
+        <div class="num">Series 01 · 4 phuong an goc</div>
+        <h2>Lettermark Series - TA truc tiep</h2>
+        <p class="lead">Bo logo dau tien: T va A xuat hien lo dien o dang chu. Don gian, manh ve typography. De so sanh voi Symbol Series ben tren.</p>
+      </div>
+    </div>
+
+    <section class="grid compact">
+
+      <article class="card compact">
+        <div class="stage"><img src="v1-bento-quad.svg" alt="V1 Bento Quad" /></div>
+        <div class="meta">
+          <div class="tag">V1 · Bento Quad</div>
+          <h3>4 manh mau he sinh thai</h3>
+          <p>T, A, chatbot, social network &mdash; moi o mot mau.</p>
+        </div>
+        <div class="actions">
+          <a class="btn btn-ghost" href="v1-bento-quad.svg" download>Tai SVG</a>
+        </div>
+      </article>
+
+      <article class="card compact">
+        <div class="stage"><img src="v2-sealed-mark.svg" alt="V2 Sealed Mark" /></div>
+        <div class="meta">
+          <div class="tag">V2 · Sealed Mark</div>
+          <h3>Negative space monogram</h3>
+          <p>1 khoi navy + TA cat ra + dot bi mat ben trong.</p>
+        </div>
+        <div class="actions">
+          <a class="btn btn-ghost" href="v2-sealed-mark.svg" download>Tai SVG</a>
+        </div>
+      </article>
+
+      <article class="card compact">
+        <div class="stage"><img src="v3-gradient-ribbon.svg" alt="V3 Gradient Ribbon" /></div>
+        <div class="meta">
+          <div class="tag">V3 · Gradient Ribbon</div>
+          <h3>Letterform do gradient</h3>
+          <p>Navy &rarr; violet &rarr; sky &rarr; emerald, dotted circuit noi T-A.</p>
+        </div>
+        <div class="actions">
+          <a class="btn btn-ghost" href="v3-gradient-ribbon.svg" download>Tai SVG</a>
+        </div>
+      </article>
+
+      <article class="card compact">
+        <div class="stage"><img src="v4-power-stack.svg" alt="V4 Power Stack" /></div>
+        <div class="meta">
+          <div class="tag">V4 · Power Stack</div>
+          <h3>2 khoi mau xep doc</h3>
+          <p>Navy tren, violet duoi, lat sky cat ngang = data flow.</p>
+        </div>
+        <div class="actions">
+          <a class="btn btn-ghost" href="v4-power-stack.svg" download>Tai SVG</a>
+        </div>
+      </article>
+
+    </section>
+
+    <footer>
+      <div>Brand palette &middot; <code>#0F172A</code> <code>#8B5CF6</code> <code>#0EA5E9</code> <code>#10B981</code></div>
+      <div>9 SVG &middot; viewBox 256 &times; 256 &middot; full vector</div>
+    </footer>
+  </div>
+
+<script>
+  const root = document.documentElement;
+  const btn = document.getElementById('themeToggle');
+  const label = document.getElementById('themeLabel');
+  const setTheme = (t) => {
+    root.setAttribute('data-theme', t);
+    label.textContent = t === 'dark' ? 'Dark mode' : 'Light mode';
+    try { localStorage.setItem('ta-theme', t); } catch(e){}
+  };
+  const saved = (() => { try { return localStorage.getItem('ta-theme'); } catch(e) { return null; } })();
+  if (saved) setTheme(saved);
+  btn.addEventListener('click', () => setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
+</script>
+</body>
+</html>

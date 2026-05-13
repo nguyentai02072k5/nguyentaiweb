@@ -1,0 +1,44 @@
+<svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="TAI Care Beat">
+  <defs>
+    <linearGradient id="cb-heart" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0%"  stop-color="#8B5CF6"/>
+      <stop offset="55%" stop-color="#5B21B6"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+    <linearGradient id="cb-pulse" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#10B981" stop-opacity="0"/>
+      <stop offset="20%"  stop-color="#10B981" stop-opacity="1"/>
+      <stop offset="80%"  stop-color="#10B981" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#10B981" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="256" height="256" rx="44" fill="#0F172A"/>
+
+  <path d="M 128 224
+           C 28 162, 28 70, 84 60
+           C 110 55, 128 76, 128 96
+           C 128 76, 146 55, 172 60
+           C 228 70, 228 162, 128 224 Z"
+        fill="url(#cb-heart)"/>
+
+  <rect x="60" y="84" width="56" height="11" rx="3" fill="#FFFFFF"/>
+  <rect x="82" y="84" width="12" height="64" rx="3" fill="#FFFFFF"/>
+
+  <path d="M 138 148 L 168 84 L 198 148"
+        fill="none" stroke="#FFFFFF" stroke-width="10"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="151" y="124" width="34" height="8" rx="3" fill="#FFFFFF"/>
+
+  <polyline points="14,168 56,168 70,138 86,196 102,168 134,168 150,150 166,184 180,168 242,168"
+            fill="none" stroke="url(#cb-pulse)" stroke-width="3.5"
+            stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="86" cy="196" r="3" fill="#10B981"/>
+
+  <g transform="translate(206, 38)">
+    <path d="M -10 6 Q -10 -4, -2 -4 L 6 -4 Q 14 -4, 14 4 L 14 8 Q 14 14, 8 14 L 0 14 L -4 18 L -3 14 L -2 14 Q -10 14, -10 8 Z"
+          fill="#0EA5E9"/>
+  </g>
+  <circle cx="232" cy="22" r="4" fill="#0EA5E9" opacity="0.7"/>
+  <circle cx="240" cy="32" r="2" fill="#0EA5E9" opacity="0.5"/>
+</svg>

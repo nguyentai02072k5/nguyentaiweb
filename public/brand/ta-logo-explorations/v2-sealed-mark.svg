@@ -1,0 +1,33 @@
+<svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="TAI Sealed Mark">
+  <defs>
+    <mask id="ta-cut">
+      <rect width="256" height="256" fill="#FFFFFF"/>
+      <rect x="30"  y="58"  width="84" height="22" rx="4" fill="#000000"/>
+      <rect x="62"  y="58"  width="20" height="142" rx="4" fill="#000000"/>
+      <polyline points="146,200 192,58 238,200"
+                fill="none" stroke="#000000" stroke-width="22"
+                stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="166" y="138" width="52" height="16" rx="4" fill="#000000"/>
+    </mask>
+  </defs>
+
+  <rect width="256" height="256" rx="48" fill="#0F172A" mask="url(#ta-cut)"/>
+
+  <g fill="#0F172A">
+    <circle cx="72" cy="118" r="3.5"/>
+    <circle cx="72" cy="136" r="3.5"/>
+    <circle cx="72" cy="154" r="3.5"/>
+  </g>
+
+  <g fill="#0F172A">
+    <circle cx="184" cy="108" r="4"/>
+    <circle cx="200" cy="108" r="4"/>
+    <circle cx="192" cy="126" r="4"/>
+  </g>
+
+  <g>
+    <rect x="32" y="222" width="58" height="6" rx="3" fill="#8B5CF6"/>
+    <rect x="96" y="222" width="6" height="6" rx="3" fill="#0EA5E9"/>
+    <rect x="108" y="222" width="6" height="6" rx="3" fill="#10B981"/>
+  </g>
+</svg>

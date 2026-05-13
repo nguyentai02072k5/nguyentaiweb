@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>S6 About - 3 story variants preview · Tài AI Automation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Be+Vietnam+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --indigo: #6366F1;
+    --violet: #A855F7;
+    --pink:   #EC4899;
+    --cyan:   #06B6D4;
+    --cream:  #FAF7FF;
+    --ink:    #1B1430;
+    --muted:  #5B5275;
+    --hair:   rgba(168,85,247,0.18);
+    --soft:   rgba(99,102,241,0.06);
+
+    --display: 'Space Grotesk', sans-serif;
+    --body:    'Be Vietnam Pro', sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: linear-gradient(180deg, #FAF7FF 0%, #F4EEFF 100%);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 48px 24px 96px;
+  }
+
+  /* Page header */
+  .page-eyebrow {
+    font-family: var(--display);
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--violet);
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  .page-title {
+    font-family: var(--display);
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 700;
+    line-height: 1.15;
+    margin: 0 0 8px;
+    background: linear-gradient(120deg, var(--indigo), var(--violet) 55%, var(--pink));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .page-sub {
+    color: var(--muted);
+    max-width: 760px;
+    margin: 0 0 40px;
+  }
+  .legend {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid var(--hair);
+    background: white;
+  }
+  .legend-item .dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
+  /* Variant card grid */
+  .variants {
+    display: grid;
+    gap: 28px;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  }
+  .variant {
+    background: white;
+    border-radius: 24px;
+    border: 1px solid var(--hair);
+    overflow: hidden;
+    box-shadow: 0 20px 60px -30px rgba(99,102,241,0.25);
+    display: flex;
+    flex-direction: column;
+  }
+  .variant-tag {
+    padding: 16px 24px 12px;
+    font-family: var(--display);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .variant-tag .badge {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--soft);
+    color: var(--indigo);
+    font-weight: 600;
+  }
+  .variant-a .variant-tag { color: var(--indigo); }
+  .variant-b .variant-tag { color: var(--violet); }
+  .variant-c .variant-tag { color: var(--pink); }
+
+  .variant-body { padding: 0 24px 24px; flex: 1; display: flex; flex-direction: column; }
+
+  /* Story section header */
+  .story-title {
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.25;
+    margin: 4px 0 16px;
+    color: var(--ink);
+  }
+  .story-title em {
+    font-style: normal;
+    background: linear-gradient(120deg, var(--indigo), var(--pink));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Photo + story layout */
+  .story-row {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+  .photo-frame {
+    position: relative;
+    border-radius: 18px;
+    aspect-ratio: 1 / 1.15;
+    background: linear-gradient(160deg, #EEF2FF, #FCE7F3);
+    overflow: hidden;
+    border: 2px solid white;
+    box-shadow: 0 8px 24px -12px rgba(168,85,247,0.4);
+  }
+  .photo-frame img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  /* sketch underline F1 indicator */
+  .photo-frame::after {
+    content: "";
+    position: absolute;
+    left: 8px; right: 8px; bottom: -4px;
+    height: 6px;
+    background:
+      radial-gradient(2px 1px at 10% 50%, var(--pink) 99%, transparent),
+      radial-gradient(2px 1px at 40% 70%, var(--violet) 99%, transparent),
+      radial-gradient(2px 1px at 75% 30%, var(--indigo) 99%, transparent);
+    opacity: 0.6;
+  }
+  .photo-caption {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 6px;
+    font-style: italic;
+    text-align: center;
+  }
+
+  .story-text { font-size: 14.5px; line-height: 1.7; color: #2B2244; }
+  .story-text p { margin: 0 0 10px; }
+  .story-text .highlight {
+    background: linear-gradient(180deg, transparent 60%, rgba(236,72,153,0.18) 60%);
+    padding: 0 2px;
+    font-weight: 500;
+  }
+  .sentence-label {
+    display: inline-block;
+    font-family: var(--display);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-right: 8px;
+    text-transform: uppercase;
+    font-weight: 700;
+    vertical-align: middle;
+  }
+  .l-bg    { background: #EEF2FF; color: var(--indigo); }
+  .l-in    { background: #F3E8FF; color: var(--violet); }
+  .l-diff  { background: #FCE7F3; color: var(--pink); }
+  .l-mis   { background: #CFFAFE; color: var(--cyan); }
+
+  /* Highlight bullets */
+  .bullets {
+    list-style: none;
+    padding: 14px 16px;
+    margin: 0 0 18px;
+    background: var(--soft);
+    border-radius: 14px;
+    border-left: 3px solid var(--violet);
+  }
+  .bullets li {
+    font-size: 13.5px;
+    line-height: 1.55;
+    padding: 4px 0;
+    color: #2B2244;
+  }
+  .bullets li::before {
+    content: "✦";
+    color: var(--pink);
+    margin-right: 8px;
+    font-weight: 700;
+  }
+
+  /* Inline CTA */
+  .inline-cta {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--indigo);
+    text-decoration: none;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--hair);
+    background: white;
+    align-self: flex-start;
+    transition: transform .15s, box-shadow .15s;
+  }
+  .inline-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 30px -10px rgba(168,85,247,0.45);
+  }
+  .inline-cta .arrow { transition: transform .2s; }
+  .inline-cta:hover .arrow { transform: translateX(3px); }
+
+  /* Tone signature */
+  .tone {
+    margin-top: 14px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #F9F5FF, #FFF1F8);
+    border: 1px dashed var(--hair);
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .tone strong { color: var(--ink); font-weight: 600; }
+
+  /* Comparison footer */
+  .comparison {
+    margin-top: 56px;
+    padding: 28px;
+    border-radius: 24px;
+    background: white;
+    border: 1px solid var(--hair);
+  }
+  .comparison h3 {
+    font-family: var(--display);
+    font-size: 20px;
+    margin: 0 0 18px;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid #F1ECFB; }
+  th {
+    font-family: var(--display);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    font-weight: 700;
+  }
+  td.v-a { color: var(--indigo); font-weight: 600; }
+  td.v-b { color: var(--violet); font-weight: 600; }
+  td.v-c { color: var(--pink); font-weight: 600; }
+
+  .pick-note {
+    margin-top: 32px;
+    padding: 18px 22px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #6366F1, #A855F7);
+    color: white;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .pick-note strong { font-family: var(--display); }
+
+  @media (max-width: 760px) {
+    .story-row { grid-template-columns: 90px 1fr; }
+    .container { padding: 32px 16px 64px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="page-eyebrow">S6 · ABOUT - STORY VARIANTS PREVIEW</div>
+  <h1 class="page-title">3 cách viết S6 "Vì sao tôi làm dịch vụ này"</h1>
+  <p class="page-sub">
+    Mỗi variant follow đúng template 4 câu (<span class="sentence-label l-bg">Background</span><span class="sentence-label l-in">Insight</span><span class="sentence-label l-diff">Khác biệt</span><span class="sentence-label l-mis">Mission</span>) nhưng khác về tone & emphasis. Anh chọn cái fit nhất với personal brand thật của anh - hoặc mix giúp tôi viết phiên bản hybrid.
+  </p>
+
+  <div class="legend">
+    <div class="legend-item"><span class="dot" style="background:var(--indigo)"></span>A · Builder background</div>
+    <div class="legend-item"><span class="dot" style="background:var(--violet)"></span>B · Customer-insight first</div>
+    <div class="legend-item"><span class="dot" style="background:var(--pink)"></span>C · Mission-driven</div>
+  </div>
+
+  <div class="variants">
+
+    <!-- VARIANT A -->
+    <article class="variant variant-a">
+      <div class="variant-tag">
+        <span>Variant A · Builder Background</span>
+        <span class="badge">Owner-locked 2026-05-11</span>
+      </div>
+      <div class="variant-body">
+
+        <h2 class="story-title">Tôi là Tài - và đây là lý do tôi làm dịch vụ này</h2>
+
+        <div class="story-row">
+          <div>
+            <div class="photo-frame">
+              <img src="https://pub-2ac878ae9a3f4aadbf3e5b8feb7b39a0.r2.dev/LDP-schedule/tai-ai-automation.png" alt="Tài - owner Tài AI Automation" loading="lazy" />
+            </div>
+            <div class="photo-caption">- Tài</div>
+          </div>
+
+          <div class="story-text">
+            <p>
+              <span class="sentence-label l-bg">Background</span>
+              <em>Từ <strong>2024</strong>, đi làm AI thực chiến cho cả B2B (<strong>xưởng Loma</strong>) lẫn B2C (<strong>mỹ phẩm, spa</strong>), tôi nhận ra: Anh/chị chủ không cần một hệ thống AI quá hàn lâm hay phức tạp. Cái mọi người thực sự cần là một công cụ <strong>tinh gọn, chi phí hợp lý</strong>, và quan trọng nhất - <span class="highlight">tự tay làm chủ được mà không cần biết nhiều về code hay kỹ thuật</span>.</em>
+            </p>
+            <p>
+              <span class="sentence-label l-in">Insight</span>
+              <em>Thói quen mua hàng của khách Việt là <strong>lười gõ</strong>. Họ lướt, chụp màn hình rồi quăng cái ảnh vô inbox: "Mẫu này còn không shop?" hay "Giá". Mà khó ở chỗ, chatbot cũ chỉ biết đọc từ khóa nên thấy hình là <strong>"tịt"</strong>. Bot đứng hình, nhân sự phải nhảy vào check thủ công. Khách đang "nóng" muốn mua mà bắt phải chờ là <strong>rớt khách liền</strong>.</em>
+            </p>
+            <p>
+              <span class="sentence-label l-diff">Khác biệt</span>
+              <em>Nhìn ra được điểm nghẽn đó, thay vì nhồi nhét tính năng rườm rà, tôi dồn lực giải quyết một lõi duy nhất: <span class="highlight">AI phải "đọc hiểu" được hình ảnh</span> và <strong>tư vấn thực tế, không chỉ dựa vào từ khoá</strong>. Khách ném ảnh qua, hệ thống <strong>tự động đối chiếu kho hàng</strong> rồi tư vấn đúng trọng tâm ngay lập tức. Giải quyết trực tiếp nhu cầu, thắc mắc của người mua, không vòng vo.</em>
+            </p>
+            <p>
+              <span class="sentence-label l-mis">Mission</span>
+              <em>Mục tiêu của tôi không phải là bán "con bot công nghệ" để trưng bày. <strong>Cốt lõi của kinh doanh là doanh thu và lợi nhuận.</strong> Thứ tôi mang đến là một <strong>"trợ lý AI" trực 24/7</strong>, xử lý gọn gàng khâu tư vấn lặp lại. Tóm lại: <span class="highlight">Đêm không rớt đơn, ngày không quá tải</span>. Anh/chị rảnh tay tập trung lo nguồn hàng, làm chiến lược, thay vì cứ ôm khư khư cái điện thoại.</em>
+            </p>
+          </div>
+        </div>
+
+        <ul class="bullets">
+          <li><strong>Thực chiến từ 2024</strong> - Loma (B2B xưởng) · mỹ phẩm · spa (B2C)</li>
+          <li><strong>AI "đọc hiểu" hình ảnh + tư vấn thực tế</strong> - không phải bot từ khoá</li>
+          <li><strong>Tự tay làm chủ</strong> - không cần code, không cần kỹ thuật</li>
+          <li><strong>Đêm không rớt đơn, ngày không quá tải</strong> - payoff thực tế của hệ thống</li>
+        </ul>
+
+        <a class="inline-cta" href="#booking">Đặt lịch nói chuyện trực tiếp <span class="arrow">→</span></a>
+
+        <div class="tone">
+          <strong>Tone signature:</strong> Authority + accessibility, tighter phrasing - track record thật (2024 · Loma · mỹ phẩm · spa) kết hợp triết lý "tinh gọn, không hàn lâm". <em>Bold strategy: 3 highlight (tự tay làm chủ · AI đọc hiểu hình ảnh · Đêm không rớt đơn ngày không quá tải) + bold-vừa cho anchors business. Câu payoff §4 "Đêm không rớt đơn, ngày không quá tải" là USP slogan-ready - có thể tái sử dụng ở hero/footer.</em>
+        </div>
+      </div>
+    </article>
+
+    <!-- VARIANT B -->
+    <article class="variant variant-b">
+      <div class="variant-tag">
+        <span>Variant B · Customer-insight first</span>
+        <span class="badge">Empathy high</span>
+      </div>
+      <div class="variant-body">
+
+        <h2 class="story-title">Tôi từng <em>ghét</em> chatbot - đến khi tôi build được cái không như robot</h2>
+
+        <div class="story-row">
+          <div>
+            <div class="photo-frame">
+              <img src="https://pub-2ac878ae9a3f4aadbf3e5b8feb7b39a0.r2.dev/LDP-schedule/tai-ai-automation.png" alt="Tài - owner Tài AI Automation" loading="lazy" />
+            </div>
+            <div class="photo-caption">- Tài</div>
+          </div>
+
+          <div class="story-text">
+            <p>
+              <span class="sentence-label l-bg">Background</span>
+              Trước khi làm bên này, tôi từng là khách hàng - và tôi <span class="highlight">cực kỳ ghét</span> những con bot trả lời máy móc kiểu "Cảm ơn quý khách, vui lòng để lại số điện thoại".
+            </p>
+            <p>
+              <span class="sentence-label l-in">Insight</span>
+              Người mua Việt không cần bot lịch sự. Họ cần bot <span class="highlight">hiểu họ đang muốn gì</span> - kể cả khi họ chỉ gửi 1 cái ảnh kèm "cái này còn không shop?".
+            </p>
+            <p>
+              <span class="sentence-label l-diff">Khác biệt</span>
+              Vì vậy tôi không build bot "phục vụ owner" - tôi build bot <span class="highlight">phục vụ khách của owner</span>. Đó là lý do tôi đầu tư mạnh vào nhận diện hình ảnh + tone giọng theo ngành.
+            </p>
+            <p>
+              <span class="sentence-label l-mis">Mission</span>
+              Tôi muốn anh/chị có 1 trợ lý mà khách cảm giác như "ai đó đang trực fanpage" - chứ không phải "đang nói chuyện với máy".
+            </p>
+          </div>
+        </div>
+
+        <ul class="bullets">
+          <li><strong>Build bot phục vụ khách</strong> - không phải bot phục vụ owner</li>
+          <li>Nhận diện hình ảnh = trải nghiệm khách Việt thật sự cần</li>
+          <li>Tone giọng theo ngành - không "all-purpose AI"</li>
+        </ul>
+
+        <a class="inline-cta" href="#booking">Đặt lịch nói chuyện trực tiếp <span class="arrow">→</span></a>
+
+        <div class="tone">
+          <strong>Tone signature:</strong> Empathy-first · không khoe kinh nghiệm · build trust qua consumer-truth. <em>Phù hợp nếu anh chưa muốn nêu cụ thể năm + tên dự án cũ.</em>
+        </div>
+      </div>
+    </article>
+
+    <!-- VARIANT C -->
+    <article class="variant variant-c">
+      <div class="variant-tag">
+        <span>Variant C · Mission-driven</span>
+        <span class="badge">Personal high</span>
+      </div>
+      <div class="variant-body">
+
+        <h2 class="story-title">Tôi không bán bot. Tôi <em>giúp anh/chị bớt online</em>.</h2>
+
+        <div class="story-row">
+          <div>
+            <div class="photo-frame">
+              <img src="https://pub-2ac878ae9a3f4aadbf3e5b8feb7b39a0.r2.dev/LDP-schedule/tai-ai-automation.png" alt="Tài - owner Tài AI Automation" loading="lazy" />
+            </div>
+            <div class="photo-caption">- Tài</div>
+          </div>
+
+          <div class="story-text">
+            <p>
+              <span class="sentence-label l-bg">Background</span>
+              Tôi làm AI automation. Nhưng câu chuyện thật sự bắt đầu từ <span class="highlight">mẹ tôi</span> - một chủ shop nhỏ, đêm nào cũng 1h sáng vẫn dán mắt vào điện thoại trả tin nhắn khách.
+            </p>
+            <p>
+              <span class="sentence-label l-in">Insight</span>
+              Tôi nhận ra: vấn đề không phải bà thiếu kỹ năng bán. Vấn đề là <span class="highlight">bà không có ai đỡ tay</span> - và shop nhỏ thì không kham nổi nhân viên trực đêm.
+            </p>
+            <p>
+              <span class="sentence-label l-diff">Khác biệt</span>
+              Tôi build bot có thể đỡ tay thật - biết đọc ảnh khách gửi, tư vấn theo tone shop, chốt được đơn. Không phải bot trả lời câu hỏi - mà bot <span class="highlight">làm thay phần lặp lại</span>.
+            </p>
+            <p>
+              <span class="sentence-label l-mis">Mission</span>
+              Mỗi shop tôi giúp = thêm một chủ shop được ngủ sớm. Nghe sến, nhưng tôi thật sự nghĩ vậy.
+            </p>
+          </div>
+        </div>
+
+        <ul class="bullets">
+          <li>Story cá nhân thật (mẹ chủ shop) = <strong>differentiation mạnh nhất</strong></li>
+          <li>Bot không phải để khoe AI - bot để <strong>chủ shop ngủ sớm</strong></li>
+          <li>Made by người hiểu nỗi đau, không phải vendor xa cách</li>
+        </ul>
+
+        <a class="inline-cta" href="#booking">Đặt lịch nói chuyện trực tiếp <span class="arrow">→</span></a>
+
+        <div class="tone">
+          <strong>Tone signature:</strong> Personal mission · story-led · highest emotional resonance. <em>Chỉ dùng được nếu story thật - fake là khách phát hiện ra ngay.</em>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+  <!-- Comparison table -->
+  <div class="comparison">
+    <h3>So sánh 3 variants - chọn theo strategic fit</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Dimension</th>
+          <th>A · Builder</th>
+          <th>B · Insight</th>
+          <th>C · Mission</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Mental model dominant</td>
+          <td class="v-a">Authority</td>
+          <td class="v-b">Liking + Identification</td>
+          <td class="v-c">Liking + Emotion</td>
+        </tr>
+        <tr>
+          <td>Yêu cầu data thật phải có</td>
+          <td class="v-a">Số năm · tên dự án cũ</td>
+          <td class="v-b">Insight có thể quan sát chung</td>
+          <td class="v-c">Câu chuyện cá nhân (mẹ/người thân)</td>
+        </tr>
+        <tr>
+          <td>Trust signal mạnh nhất</td>
+          <td class="v-a">Track record</td>
+          <td class="v-b">Hiểu khách</td>
+          <td class="v-c">Lý do "vì sao" thật</td>
+        </tr>
+        <tr>
+          <td>Phù hợp khi target</td>
+          <td class="v-a">SMB kỹ tính, B2B mindset</td>
+          <td class="v-b">Owner shop chưa tin AI</td>
+          <td class="v-c">Owner emotional, founder-led brand</td>
+        </tr>
+        <tr>
+          <td>Risk cao nhất</td>
+          <td class="v-a">Nếu thiếu data sẽ trống rỗng</td>
+          <td class="v-b">Có thể bị xem "ai cũng nói được"</td>
+          <td class="v-c">Sến nếu story không authentic</td>
+        </tr>
+        <tr>
+          <td>Headline đề xuất</td>
+          <td class="v-a">Tôi là Tài - và đây là lý do tôi làm dịch vụ này</td>
+          <td class="v-b">Tôi từng <em>ghét</em> chatbot - đến khi tôi build được cái không như robot</td>
+          <td class="v-c">Tôi không bán bot. Tôi <em>giúp anh/chị bớt online</em>.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pick-note">
+    <strong>Variant A đã được owner lock (2026-05-11)</strong> với content thật từ Tài.<br/>
+    Variants B & C giữ làm fallback nếu sau muốn A/B test angle khác. Bước tiếp theo: anh confirm "OK lock A" - em paste 4 câu này vào <code>content-copy.md</code> S6, thay thế template placeholder, và update phase-02 status checklist.
+  </div>
+
+</div>
+</body>
+</html>

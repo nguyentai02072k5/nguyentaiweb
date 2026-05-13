@@ -1,0 +1,37 @@
+<svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="TAI Bento Quad">
+  <rect x="0"   y="0"   width="124" height="124" rx="22" fill="#0F172A"/>
+  <rect x="132" y="0"   width="124" height="124" rx="22" fill="#8B5CF6"/>
+  <rect x="0"   y="132" width="124" height="124" rx="22" fill="#0EA5E9"/>
+  <rect x="132" y="132" width="124" height="124" rx="22" fill="#10B981"/>
+
+  <text x="62" y="62" font-family="Inter, ui-sans-serif, system-ui, sans-serif"
+        font-weight="900" font-size="92" fill="#FFFFFF"
+        text-anchor="middle" dominant-baseline="central">T</text>
+  <text x="194" y="62" font-family="Inter, ui-sans-serif, system-ui, sans-serif"
+        font-weight="900" font-size="92" fill="#FFFFFF"
+        text-anchor="middle" dominant-baseline="central">A</text>
+
+  <g fill="#FFFFFF">
+    <rect x="28" y="158" width="68" height="44" rx="11"/>
+    <path d="M 50 202 L 56 214 L 64 202 Z"/>
+  </g>
+  <g fill="#0EA5E9">
+    <circle cx="46" cy="180" r="3.6"/>
+    <circle cx="62" cy="180" r="3.6"/>
+    <circle cx="78" cy="180" r="3.6"/>
+  </g>
+
+  <g stroke="#FFFFFF" stroke-width="3.4" stroke-linecap="round" fill="#FFFFFF">
+    <line x1="194" y1="170" x2="170" y2="196"/>
+    <line x1="194" y1="170" x2="218" y2="196"/>
+    <line x1="170" y1="196" x2="194" y2="222"/>
+    <line x1="218" y1="196" x2="194" y2="222"/>
+    <line x1="170" y1="196" x2="218" y2="196"/>
+  </g>
+  <g fill="#FFFFFF" stroke="#10B981" stroke-width="2">
+    <circle cx="194" cy="170" r="7.5"/>
+    <circle cx="170" cy="196" r="5.5"/>
+    <circle cx="218" cy="196" r="5.5"/>
+    <circle cx="194" cy="222" r="5.5"/>
+  </g>
+</svg>

@@ -1,0 +1,537 @@
+@import "tailwindcss";
+
+/* Tailwind v4 - class-based dark variant (toggle via .dark on <html>) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ====================================================================
+   Tài AI Automation - "Aurora Glow" Design Tokens
+   Light base · vibrant aurora gradients · neon glow accents
+   ==================================================================== */
+
+@theme {
+  /* ---------- Brand: Aurora palette (vibrant, not too dark) ---------- */
+  --color-brand-indigo: #6366f1;        /* indigo-500 - primary CTA */
+  --color-brand-indigo-deep: #4f46e5;   /* indigo-600 - emphasis */
+  --color-brand-violet: #a855f7;        /* purple-500 - vibrant accent */
+  --color-brand-violet-soft: #c084fc;   /* purple-400 - soft highlight */
+  --color-brand-pink: #ec4899;          /* pink-500 - pop accent */
+  --color-brand-cyan: #06b6d4;          /* cyan-500 - fresh accent */
+
+  /* ---------- Surfaces (warm cream-violet base) ---------- */
+  --color-surface-base: #faf7ff;        /* cream-violet - page bg */
+  --color-surface-elevated: #ffffff;    /* cards, modals */
+  --color-surface-subtle: #f2edfa;      /* soft lavender - alternation */
+  --color-surface-glass: rgba(255, 255, 255, 0.6); /* glass effect */
+  --color-surface-inverse: #15152a;     /* navy-violet dark sections */
+
+  /* ---------- Text (deep navy-violet, not pure black) ---------- */
+  --color-text-primary: #1a1a2e;        /* deep navy-violet */
+  --color-text-secondary: #52527a;
+  --color-text-tertiary: #9ca0c0;
+  --color-text-on-brand: #ffffff;
+  --color-text-on-glass: #1a1a2e;
+
+  /* ---------- Borders ---------- */
+  --color-border-default: #ebe7f2;      /* soft lavender */
+  --color-border-strong: #d4cce6;
+  --color-border-glow: #a855f7;
+
+  /* ---------- Fonts (Space Grotesk display + Be Vietnam Pro body) ---------- */
+  --font-display: var(--font-space-grotesk), system-ui, sans-serif;
+  --font-body: var(--font-be-vietnam-pro), system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", monospace;
+
+  /* ---------- Type scale (tighter tracking, modern) ---------- */
+  --text-display-1: clamp(2.75rem, 9vw, 5.5rem);
+  --text-display-1--line-height: 1.02;
+  --text-display-1--letter-spacing: -0.04em;
+  --text-display-1--font-weight: 700;
+
+  --text-display-2: clamp(2.25rem, 6.5vw, 4rem);
+  --text-display-2--line-height: 1.05;
+  --text-display-2--letter-spacing: -0.03em;
+  --text-display-2--font-weight: 700;
+
+  --text-h-1: clamp(1.875rem, 4.5vw, 2.75rem);
+  --text-h-1--line-height: 1.15;
+  --text-h-1--letter-spacing: -0.02em;
+  --text-h-1--font-weight: 600;
+
+  --text-h-2: clamp(1.5rem, 3.5vw, 2rem);
+  --text-h-2--line-height: 1.2;
+  --text-h-2--letter-spacing: -0.01em;
+  --text-h-2--font-weight: 600;
+
+  --text-body-lg: 1.125rem;
+  --text-body-lg--line-height: 1.65;
+  --text-body-lg--font-weight: 400;
+
+  --text-body-sm: 0.875rem;
+  --text-body-sm--line-height: 1.5;
+  --text-body-sm--font-weight: 400;
+
+  --text-label: 0.75rem;
+  --text-label--line-height: 1.4;
+  --text-label--letter-spacing: 0.14em;
+  --text-label--font-weight: 600;
+
+  /* ---------- Radius (more rounded - softer feel) ---------- */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-2xl: 40px;
+
+  /* ---------- Shadows + Neon Glows ---------- */
+  --shadow-sm: 0 2px 4px rgba(99, 102, 241, 0.06);
+  --shadow-md: 0 8px 24px rgba(99, 102, 241, 0.08);
+  --shadow-lg: 0 24px 60px rgba(99, 102, 241, 0.12);
+  --shadow-card: 0 4px 16px rgba(99, 102, 241, 0.05), 0 1px 4px rgba(99, 102, 241, 0.04);
+
+  --shadow-glow-violet: 0 0 48px rgba(168, 85, 247, 0.45), 0 0 16px rgba(168, 85, 247, 0.3);
+  --shadow-glow-pink: 0 0 40px rgba(236, 72, 153, 0.4), 0 0 14px rgba(236, 72, 153, 0.3);
+  --shadow-glow-indigo: 0 0 40px rgba(99, 102, 241, 0.4), 0 0 14px rgba(99, 102, 241, 0.3);
+  --shadow-glow-cyan: 0 0 32px rgba(6, 182, 212, 0.35);
+
+  /* ---------- Motion ---------- */
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 400ms;
+  --duration-epic: 700ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ====================================================================
+     shadcn/ui compat layer - maps to Aurora palette
+     Generates `bg-background`, `text-foreground`, `border-border`, etc.
+     ==================================================================== */
+
+  /* Surfaces */
+  --color-background: #faf7ff;          /* surface-base */
+  --color-foreground: #1a1a2e;          /* text-primary */
+  --color-card: #ffffff;
+  --color-card-foreground: #1a1a2e;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #1a1a2e;
+
+  /* Brand → primary (shadcn convention) */
+  --color-primary: #a855f7;             /* brand-violet */
+  --color-primary-foreground: #ffffff;
+
+  /* Secondary = soft surface */
+  --color-secondary: #f2edfa;           /* surface-subtle */
+  --color-secondary-foreground: #1a1a2e;
+
+  /* Muted + accent */
+  --color-muted: #f2edfa;
+  --color-muted-foreground: #52527a;
+  --color-accent: #ebe7f2;
+  --color-accent-foreground: #1a1a2e;
+
+  /* States */
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #ffffff;
+
+  /* Borders + ring */
+  --color-border: #ebe7f2;
+  --color-input: #ebe7f2;
+  --color-ring: #a855f7;
+
+  /* Sidebar (optional but harmless) */
+  --color-sidebar: #ffffff;
+  --color-sidebar-foreground: #1a1a2e;
+  --color-sidebar-primary: #a855f7;
+  --color-sidebar-primary-foreground: #ffffff;
+  --color-sidebar-accent: #f2edfa;
+  --color-sidebar-accent-foreground: #1a1a2e;
+  --color-sidebar-border: #ebe7f2;
+  --color-sidebar-ring: #a855f7;
+}
+
+/* shadcn single `--radius` var (some components reference directly) */
+:root {
+  --radius: 0.875rem; /* 14px - matches --radius-md, soft Aurora feel */
+}
+
+/* ====================================================================
+   DARK MODE - Aurora dark variant
+   Activated via `.dark` class on <html> (next-themes)
+   Brand colors stay vibrant; surfaces flip to deep navy-violet
+   ==================================================================== */
+
+.dark {
+  /* Surfaces - dark navy-violet base */
+  --color-surface-base: #0f0e1a;
+  --color-surface-elevated: #1a1a2e;
+  --color-surface-subtle: #15152a;
+  --color-surface-glass: rgba(26, 26, 46, 0.6);
+  --color-surface-inverse: #faf7ff;
+
+  /* Text - cream */
+  --color-text-primary: #f4f1fa;
+  --color-text-secondary: #b8bbd8;
+  --color-text-tertiary: #6e7295;
+  --color-text-on-glass: #f4f1fa;
+
+  /* Borders - dark violet */
+  --color-border-default: #2a1f3d;
+  --color-border-strong: #3d2d52;
+
+  /* Brand - slightly brighter for dark contrast */
+  --color-brand-indigo: #818cf8;
+  --color-brand-violet: #c084fc;
+  --color-brand-pink: #f472b6;
+  --color-brand-cyan: #22d3ee;
+
+  /* shadcn-compat layer - dark version */
+  --color-background: #0f0e1a;
+  --color-foreground: #f4f1fa;
+  --color-card: #1a1a2e;
+  --color-card-foreground: #f4f1fa;
+  --color-popover: #1a1a2e;
+  --color-popover-foreground: #f4f1fa;
+  --color-primary: #c084fc;
+  --color-primary-foreground: #15152a;
+  --color-secondary: #2a1f3d;
+  --color-secondary-foreground: #f4f1fa;
+  --color-muted: #2a1f3d;
+  --color-muted-foreground: #b8bbd8;
+  --color-accent: #2a1f3d;
+  --color-accent-foreground: #f4f1fa;
+  --color-destructive: #f87171;
+  --color-destructive-foreground: #15152a;
+  --color-border: #2a1f3d;
+  --color-input: #2a1f3d;
+  --color-ring: #c084fc;
+  --color-sidebar: #1a1a2e;
+  --color-sidebar-foreground: #f4f1fa;
+  --color-sidebar-primary: #c084fc;
+  --color-sidebar-primary-foreground: #15152a;
+  --color-sidebar-accent: #2a1f3d;
+  --color-sidebar-accent-foreground: #f4f1fa;
+  --color-sidebar-border: #2a1f3d;
+  --color-sidebar-ring: #c084fc;
+}
+
+/* Dark mode gradient overrides - slightly more saturated for dark bg */
+.dark {
+  --gradient-aurora: linear-gradient(135deg, #818cf8 0%, #c084fc 50%, #f472b6 100%);
+  --gradient-aurora-soft: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+  --gradient-text-aurora: linear-gradient(90deg, #818cf8 0%, #c084fc 50%, #f472b6 100%);
+  --gradient-mesh-aurora:
+    radial-gradient(at 15% 20%, rgba(192, 132, 252, 0.25) 0%, transparent 50%),
+    radial-gradient(at 85% 30%, rgba(244, 114, 182, 0.2) 0%, transparent 50%),
+    radial-gradient(at 50% 80%, rgba(129, 140, 248, 0.22) 0%, transparent 50%),
+    radial-gradient(at 75% 70%, rgba(34, 211, 238, 0.15) 0%, transparent 50%);
+}
+
+/* ====================================================================
+   Custom CSS variables (gradients) - utilities below
+   ==================================================================== */
+
+:root {
+  /* Aurora gradients - vibrant, modern, soft enough to read on */
+  --gradient-aurora: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+  --gradient-aurora-soft: linear-gradient(135deg, #818cf8 0%, #c084fc 50%, #f0abfc 100%);
+  --gradient-aurora-cool: linear-gradient(135deg, #06b6d4 0%, #6366f1 50%, #a855f7 100%);
+
+  /* Text gradient (3-stop aurora) */
+  --gradient-text-aurora: linear-gradient(90deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+
+  /* Mesh - soft pastel blobs cho hero bg */
+  --gradient-mesh-aurora:
+    radial-gradient(at 15% 20%, rgba(168, 85, 247, 0.35) 0%, transparent 50%),
+    radial-gradient(at 85% 30%, rgba(236, 72, 153, 0.28) 0%, transparent 50%),
+    radial-gradient(at 50% 80%, rgba(99, 102, 241, 0.32) 0%, transparent 50%),
+    radial-gradient(at 75% 70%, rgba(6, 182, 212, 0.22) 0%, transparent 50%);
+
+  /* Shine sweep cho buttons */
+  --gradient-shine: linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.45) 50%,
+    transparent 70%
+  );
+}
+
+/* ====================================================================
+   Base layer
+   ==================================================================== */
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-surface-base);
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  p,
+  li {
+    line-height: 1.7;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    color: var(--color-text-primary);
+    text-wrap: balance;
+  }
+
+  /* Reduced motion - disable decorative animations */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ====================================================================
+   Custom utility classes
+   ==================================================================== */
+
+@layer utilities {
+  /* Aurora gradient backgrounds */
+  .bg-aurora {
+    background-image: var(--gradient-aurora);
+  }
+  .bg-aurora-soft {
+    background-image: var(--gradient-aurora-soft);
+  }
+  .bg-aurora-cool {
+    background-image: var(--gradient-aurora-cool);
+  }
+  .bg-mesh-aurora {
+    background-image: var(--gradient-mesh-aurora);
+  }
+
+  /* Text gradient (clipped) */
+  .text-aurora {
+    background-image: var(--gradient-text-aurora);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    /* fallback color in case gradient fails */
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Font helpers (also exposed via Tailwind --font-* tokens) */
+  .font-display {
+    font-family: var(--font-display);
+  }
+  .font-body {
+    font-family: var(--font-body);
+  }
+
+  /* Glass surface (frosted backdrop) */
+  .surface-glass {
+    background-color: var(--color-surface-glass);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+  }
+
+  /* Animated aurora drift (slow, GPU-cheap) */
+  @keyframes aurora-drift {
+    0%,
+    100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+  .animate-aurora {
+    background-size: 200% 200%;
+    animation: aurora-drift 14s ease-in-out infinite;
+  }
+
+  /* Shine sweep keyframe (used inline by buttons via group-hover) */
+  @keyframes shine-sweep {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(200%);
+    }
+  }
+
+  /* Mesh blob drift (slow organic xy movement) */
+  @keyframes float-blob-1 {
+    0%, 100% { transform: translate(0px, 0px) scale(1); }
+    50% { transform: translate(40px, -30px) scale(1.1); }
+  }
+  @keyframes float-blob-2 {
+    0%, 100% { transform: translate(0px, 0px) scale(1); }
+    50% { transform: translate(-30px, 40px) scale(0.95); }
+  }
+  @keyframes float-blob-3 {
+    0%, 100% { transform: translate(0px, 0px) scale(1); }
+    50% { transform: translate(20px, 30px) scale(1.05); }
+  }
+  .animate-blob-1 { animation: float-blob-1 12s ease-in-out infinite; }
+  .animate-blob-2 { animation: float-blob-2 14s ease-in-out infinite; }
+  .animate-blob-3 { animation: float-blob-3 10s ease-in-out infinite; }
+
+  /* Reduced-motion: pause blob drift - keep static positions */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-blob-1,
+    .animate-blob-2,
+    .animate-blob-3,
+    .animate-blob-morph {
+      animation-play-state: paused;
+    }
+  }
+
+  /* Particle drift (small dots cosmic) */
+  @keyframes drift-particle {
+    0% { transform: translateY(0) translateX(0); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(-60px) translateX(20px); opacity: 0; }
+  }
+  .animate-particle { animation: drift-particle 6s linear infinite; }
+
+  /* Text gradient continuous shift */
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  .animate-gradient-text {
+    background-size: 300% 300%;
+    animation: gradient-shift 4s ease-in-out infinite;
+  }
+
+  /* Glow pulse (element shadow grows/shrinks) */
+  @keyframes glow-pulse {
+    0%, 100% { box-shadow: 0 0 24px rgba(168, 85, 247, 0.35); }
+    50% { box-shadow: 0 0 56px rgba(168, 85, 247, 0.6), 0 0 16px rgba(236, 72, 153, 0.4); }
+  }
+  .animate-glow-pulse { animation: glow-pulse 2.5s ease-in-out infinite; }
+
+  /* Animated conic-gradient border trace */
+  @keyframes border-trace {
+    to { transform: rotate(1turn); }
+  }
+  .border-trace::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    z-index: -1;
+    border-radius: inherit;
+    background: conic-gradient(from 0deg, transparent 0deg, #a855f7 60deg, #ec4899 120deg, transparent 180deg, transparent 360deg);
+    animation: border-trace 3s linear infinite;
+  }
+
+  /* Orbit dot (rotates around center) */
+  @keyframes orbit-rotate {
+    to { transform: rotate(360deg); }
+  }
+  .animate-orbit { animation: orbit-rotate 8s linear infinite; }
+
+  /* Float up-down */
+  @keyframes float-y {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+  .animate-float-y { animation: float-y 4s ease-in-out infinite; }
+
+  /* Noise grain pulse (opacity) */
+  @keyframes noise-pulse {
+    0%, 100% { opacity: 0.03; }
+    50% { opacity: 0.08; }
+  }
+  .animate-noise-pulse { animation: noise-pulse 4s ease-in-out infinite; }
+
+  /* Dot grid breathing (subtle opacity pulse) */
+  @keyframes dot-breath {
+    0%, 100% { opacity: 0.35; }
+    50% { opacity: 0.7; }
+  }
+  .animate-dot-breath { animation: dot-breath 5s ease-in-out infinite; }
+
+  /* Silk shimmer sweep (rare diagonal highlight) */
+  @keyframes silk-shimmer {
+    0%, 70%, 100% { transform: translateX(-100%) skewX(-20deg); opacity: 0; }
+    80% { opacity: 0.6; }
+    95% { transform: translateX(200%) skewX(-20deg); opacity: 0; }
+  }
+  .animate-silk-shimmer { animation: silk-shimmer 8s ease-in-out infinite; }
+
+  /* Aurora streaks (vertical north-light drift) */
+  @keyframes aurora-streak {
+    0%, 100% { transform: translateY(-10%) scaleY(1); opacity: 0.4; }
+    50% { transform: translateY(10%) scaleY(1.2); opacity: 0.7; }
+  }
+  .animate-aurora-streak-1 { animation: aurora-streak 9s ease-in-out infinite; }
+  .animate-aurora-streak-2 { animation: aurora-streak 11s ease-in-out infinite; animation-delay: -3s; }
+  .animate-aurora-streak-3 { animation: aurora-streak 13s ease-in-out infinite; animation-delay: -6s; }
+
+  /* Sparkle twinkle (image decoration) */
+  @keyframes sparkle-twinkle {
+    0%, 100% { opacity: 0; transform: scale(0.6) rotate(0deg); }
+    50% { opacity: 1; transform: scale(1) rotate(180deg); }
+  }
+  .animate-sparkle { animation: sparkle-twinkle 3s ease-in-out infinite; }
+
+  /* Fade-in-up - mobile pills D5 + general stagger utility */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Liquid blob morph (SVG path morphing simulated by transform) */
+  @keyframes blob-morph {
+    0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+    33% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+    66% { border-radius: 50% 50% 40% 60% / 40% 50% 60% 50%; }
+  }
+  .animate-blob-morph { animation: blob-morph 8s ease-in-out infinite; }
+
+  /* Subtle aurora tint cho cards - multi-stop, rất nhẹ nhưng có movement
+     White → indigo 4% → violet 8% (diagonal 135deg) */
+  .card-aurora-tint {
+    background-image: linear-gradient(
+      135deg,
+      var(--color-card) 0%,
+      color-mix(in oklab, var(--color-brand-indigo) 4%, var(--color-card)) 50%,
+      color-mix(in oklab, var(--color-brand-violet) 8%, var(--color-card)) 100%
+    );
+  }
+
+  /* Subtle aurora tint cho headlines (vertical gradient text from primary → indigo-mixed) */
+  .headline-aurora-tint {
+    background-image: linear-gradient(
+      180deg,
+      var(--color-text-primary) 0%,
+      color-mix(in oklab, var(--color-brand-indigo) 35%, var(--color-text-primary)) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Border tint subtle (5% violet mix với border) */
+  .border-aurora-tint {
+    border-color: color-mix(in oklab, var(--color-brand-violet) 25%, var(--color-border));
+  }
+}
