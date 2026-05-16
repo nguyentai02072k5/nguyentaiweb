@@ -50,3 +50,4 @@ next-env.d.ts
 # local caches / tooling
 .pnpm-store/
 .claude/
+supabase/.temp/
