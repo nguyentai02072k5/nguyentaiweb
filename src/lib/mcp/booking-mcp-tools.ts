@@ -12,6 +12,7 @@
  */
 
 import 'server-only';
+import { after } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase/server-client';
 import { normalizeVnPhone, maskVnPhone } from '@/lib/format/phone-vn';
 import { toHcmDateString, hcmToday, nextHcmDates, formatHcmLabelVi } from '@/lib/format/date-vn';
@@ -207,19 +208,24 @@ export async function createBookingViaMcp(input: CreateBookingInput) {
   const row = Array.isArray(rpcData) ? rpcData[0] : rpcData;
   if (!row?.id) return mcpError('server', 'RPC returned invalid shape');
 
-  // ---- Fire-and-forget webhook (don't block tool response) ----
+  // ---- Fire-and-forget webhook via Next.js `after()` ----
+  // On Vercel serverless, a plain `void promise` may be killed when the
+  // response returns. `after()` keeps the invocation alive until the
+  // callback resolves, same pattern as /api/book uses.
   const webhookUrl = process.env.WEBHOOK_URL;
   if (webhookUrl) {
-    void sendOwnerWebhook(webhookUrl, {
-      phone,
-      full_name: fullName,
-      email,
-      expectations,
-      expectation_other: expectationOther,
-      meeting_start: row.meeting_start,
-      meeting_end: row.meeting_end,
-      source: input.source ?? 'mcp',
-    });
+    after(() =>
+      sendOwnerWebhook(webhookUrl, {
+        phone,
+        full_name: fullName,
+        email,
+        expectations,
+        expectation_other: expectationOther,
+        meeting_start: row.meeting_start,
+        meeting_end: row.meeting_end,
+        source: input.source ?? 'mcp',
+      }),
+    );
   }
 
   return mcpJson({
