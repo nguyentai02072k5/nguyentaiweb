@@ -19,6 +19,7 @@ import { supabaseAdmin } from '@/lib/supabase/server-client';
 import { bookingFormSchema } from '@/lib/validators/booking-schema';
 import { normalizeVnPhone, maskVnPhone } from '@/lib/format/phone-vn';
 import { hashIp, getClientIp } from '@/lib/security/ip-hash';
+import { sendMetaBookingConversion } from '@/lib/analytics/meta-conversions-api';
 import type { BookingResponse } from '@/lib/booking/types';
 import {
   computeDaySlots,
@@ -105,6 +106,17 @@ export async function POST(request: Request) {
       meeting_end: row.meeting_end,
     }));
   }
+
+  after(() => sendMetaBookingConversion({
+    bookingId: row.id,
+    phone,
+    email: data.email,
+    fullName: data.full_name,
+    meetingStart: row.meeting_start,
+    meetingEnd: row.meeting_end,
+    headers: request.headers,
+    clientIp: ip,
+  }));
 
   // ---- 7. Return success ----
   const response: BookingResponse = {

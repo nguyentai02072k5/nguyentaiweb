@@ -8,6 +8,7 @@
  */
 
 import type { CtaLocation } from '@/content/landing';
+import { trackMetaCustomEvent } from '@/lib/analytics/meta-pixel';
 
 declare global {
   interface Window {
@@ -31,4 +32,8 @@ export function trackCtaClick(location: CtaLocation): void {
   if (typeof window !== 'undefined' && Array.isArray(window.dataLayer)) {
     window.dataLayer.push(event);
   }
+
+  trackMetaCustomEvent('CtaClick', {
+    cta_location: location,
+  });
 }

@@ -33,6 +33,7 @@ import {
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { trackMetaCustomEvent } from '@/lib/analytics/meta-pixel';
 import { bookingFormSchema, type BookingFormInput } from '@/lib/validators/booking-schema';
 import type { BookingCreated, BookingError, ExpectationSlug } from '@/lib/booking/types';
 import { EXPECTATION_SLUGS } from '@/lib/booking/types';
@@ -143,6 +144,11 @@ export function BookingFormWired({
 
     setServerError(null);
     setSlotError(null);
+    trackMetaCustomEvent('BookingSubmitAttempt', {
+      layout,
+      has_email: !!data.email,
+      expectation_count: data.expectations?.length ?? 0,
+    });
 
     // Ensure meeting_start_iso is set (belt-and-suspenders)
     const payload = { ...data, meeting_start_iso: selectedSlot.iso };
@@ -183,16 +189,19 @@ export function BookingFormWired({
     const errJson = json as BookingError;
 
     if (res.status === 409) {
+      trackMetaCustomEvent('BookingSubmitError', { status: 409, reason: 'slot_conflict' });
       setSlotError('Slot vừa bị đặt mất, vui lòng chọn slot khác.');
       onSlotConflict();
       return;
     }
 
     if (res.status === 400 || res.status === 422) {
+      trackMetaCustomEvent('BookingSubmitError', { status: res.status, reason: 'validation' });
       setServerError(errJson.message ?? 'Dữ liệu không hợp lệ. Kiểm tra lại.');
       return;
     }
 
+    trackMetaCustomEvent('BookingSubmitError', { status: res.status, reason: 'server' });
     setServerError('Lỗi server, thử lại sau.');
   });
 

@@ -4,6 +4,7 @@ import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ThemeProvider } from "@/components/theme/theme-provider";
+import { MetaPixel } from "@/components/analytics/meta-pixel";
 import { NavBar } from "@/components/layout/nav-bar";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { ScrollToTopButton } from "@/components/ui/scroll-to-top-button";
@@ -104,6 +105,7 @@ export default function RootLayout({
           <SiteFooter />
           <ScrollToTopButton />
         </ThemeProvider>
+        <MetaPixel />
         <Analytics />
         <SpeedInsights />
       </body>

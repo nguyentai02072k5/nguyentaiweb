@@ -18,6 +18,7 @@ import type { CSSProperties } from 'react';
 import { Calendar, CheckCircle2, Sparkles, RefreshCw } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useDays, useSlots } from '@/lib/booking/use-availability';
+import { trackMetaCustomEvent, trackMetaStandardEvent } from '@/lib/analytics/meta-pixel';
 import { BookingFormWired, type SelectedSlotInfo, type FormSuccessData } from '@/components/booking/booking-form-wired';
 import { useRouter } from 'next/navigation';
 
@@ -62,6 +63,22 @@ export function DesktopTicketWired() {
 
   const handleSuccess = useCallback(
     (data: FormSuccessData) => {
+      trackMetaStandardEvent('Lead', {
+        content_name: 'consultation_booking',
+        content_category: 'booking',
+        layout: 'desktop',
+      }, {
+        eventID: `${data.bookingId}:lead`,
+      });
+      trackMetaStandardEvent('Schedule', {
+        content_name: 'consultation_booking',
+        content_category: 'google_meet',
+        layout: 'desktop',
+        booking_date: data.dateLabel,
+        booking_time: data.timeRange,
+      }, {
+        eventID: `${data.bookingId}:schedule`,
+      });
       const params = new URLSearchParams({
         booking_id: data.bookingId,
         phone_mask: data.phoneMask,
@@ -75,10 +92,23 @@ export function DesktopTicketWired() {
 
   const handleDaySelect = (newDate: string) => {
     setDate(newDate);
+    trackMetaCustomEvent('BookingDaySelected', {
+      layout: 'desktop',
+      booking_date: newDate,
+    });
     // Clear slot if changing to a different day
     if (selectedSlot && activeDate !== newDate) {
       setSelectedSlot(null);
     }
+  };
+
+  const handleSlotSelect = (slot: SelectedSlotInfo) => {
+    setSelectedSlot(slot);
+    trackMetaCustomEvent('BookingSlotSelected', {
+      layout: 'desktop',
+      booking_date: slot.dateLabel,
+      booking_time: slot.time,
+    });
   };
 
   return (
@@ -291,7 +321,7 @@ export function DesktopTicketWired() {
                         key={s.iso}
                         type="button"
                         disabled={blocked}
-                        onClick={() => setSelectedSlot({ iso: s.iso, time: s.time, dateLabel: dayData?.label ?? '' })}
+                        onClick={() => handleSlotSelect({ iso: s.iso, time: s.time, dateLabel: dayData?.label ?? '' })}
                         aria-label={`Đặt giờ ${s.time} ngày ${dayData?.label ?? ''}`}
                         aria-pressed={isPicked}
                         className={cn(

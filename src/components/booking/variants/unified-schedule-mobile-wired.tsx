@@ -19,6 +19,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Loader2, RefreshCw } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useDays, useSlots } from '@/lib/booking/use-availability';
+import { trackMetaCustomEvent, trackMetaStandardEvent } from '@/lib/analytics/meta-pixel';
 import { BookingFormWired, type SelectedSlotInfo, type FormSuccessData } from '@/components/booking/booking-form-wired';
 import type { Slot } from '@/lib/booking/types';
 import { useRouter } from 'next/navigation';
@@ -58,6 +59,11 @@ export function UnifiedScheduleMobileWired() {
   const handleSlotPick = useCallback(
     (info: SelectedSlotInfo) => {
       setSelectedSlot(info);
+      trackMetaCustomEvent('BookingSlotSelected', {
+        layout: 'mobile',
+        booking_date: info.dateLabel,
+        booking_time: info.time,
+      });
       clearAutoAdvance();
       // Skip auto-advance if user already moved to form (defensive — TimeGrid only renders on schedule step).
       autoAdvanceTimerRef.current = setTimeout(() => {
@@ -98,6 +104,22 @@ export function UnifiedScheduleMobileWired() {
 
   const handleSuccess = useCallback(
     (data: FormSuccessData) => {
+      trackMetaStandardEvent('Lead', {
+        content_name: 'consultation_booking',
+        content_category: 'booking',
+        layout: 'mobile',
+      }, {
+        eventID: `${data.bookingId}:lead`,
+      });
+      trackMetaStandardEvent('Schedule', {
+        content_name: 'consultation_booking',
+        content_category: 'google_meet',
+        layout: 'mobile',
+        booking_date: data.dateLabel,
+        booking_time: data.timeRange,
+      }, {
+        eventID: `${data.bookingId}:schedule`,
+      });
       const params = new URLSearchParams({
         booking_id: data.bookingId,
         phone_mask: data.phoneMask,
@@ -108,6 +130,14 @@ export function UnifiedScheduleMobileWired() {
     },
     [router],
   );
+
+  useEffect(() => {
+    if (step !== 'form') return;
+    trackMetaCustomEvent('BookingFormViewed', {
+      layout: 'mobile',
+      has_selected_slot: !!selectedSlot,
+    });
+  }, [selectedSlot, step]);
 
   return (
     <div
@@ -225,7 +255,15 @@ export function UnifiedScheduleMobileWired() {
                           <button
                             type="button"
                             disabled={disabled}
-                            onClick={() => setOpenDate(isOpen ? '' : day.date)}
+                            onClick={() => {
+                              setOpenDate(isOpen ? '' : day.date);
+                              if (!isOpen) {
+                                trackMetaCustomEvent('BookingDaySelected', {
+                                  layout: 'mobile',
+                                  booking_date: day.date,
+                                });
+                              }
+                            }}
                             aria-expanded={isOpen}
                             aria-label={`${day.label}, còn ${availableCount} slot${isOpen ? ', đang mở' : ''}`}
                             className={cn(

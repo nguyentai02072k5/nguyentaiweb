@@ -8,8 +8,10 @@
  */
 
 import dynamic from "next/dynamic";
+import { useEffect, useRef } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { useDesktopViewport } from "@/hooks/use-desktop-viewport";
+import { trackMetaStandardEvent } from "@/lib/analytics/meta-pixel";
 
 const EASE_OUT: [number, number, number, number] = [0.2, 0, 0, 1];
 
@@ -47,10 +49,34 @@ const MobileBookingWidget = dynamic(
 export function BookingSection() {
   const isDesktop = useDesktopViewport();
   const shouldReduceMotion = useReducedMotion();
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const hasTrackedViewRef = useRef(false);
   const initialState = shouldReduceMotion ? "visible" : "hidden";
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section || hasTrackedViewRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting || hasTrackedViewRef.current) return;
+        hasTrackedViewRef.current = true;
+        trackMetaStandardEvent("ViewContent", {
+          content_name: "booking_section",
+          content_category: "consultation_booking",
+        });
+        observer.disconnect();
+      },
+      { threshold: 0.35 },
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section
+      ref={sectionRef}
       id="booking"
       className="relative scroll-mt-24 overflow-hidden bg-gradient-to-br from-indigo-50/80 via-violet-100/40 to-cyan-50/50 py-10 sm:py-12 lg:py-14"
       aria-labelledby="booking-heading"
@@ -108,4 +134,3 @@ export function BookingSection() {
     </section>
   );
 }
-
