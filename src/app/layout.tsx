@@ -1,10 +1,18 @@
 import type { Metadata, Viewport } from "next";
 import { Be_Vietnam_Pro, Space_Grotesk } from "next/font/google";
+import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { NavBar } from "@/components/layout/nav-bar";
+import { SiteFooter } from "@/components/layout/site-footer";
+import { ScrollToTopButton } from "@/components/ui/scroll-to-top-button";
 import "./globals.css";
+
+/* FOUC prevention — reads stored theme & toggles `.dark` on <html> before paint.
+ * Runs outside React tree via next/script beforeInteractive — avoids React 19
+ * warning about inline <script> tags rendered inside components. */
+const themeInitScript = `try{var t=localStorage.getItem("theme");if(t==="dark")document.documentElement.classList.add("dark");}catch(e){}`;
 
 // Display font - Space Grotesk: geometric, soft curves, modern character
 const spaceGrotesk = Space_Grotesk({
@@ -84,9 +92,17 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="font-body min-h-full flex flex-col bg-surface-base text-text-primary">
+        <Script
+          id="theme-init"
+          strategy="beforeInteractive"
+        >
+          {themeInitScript}
+        </Script>
         <ThemeProvider>
           <NavBar />
           {children}
+          <SiteFooter />
+          <ScrollToTopButton />
         </ThemeProvider>
         <Analytics />
         <SpeedInsights />

@@ -39,7 +39,7 @@ export function GraphEdge({ from, to, delayMs, index }: GraphEdgeProps) {
 
   return (
     <g>
-      {/* Soft halo behind the beam — adds depth without overpowering. */}
+      {/* Soft halo behind the beam - adds depth without overpowering. */}
       <path
         d={pathD}
         stroke={`url(#${accentId})`}
@@ -49,7 +49,7 @@ export function GraphEdge({ from, to, delayMs, index }: GraphEdgeProps) {
         opacity={0.12}
       />
 
-      {/* Dotted base rail in the accent color — gives the route a clear identity. */}
+      {/* Dotted base rail in the accent color - gives the route a clear identity. */}
       <path
         d={pathD}
         stroke={`url(#${accentId})`}
@@ -139,7 +139,7 @@ function ArrowHead({
   const leftY = baseY + py * size * 0.5;
   const rightX = baseX - px * size * 0.5;
   const rightY = baseY - py * size * 0.5;
-  // shallow notch behind the tip keeps the chevron silhouette
+  // Shallow notch behind the tip keeps the chevron silhouette.
   const notchX = baseX + ux * size * 0.18;
   const notchY = baseY + uy * size * 0.18;
 

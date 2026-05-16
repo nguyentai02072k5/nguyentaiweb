@@ -40,7 +40,7 @@ export function Services({ content }: ServicesProps) {
     <section
       id="services"
       aria-labelledby="services-title"
-      className="relative bg-surface-base py-16 sm:py-20 lg:py-24 overflow-hidden"
+      className="relative bg-surface-base py-12 sm:py-16 lg:py-20 overflow-hidden"
     >
       {/* Subtle aurora wash background */}
       <div

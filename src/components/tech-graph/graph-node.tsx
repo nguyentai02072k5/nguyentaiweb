@@ -20,6 +20,7 @@ import type { TechGraphNode } from '@/content/landing';
 
 const NODE_WIDTH = 244;
 const NODE_HEIGHT = 98;
+const ACCENT_RAIL_WIDTH = 5;
 
 const ICONS: Record<string, LucideIcon> = {
   inbox: Inbox,
@@ -50,9 +51,15 @@ export function GraphNode({ node, index = 0 }: GraphNodeProps) {
   const x = node.x - NODE_WIDTH / 2;
   const y = node.y - NODE_HEIGHT / 2;
   const step = String(index + 1).padStart(2, '0');
+  const clipPathId = `node-accent-clip-${node.id}`;
 
   return (
     <g transform={`translate(${x}, ${y})`}>
+      <defs>
+        <clipPath id={clipPathId}>
+          <rect width={NODE_WIDTH} height={NODE_HEIGHT} rx={20} />
+        </clipPath>
+      </defs>
       <rect
         width={NODE_WIDTH}
         height={NODE_HEIGHT}
@@ -62,7 +69,9 @@ export function GraphNode({ node, index = 0 }: GraphNodeProps) {
         strokeWidth={1.4}
         filter="url(#nodeGlow)"
       />
-      <rect x={1} y={1} width={4} height={NODE_HEIGHT - 2} rx={2} fill={`url(#accent-${node.id})`} />
+      <g clipPath={`url(#${clipPathId})`}>
+        <rect x={0} y={0} width={ACCENT_RAIL_WIDTH} height={NODE_HEIGHT} fill={`url(#accent-${node.id})`} />
+      </g>
 
       <foreignObject x={0} y={0} width={NODE_WIDTH} height={NODE_HEIGHT}>
         <div className="flex h-full items-center gap-3 px-5 py-4">

@@ -231,7 +231,14 @@ type BookingForm = {
 - Friendly errors: "Anh/chị cho em xin số Zalo để xác nhận nhé"
 - Auto-trim whitespace, normalize phone format
 
-### Step 5: Thank You / Confirmation
+### Mount point (LOCKED 2026-05-14)
+- **Inline section** trên main `/` page, anchor `id="dat-lich"`
+- **KHÔNG** tạo route `/booking` — nav + sticky CTA scroll smooth tới `#dat-lich`
+- Submit success → `router.push('/thank-you')` (full-page, không state-based step 5)
+
+### Step 5 = trang `/thank-you` (full route — LOCKED 2026-05-14)
+**File:** `src/app/thank-you/page.tsx`
+**URL:** `/thank-you?booking_id=...&phone_mask=...`
 **Layout (full-width card centered):**
 ```
         🎉 [animated checkmark]
@@ -241,9 +248,11 @@ type BookingForm = {
   📅 T2, 11/05/2026 - 14:00 (20 phút)
   💻 Google Meet - link sẽ gửi qua Zalo
 
-  💬 Tôi đã gửi tin Zalo xác nhận
-     vào số 0xxx xxx xxx.
-     Vui lòng check Zalo trong ít phút.
+  💬 Tôi sẽ liên hệ Zalo xác nhận
+     vào số 0xxx xxx xxx
+     trong vòng 24 giờ.
+
+     (v1.5 sẽ auto Zalo Notify — hiện owner check Supabase Studio)
 
   [Quay về trang chủ]   [Lưu vào lịch (.ics)]
 ```
@@ -264,17 +273,24 @@ type BookingForm = {
 
 ### Component Tree
 ```
-<BookingSection>
+// src/app/page.tsx
+<BookingSection>  // <section id="dat-lich">
   <BookingHeader />
   <BookingProgress current={step} total={4} />
   <AnimatePresence mode="wait">
     {step === 1 && <DatePicker onSelect={...} />}
     {step === 2 && <SlotPicker date={...} onSelect={...} />}
     {step === 3 && <BookingConfirm date={...} slot={...} onContinue={...} onBack={...} />}
-    {step === 4 && <BookingForm onSubmit={...} onBack={...} />}
-    {step === 5 && <BookingThankYou booking={...} />}
+    {step === 4 && <BookingForm onSubmit={async (data) => {
+      const res = await fetch('/api/book', { method: 'POST', body: JSON.stringify(data) });
+      const { booking_id } = await res.json();
+      router.push(`/thank-you?booking_id=${booking_id}&phone_mask=${maskPhone(data.phone_zalo)}`);
+    }} onBack={...} />}
   </AnimatePresence>
 </BookingSection>
+
+// src/app/thank-you/page.tsx — separate route, full-page
+<ThankYouPage />
 ```
 
 ### Step Transition Animation
@@ -284,7 +300,9 @@ Use Framer Motion `AnimatePresence` với:
 - Direction-aware: back button reverses direction
 
 ## Files to Create
-- `src/components/sections/booking-section.tsx` - main wrapper
+- `src/app/thank-you/page.tsx` - thank-you full route (replaces in-flow Step 5)
+- `src/app/thank-you/thank-you-content.tsx` - client component reading searchParams
+- `src/components/sections/booking-section.tsx` - main wrapper (mount inline ở `/`, anchor `id="dat-lich"`)
 - `src/components/booking/booking-header.tsx`
 - `src/components/booking/booking-progress.tsx` - stepper
 - `src/components/booking/date-picker.tsx`

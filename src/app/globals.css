@@ -391,6 +391,39 @@
   .animate-blob-2 { animation: float-blob-2 14s ease-in-out infinite; }
   .animate-blob-3 { animation: float-blob-3 10s ease-in-out infinite; }
 
+  /* Booking is the heaviest paint region on desktop. Keep the visual CSS, but
+     isolate it so scroll compositing does not dirty the rest of the page. */
+  .booking-render-zone {
+    contain: layout paint style;
+    isolation: isolate;
+  }
+
+  .booking-effects-layer {
+    contain: paint;
+    isolation: isolate;
+    transform: translateZ(0);
+  }
+
+  .booking-blob {
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+  }
+
+  .desktop-ticket-layer {
+    contain: layout paint;
+    isolation: isolate;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    box-shadow: 0 20px 40px rgba(99, 102, 241, 0.12);
+  }
+
+  @media (min-width: 1024px) {
+    .booking-render-zone .booking-blob {
+      animation: none;
+    }
+  }
+
   /* Reduced-motion: pause blob drift - keep static positions */
   @media (prefers-reduced-motion: reduce) {
     .animate-blob-1,
@@ -533,5 +566,81 @@
   /* Border tint subtle (5% violet mix với border) */
   .border-aurora-tint {
     border-color: color-mix(in oklab, var(--color-brand-violet) 25%, var(--color-border));
+  }
+
+  /* ----------------------------------------------------------------------
+     Ticket card — clipped shape with two semi-circle notches creating
+     a "tear-off stub" aesthetic. Used by booking mobile day cards.
+
+     Customize via CSS vars:
+       --ticket-stub-x  : horizontal position of perforation (notches)
+       --ticket-notch-r : notch radius
+
+     Both border + bg follow the mask, so the cut-out looks clean.
+     Desktop uses a normal composited shadow on the ticket layer instead of
+     filter: drop-shadow on the masked element, which is cheaper while scrolling.
+     ---------------------------------------------------------------------- */
+  .ticket-card {
+    --ticket-stub-x: 80px;
+    --ticket-notch-r: 10px;
+    -webkit-mask-image:
+      radial-gradient(circle at var(--ticket-stub-x) 0%, transparent var(--ticket-notch-r), #000 calc(var(--ticket-notch-r) + 0.5px)),
+      radial-gradient(circle at var(--ticket-stub-x) 100%, transparent var(--ticket-notch-r), #000 calc(var(--ticket-notch-r) + 0.5px));
+    -webkit-mask-composite: source-in;
+    mask-image:
+      radial-gradient(circle at var(--ticket-stub-x) 0%, transparent var(--ticket-notch-r), #000 calc(var(--ticket-notch-r) + 0.5px)),
+      radial-gradient(circle at var(--ticket-stub-x) 100%, transparent var(--ticket-notch-r), #000 calc(var(--ticket-notch-r) + 0.5px));
+    mask-composite: intersect;
+  }
+
+  @media (min-width: 1024px) {
+    .desktop-ticket-layer.ticket-card {
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+  }
+
+  /* Dashed perforation line aligned with the notches.
+     Position the element using `left: var(--ticket-stub-x)` so it always
+     matches the notch column even when ticket-stub-x is overridden. */
+  .ticket-perforation {
+    position: absolute;
+    top: 14px;
+    bottom: 14px;
+    left: var(--ticket-stub-x, 76px);
+    width: 0;
+    border-left: 1.5px dashed currentColor;
+    opacity: 0.45;
+    pointer-events: none;
+  }
+}
+
+@theme inline {
+  --animate-pulse: pulse var(--duration) ease-out infinite;
+  --animate-pulse-ripple: pulse-ripple var(--duration) cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  --animate-ripple: ripple var(--duration, 3400ms) ease calc(var(--i, 0) * 0.2s) infinite;
+  @keyframes ripple {
+    0%, 100% {
+      transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(0.9);
+    }
+  }
+  @keyframes pulse {
+  0%, 100% {
+    boxShadow: 0 0 0 0 var(--pulse-color, oklch(from var(--bg) l c h / 0.5));
+    }
+  50% {
+    boxShadow: 0 0 0 var(--distance) var(--pulse-color, oklch(from var(--bg) l c h / 0.5));
+    }
+  }
+  @keyframes pulse-ripple {
+  0% {
+    boxShadow: 0 0 0 0 oklch(from var(--pulse-color, var(--bg)) l c h / 1);
+    }
+  100% {
+    boxShadow: 0 0 0 var(--distance) oklch(from var(--pulse-color, var(--bg)) l c h / 0);
+    }
   }
 }

@@ -3,20 +3,23 @@
 /**
  * about.tsx - About section (S6).
  *
- * Layout:
- *   Centered column: avatar → title → 4 story paragraphs → bullets → inline CTA
+ * Desktop layout (md+):
+ *   Centered column: avatar → title → 4 story paragraphs → divider → bullets → inline CTA
  *
- * Story paragraphs use segment array rendering (NO markdown parser, D1 synthesis).
- * Avatar is 96-120px tight face crop from same hero portrait (D6 synthesis).
- * Bullets animate in with D7 viewport stagger (disabled on reduced-motion).
- * Inline CTA carries data-cta-location + aria-label for analytics + a11y (D3).
+ * Mobile layout (< md, compact — reduce scroll length):
+ *   avatar → title → 4 accordion items (bullet header + story panel, single-active) → inline CTA
+ *
+ * Mobile accordion: bullets[i] pairs 1:1 with story[i] via index alignment in landing.ts.
+ * Clicking a bullet expands its corresponding story paragraph below.
  *
  * Pink is accent-only: StoryHighlight uses gradient underline, not text colour.
  * Body text stays text-secondary (#52527a) throughout - no contrast issues.
  */
 
-import { motion, useReducedMotion } from 'framer-motion';
+import { useState } from 'react';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
+import { ChevronDown } from 'lucide-react';
 import type { AboutContent } from '@/content/landing';
 import { trackCtaClick } from '@/lib/analytics/track-cta-click';
 import { AvatarSmall } from '@/components/about/avatar-small';
@@ -102,12 +105,18 @@ export function About({ content }: AboutProps) {
   // Reduced-motion: start at final state, no stagger transforms
   const initialState = shouldReduceMotion ? 'visible' : 'hidden';
   const visibleVariant = 'visible';
+  // Mobile single-active accordion: which bullet's story is open (null = all closed)
+  const [activeIndex, setActiveIndex] = useState<number | null>(0);
+
+  function toggleMobile(i: number) {
+    setActiveIndex((prev) => (prev === i ? null : i));
+  }
 
   return (
     <section
       id="about"
       aria-labelledby="about-title"
-      className="relative bg-surface-base py-12 sm:py-16 lg:py-20 overflow-hidden"
+      className="relative bg-surface-base py-10 sm:py-14 lg:py-18 overflow-hidden"
     >
       <div
         aria-hidden="true"
@@ -122,7 +131,7 @@ export function About({ content }: AboutProps) {
         className="relative mx-auto max-w-2xl px-5 sm:px-6 flex flex-col items-center gap-10"
       >
         {/* Avatar - 108px tight face crop */}
-        <motion.div variants={avatarRevealVariants}>
+        <motion.div variants={avatarRevealVariants} className="order-1">
           <AvatarSmall caption={content.photoCaption} />
         </motion.div>
 
@@ -130,15 +139,108 @@ export function About({ content }: AboutProps) {
         <motion.h2
           id="about-title"
           variants={aboutTitleVariants}
-          className="font-display text-h-1 text-text-primary text-center text-balance"
+          className="order-2 font-display text-h-1 text-text-primary text-center text-balance"
         >
           {content.title}
         </motion.h2>
 
-        {/* Story paragraphs - 4 segments with sentence-label badges */}
+        {/* ─────────────────────────────────────────────────────────────
+            MOBILE (< md): 4 accordion items — bullet header + story panel
+            Each bullet has its own "dropdown nổi bật" expanding to story[i]
+            ───────────────────────────────────────────────────────────── */}
+        <motion.ul
+          variants={aboutContainerVariants}
+          aria-label="Điểm mạnh cốt lõi"
+          className="order-3 md:hidden w-full flex flex-col gap-2"
+        >
+          {content.bullets.map((bullet, i) => {
+            const isOpen = activeIndex === i;
+            const story = content.story[i];
+            const panelId = `about-mobile-panel-${i}`;
+            const buttonId = `about-mobile-button-${i}`;
+            return (
+              <motion.li
+                key={i}
+                variants={bulletVariants}
+                className={`
+                  group/bullet overflow-hidden rounded-2xl border bg-surface-elevated/70 backdrop-blur-sm
+                  transition-colors duration-base
+                  ${isOpen ? 'border-brand-violet/45 shadow-[0_8px_28px_-12px_rgba(99,102,241,0.28)]' : 'border-border-default/60'}
+                `}
+              >
+                <button
+                  id={buttonId}
+                  type="button"
+                  onClick={() => toggleMobile(i)}
+                  aria-expanded={isOpen}
+                  aria-controls={panelId}
+                  className="
+                    flex w-full items-start gap-3 px-4 py-3.5 text-left
+                    transition-colors duration-base
+                    hover:bg-brand-violet/[0.04]
+                    focus-visible:outline-none focus-visible:bg-brand-violet/[0.06]
+                  "
+                >
+                  <span
+                    aria-hidden="true"
+                    className="shrink-0 mt-0.5 text-brand-violet font-bold text-sm"
+                  >
+                    {BULLET_CHAR}
+                  </span>
+                  <span className="flex-1 font-body text-sm sm:text-base font-medium text-text-primary leading-snug">
+                    {bullet}
+                  </span>
+                  <ChevronDown
+                    aria-hidden="true"
+                    className={`mt-0.5 h-5 w-5 shrink-0 text-brand-violet transition-transform duration-300 ${
+                      isOpen ? 'rotate-180' : 'rotate-0'
+                    }`}
+                  />
+                </button>
+
+                <AnimatePresence initial={false}>
+                  {isOpen && story && (
+                    <motion.div
+                      id={panelId}
+                      role="region"
+                      aria-labelledby={buttonId}
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={
+                        shouldReduceMotion
+                          ? { duration: 0 }
+                          : { duration: 0.32, ease: EASE_OUT }
+                      }
+                      className="overflow-hidden"
+                    >
+                      <div className="relative px-4 pb-4 pt-1">
+                        <span
+                          aria-hidden="true"
+                          className="
+                            absolute inset-y-3 left-4 w-[3px] rounded-r-full
+                            bg-gradient-to-b from-brand-indigo via-brand-violet to-brand-pink
+                            opacity-70
+                          "
+                        />
+                        <div className="pl-4">
+                          <StoryParagraph paragraph={story} />
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.li>
+            );
+          })}
+        </motion.ul>
+
+        {/* ─────────────────────────────────────────────────────────────
+            DESKTOP (md+): full story stack + divider + bullets list
+            ───────────────────────────────────────────────────────────── */}
         <motion.div
           variants={aboutContainerVariants}
-          className="flex flex-col gap-6 w-full"
+          className="hidden md:flex md:order-3 flex-col gap-6 w-full"
         >
           {content.story.map((para) => (
             <motion.div
@@ -174,17 +276,17 @@ export function About({ content }: AboutProps) {
           ))}
         </motion.div>
 
-        {/* Divider */}
+        {/* Desktop divider */}
         <motion.hr
           variants={dividerVariants}
-          className="w-16 origin-left border-0 border-t-2 border-brand-violet/30 self-start"
+          className="hidden md:block md:order-4 w-16 origin-left border-0 border-t-2 border-brand-violet/30 self-start"
         />
 
-        {/* Bullets - 4 items with ✦ marker, D7 viewport stagger */}
+        {/* Desktop bullets list */}
         <motion.ul
           variants={aboutContainerVariants}
           aria-label="Điểm mạnh cốt lõi"
-          className="flex flex-col gap-3 w-full"
+          className="hidden md:flex md:order-5 flex-col gap-3 w-full"
         >
           {content.bullets.map((bullet, i) => (
             <motion.li
@@ -204,7 +306,7 @@ export function About({ content }: AboutProps) {
         </motion.ul>
 
         {/* Inline CTA */}
-        <motion.div variants={aboutItemVariants} className="w-full">
+        <motion.div variants={aboutItemVariants} className="order-6 w-full">
           <a
             href={content.inlineCta.href}
             data-cta-location={content.inlineCta.analyticsId}

@@ -12,6 +12,8 @@ import { ArrowDown, Cpu } from 'lucide-react';
 import type { TechGraphContent } from '@/content/landing';
 import { GraphSvg } from '@/components/tech-graph/graph-svg';
 import { GraphNodeIcon } from '@/components/tech-graph/graph-node';
+import { Sparkles } from '@/components/ui/sparkles';
+import { useDesktopViewport } from '@/hooks/use-desktop-viewport';
 
 const EASE_OUT: [number, number, number, number] = [0.2, 0, 0, 1];
 
@@ -32,6 +34,12 @@ type TechGraphProps = {
 export function TechGraph({ content }: TechGraphProps) {
   const shouldReduceMotion = useReducedMotion();
   const initialState = shouldReduceMotion ? 'visible' : 'hidden';
+  const isDesktop = useDesktopViewport();
+  // Tune density per viewport — denser sparkle wash on desktop, lighter on
+  // mobile for perf. `isDesktop === null` (pre-mount) → skip render to avoid
+  // hydration flash; reduced-motion → skip entirely.
+  const sparkleDensity = isDesktop ? 500 : 180;
+  const showSparkles = !shouldReduceMotion && isDesktop !== null;
 
   return (
     <section
@@ -40,6 +48,28 @@ export function TechGraph({ content }: TechGraphProps) {
       className="relative scroll-mt-20 overflow-hidden bg-[#090B14] pb-28 pt-16 text-white sm:py-20 lg:scroll-mt-24 lg:py-24"
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_16%,rgba(34,211,238,0.18),transparent_34%),radial-gradient(circle_at_82%_20%,rgba(168,85,247,0.20),transparent_36%),linear-gradient(180deg,rgba(9,11,20,0),rgba(9,11,20,0.95))]" />
+
+      {/* Sparkles backdrop — soft radial mask so it fades toward the edges,
+          keeping the eye drawn to the workflow diagram in the center. */}
+      {showSparkles && (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 [mask-image:radial-gradient(60%_65%_at_50%_55%,white_0%,white_45%,transparent_90%)] [-webkit-mask-image:radial-gradient(60%_65%_at_50%_55%,white_0%,white_45%,transparent_90%)]"
+        >
+          <Sparkles
+            density={sparkleDensity}
+            size={1.1}
+            minSize={0.4}
+            speed={1.2}
+            opacity={0.85}
+            minOpacity={0.05}
+            opacitySpeed={2.4}
+            color="#E0E7FF"
+            className="absolute inset-0 h-full w-full"
+          />
+        </div>
+      )}
+
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-300/50 to-transparent" />
 
       <motion.div

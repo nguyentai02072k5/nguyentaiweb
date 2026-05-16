@@ -1,18 +1,17 @@
 "use client";
 
 /**
- * timeline-spine.tsx — Animated SVG vertical spine for desktop Process Journey.
+ * timeline-spine.tsx — Animated vertical spine for desktop Process Journey.
  *
- * Scroll-driven pathLength animation: line draws from top to bottom as user scrolls.
+ * Spans the actual height of the grid container via `inset-y-0`.
+ * Scroll-driven scaleY animation: line draws from top to bottom as user scrolls.
+ * Dots positioned at row centers (1 dot per row, 3 rows for 6 steps).
  * Hidden on mobile (uses border-l approach in parent instead).
- * Reduced motion: renders full line instantly without animation.
  */
 
-import { useRef } from 'react';
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 
-const SPINE_HEIGHT = 520; // px — approximate height of 6-step desktop layout
-const DOT_POSITIONS = [0.08, 0.24, 0.41, 0.58, 0.75, 0.92]; // 6 evenly spaced dots
+const ROW_COUNT = 3; // 6 steps × 2 columns = 3 rows
 
 type TimelineSpineProps = {
   /** Section element ref for scroll tracking */
@@ -21,68 +20,47 @@ type TimelineSpineProps = {
 
 export function TimelineSpine({ sectionRef }: TimelineSpineProps) {
   const shouldReduceMotion = useReducedMotion();
-  const lineRef = useRef<SVGPathElement>(null);
 
+  /* Offset: fill starts as section enters (80% from top), completes when
+   * section end is still 60% from top — i.e. cards are still in view, not
+   * scrolled past. Avoids the "half-filled line" feel when viewing mid-section. */
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ['start 80%', 'end 20%'],
+    offset: ['start 80%', 'end 60%'],
   });
 
-  const pathLength = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const scaleY = useTransform(scrollYProgress, [0, 1], [0, 1]);
+
+  /* Row centers — 3 rows, dot at center of each (1/6, 3/6, 5/6) */
+  const dotPositions = Array.from(
+    { length: ROW_COUNT },
+    (_, i) => (i * 2 + 1) / (ROW_COUNT * 2),
+  );
 
   return (
-    /* Desktop only — hidden on mobile via md: prefix in parent grid */
+    /* Anchored to grid container (inset-y-0) — auto-matches actual content height */
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute inset-x-0 top-0 flex justify-center"
-      style={{ height: SPINE_HEIGHT }}
+      className="pointer-events-none absolute inset-y-0 left-1/2 w-px -translate-x-1/2"
     >
-      <svg
-        width="4"
-        height={SPINE_HEIGHT}
-        viewBox={`0 0 4 ${SPINE_HEIGHT}`}
-        fill="none"
-        className="overflow-visible"
-      >
-        <defs>
-          <linearGradient id="spine-gradient" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
-            <stop offset="0%" stopColor="#6366f1" />
-            <stop offset="50%" stopColor="#a855f7" />
-            <stop offset="100%" stopColor="#ec4899" />
-          </linearGradient>
-        </defs>
+      {/* Background track */}
+      <div className="absolute inset-0 bg-border-strong/40" />
 
-        {/* Background track */}
-        <path
-          d={`M2 0 L2 ${SPINE_HEIGHT}`}
-          stroke="#ebe7f2"
-          strokeWidth="2"
+      {/* Animated gradient fill — anchored top, scales down */}
+      <motion.div
+        className="absolute inset-0 origin-top bg-gradient-to-b from-indigo-500 via-fuchsia-500 to-pink-500"
+        style={shouldReduceMotion ? { scaleY: 1 } : { scaleY }}
+        initial={shouldReduceMotion ? undefined : { scaleY: 0 }}
+      />
+
+      {/* Dot markers at row centers */}
+      {dotPositions.map((pos, i) => (
+        <span
+          key={i}
+          className="absolute left-1/2 size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-violet ring-2 ring-surface-base"
+          style={{ top: `${pos * 100}%` }}
         />
-
-        {/* Animated fill line */}
-        <motion.path
-          ref={lineRef}
-          d={`M2 0 L2 ${SPINE_HEIGHT}`}
-          stroke="url(#spine-gradient)"
-          strokeWidth="3"
-          strokeLinecap="round"
-          style={shouldReduceMotion ? { pathLength: 1 } : { pathLength }}
-          initial={shouldReduceMotion ? undefined : { pathLength: 0 }}
-        />
-
-        {/* Dot markers at each step position */}
-        {DOT_POSITIONS.map((pos, i) => (
-          <circle
-            key={i}
-            cx="2"
-            cy={SPINE_HEIGHT * pos}
-            r="5"
-            fill="#a855f7"
-            stroke="#faf7ff"
-            strokeWidth="2"
-          />
-        ))}
-      </svg>
+      ))}
     </div>
   );
 }

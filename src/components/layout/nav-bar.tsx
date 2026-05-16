@@ -17,18 +17,24 @@
  * Wired at `layout.tsx` root → renders above all pages.
  */
 
+import { usePathname } from 'next/navigation';
 import { NavLogo } from '@/components/brand/prod-logo';
 import { NavMobileDrawer } from './nav-mobile-drawer';
 import { LANDING } from '@/content/landing';
 import { trackCtaClick } from '@/lib/analytics/track-cta-click';
 import { useScrollPast } from '@/hooks/use-scroll-past';
 import { useActiveSection } from '@/hooks/use-active-section';
+import { resolveHashHref } from '@/lib/nav/resolve-hash-href';
 
 const SECTION_IDS = ['services', 'process', 'faq', 'booking'] as const;
+const NO_SECTIONS: readonly string[] = [];
 
 export function NavBar() {
   const scrolled = useScrollPast(80);
-  const active = useActiveSection(SECTION_IDS);
+  const pathname = usePathname();
+  const isHome = pathname === '/';
+  // On home, useActiveSection drives highlighting. Off-home, no section is "active".
+  const active = useActiveSection(isHome ? SECTION_IDS : NO_SECTIONS);
   const { links, desktopCta } = LANDING.nav;
 
   return (
@@ -74,7 +80,7 @@ export function NavBar() {
               return (
                 <li key={link.sectionId}>
                   <a
-                    href={link.href}
+                    href={resolveHashHref(link.href, pathname)}
                     data-cta-location={link.analyticsId}
                     aria-current={isActive ? 'location' : undefined}
                     onClick={() => trackCtaClick(link.analyticsId)}
@@ -102,7 +108,7 @@ export function NavBar() {
           <div className="flex items-center gap-2">
             {/* Desktop CTA */}
             <a
-              href={desktopCta.href}
+              href={resolveHashHref(desktopCta.href, pathname)}
               aria-label={desktopCta.ariaLabel}
               data-cta-location={desktopCta.analyticsId}
               onClick={() => trackCtaClick(desktopCta.analyticsId)}

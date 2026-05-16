@@ -94,19 +94,19 @@ export function NavLogo({ className }: { className?: string }) {
         src={PROD_LOGO_LIGHT}
         alt=""
         aria-hidden
-        className="h-9 lg:h-12 w-auto select-none rounded-lg block dark:hidden"
+        className="h-11 lg:h-14 w-auto select-none rounded-lg block dark:hidden"
       />
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={PROD_LOGO_DARK}
         alt=""
         aria-hidden
-        className="h-9 lg:h-12 w-auto select-none rounded-lg hidden dark:block"
+        className="h-11 lg:h-14 w-auto select-none rounded-lg hidden dark:block"
       />
       <span className="inline-flex items-baseline gap-1.5 lg:gap-2 font-display tracking-tight whitespace-nowrap">
-        <span className="font-bold text-sm lg:text-lg">Tài</span>
-        <span className="font-bold text-aurora text-sm lg:text-lg">AI</span>
-        <span className="font-semibold uppercase tracking-[0.18em] text-[0.62rem] lg:text-[0.72rem] text-text-secondary hidden sm:inline">
+        <span className="font-bold text-base lg:text-lg">Tài</span>
+        <span className="font-bold text-aurora text-base lg:text-lg">AI</span>
+        <span className="hidden min-[360px]:inline font-semibold uppercase text-[0.58rem] lg:text-[0.72rem] tracking-[0.14em] lg:tracking-[0.18em] text-text-secondary">
           Automation
         </span>
       </span>

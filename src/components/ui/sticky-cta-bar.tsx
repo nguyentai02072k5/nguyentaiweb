@@ -6,7 +6,7 @@
  * Behavior (synthesis D2 + D9):
  *   • Mobile-only (md:hidden) - desktop already has Hero primary CTA + nav
  *   • Show: after Hero scrolls out of viewport (intersection threshold 0)
- *   • Hide: when Booking section enters viewport (threshold 0.1)
+ *   • Hide: when Booking section is at least 50% visible (threshold 0.5)
  *     - If #booking does not exist yet (pre Phase 06), sticky keeps showing
  *       - graceful degradation while landing page builds out.
  *   • No dismiss button v1 (conversion priority - owner decision 2026-05-12)
@@ -40,7 +40,7 @@ type StickyCtaBarProps = {
 };
 
 const HERO_INTERSECTION_OPTIONS = { threshold: 0 } satisfies IntersectionObserverInit;
-const BOOKING_INTERSECTION_OPTIONS = { threshold: 0.1 } satisfies IntersectionObserverInit;
+const BOOKING_INTERSECTION_OPTIONS = { threshold: 0.5 } satisfies IntersectionObserverInit;
 
 export function StickyCtaBar({ content }: StickyCtaBarProps) {
   const shouldReduceMotion = useReducedMotion();

@@ -35,8 +35,13 @@ export function useSectionInView(
     const observerThreshold = thresholdKey.includes(',')
       ? thresholdKey.split(',').map(Number)
       : Number(thresholdKey);
+    const visibleThreshold = Array.isArray(observerThreshold)
+      ? Math.min(...observerThreshold)
+      : observerThreshold;
     const observer = new IntersectionObserver(
-      ([entry]) => setInView(entry.isIntersecting),
+      ([entry]) => {
+        setInView(entry.isIntersecting && entry.intersectionRatio >= visibleThreshold);
+      },
       { root, rootMargin, threshold: observerThreshold },
     );
     observer.observe(el);

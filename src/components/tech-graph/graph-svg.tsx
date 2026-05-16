@@ -147,7 +147,7 @@ export function GraphSvg({ content }: GraphSvgProps) {
             LIVE AI OPERATING LAYER
           </text>
           <text x="52" y="88" fontFamily="var(--font-body)" fontSize="16" fill="#CBD5E1">
-            Tin nhan vao, AI doc hinh, tu van, tao don va bao cao ket qua.
+            Tin nhắn vào, AI hiểu ý định, tư vấn chốt đơn, tạo đơn và báo cáo kết quả.
           </text>
           <rect
             x="952"

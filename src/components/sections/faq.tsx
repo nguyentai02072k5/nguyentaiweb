@@ -43,7 +43,7 @@ export function Faq({ content }: FaqProps) {
     <section
       id="faq"
       aria-labelledby="faq-title"
-      className="relative scroll-mt-24 bg-surface-base py-16 sm:py-20 lg:py-24"
+      className="relative scroll-mt-24 bg-surface-base py-12 sm:py-16 lg:py-20"
     >
       <div className="mx-auto max-w-3xl px-5 sm:px-6">
         {/* Header */}

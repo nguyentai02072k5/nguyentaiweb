@@ -116,7 +116,7 @@ export function Hero({ content }: HeroProps) {
                 variants={headlineWordItemVariants}
                 className="block"
               >
-                Có ngay trợ lý
+                Có Ngay Trợ Lý
               </motion.span>
 
               {/* Line 3 - keyword "chot sale" aurora gradient + F1 underline as focal point */}
@@ -125,7 +125,7 @@ export function Hero({ content }: HeroProps) {
                 className="block"
               >
                 <span className="relative inline-block whitespace-nowrap">
-                  <span className="text-aurora">chốt sale</span>
+                  <span className="text-aurora">Chốt Sale</span>
                   {/* Phase 3 — Sketch underline starts after title done (t≈1.5s) */}
                   <SketchUnderline delay={1.5} duration={1.2} />
                 </span>
@@ -136,7 +136,7 @@ export function Hero({ content }: HeroProps) {
                 variants={headlineWordItemVariants}
                 className="block whitespace-nowrap font-extrabold lg:text-[1.06em] -tracking-[0.045em]"
               >
-                không nghỉ ngơi.
+                Không Nghỉ Ngơi.
               </motion.span>
 
             </motion.h1>

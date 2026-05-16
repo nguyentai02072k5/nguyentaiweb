@@ -220,7 +220,7 @@ export default function ComponentsShowcase() {
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Xác nhận đặt lịch</DialogTitle>
+                <DialogTitle>Xác Nhận Đặt Lịch</DialogTitle>
                 <DialogDescription>
                   Anh/chị xác nhận đặt Meet 1-1 vào T2 11/05 - 14:00 (20 phút) qua
                   Google Meet?

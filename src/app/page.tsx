@@ -13,6 +13,7 @@ import { Services } from '@/components/sections/services';
 import { TechGraph } from '@/components/sections/tech-graph';
 import { ProcessJourney } from '@/components/sections/process-journey';
 import { TrustStrip } from '@/components/sections/trust-strip';
+import { BookingSection } from '@/components/sections/booking';
 import { Faq } from '@/components/sections/faq';
 import { StickyCtaBar } from '@/components/ui/sticky-cta-bar';
 import { LANDING } from '@/content/landing';
@@ -26,6 +27,7 @@ export default function HomePage() {
       <TechGraph content={LANDING.techGraph} />
       <ProcessJourney content={LANDING.process} />
       <TrustStrip content={LANDING.trustStrip} />
+      <BookingSection />
       <Faq content={LANDING.faq} />
       <StickyCtaBar content={LANDING.stickyMobile} />
     </main>
