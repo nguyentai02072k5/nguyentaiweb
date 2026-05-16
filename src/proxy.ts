@@ -1,5 +1,5 @@
 /**
- * middleware.ts — Routing + auth gate cho subdomain admin.
+ * proxy.ts — Routing + auth gate cho subdomain admin (Next.js 16 convention).
  *
  * 1. Host `admin.nguyenvantai.com` (hoặc `admin.localhost`) → rewrite vào `/admin/*`
  *    để main site (`/`, `/booking`, ...) không lộ qua subdomain.
@@ -21,7 +21,7 @@ export const config = {
   ],
 };
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const host = (request.headers.get('host') ?? '').toLowerCase();
   const url = request.nextUrl.clone();
   const isAdminHost = host.startsWith(ADMIN_HOST_PREFIX);
