@@ -1,5 +1,5 @@
 /**
- * proxy.ts — Routing + auth gate cho subdomain admin.
+ * middleware.ts — Routing + auth gate cho subdomain admin.
  *
  * 1. Host `admin.nguyenvantai.com` (hoặc `admin.localhost`) → rewrite vào `/admin/*`
  *    để main site (`/`, `/booking`, ...) không lộ qua subdomain.
@@ -21,7 +21,7 @@ export const config = {
   ],
 };
 
-export async function proxy(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const host = (request.headers.get('host') ?? '').toLowerCase();
   const url = request.nextUrl.clone();
   const isAdminHost = host.startsWith(ADMIN_HOST_PREFIX);

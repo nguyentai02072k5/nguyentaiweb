@@ -62,8 +62,11 @@ export function verifySessionToken(token: string | undefined | null, now: number
 export function verifyAdminPassword(input: string): boolean {
   const expected = process.env.ADMIN_PASSWORD;
   if (!expected || expected.length < 1) return false;
-  if (typeof input !== 'string' || input.length !== expected.length) return false;
-  return timingSafeEqual(Buffer.from(input), Buffer.from(expected));
+  if (typeof input !== 'string') return false;
+  const a = Buffer.from(input, 'utf8');
+  const b = Buffer.from(expected, 'utf8');
+  if (a.length !== b.length) return false;
+  return timingSafeEqual(a, b);
 }
 
 export function adminCookieOptions(maxAgeMs: number = SESSION_TTL_MS) {
