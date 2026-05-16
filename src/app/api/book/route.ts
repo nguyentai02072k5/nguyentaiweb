@@ -289,7 +289,7 @@ async function sendWebhook(
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ content: lines.join('\n'), data: enriched }),
-      signal: AbortSignal.timeout(15000),
+      signal: AbortSignal.timeout(20000),
     });
     if (!res.ok) {
       console.error(`[webhook] HTTP ${res.status}`, await res.text().catch(() => ''));
