@@ -1,5 +1,25 @@
 # Project Changelog
 
+## 2026-06-09
+
+### Added
+- Kho Template Instruction (`/templates`): lọc client-side theo mô hình kinh doanh + ngành + search không dấu; trang chi tiết `/templates/[slug]` render MDX (prose + nút copy) + đính kèm + CTA mềm + template liên quan.
+- pSEO routes `/templates/nganh/[industry]` (SSG, index được) cho từng ngành có template.
+- Blog (`/blog` + `/blog/[slug]`): lọc theo 3 chủ đề cố định (Phát triển kinh doanh · Phát triển bản thân · Phân tích trên thế gian), reading-time, related theo chủ đề, CTA mềm.
+- Content layer Velite (MDX trong `content/`, frontmatter validate build-time; build fail nếu phân loại sai). Taxonomy SSOT `src/lib/content/taxonomy.ts` + `blog-taxonomy.ts`.
+- SEO đầy đủ: `generateMetadata` (canonical + openGraph + twitter), OG động (`next/og`, font Be Vietnam Pro local) cho templates/pSEO/blog, JSON-LD (TechArticle · CollectionPage+ItemList · BlogPosting · BreadcrumbList), `sitemap.ts`, `robots.ts`.
+- Site URL SSOT `src/lib/seo/site.ts` (env `NEXT_PUBLIC_SITE_URL`). Nav thêm link Templates + Blog.
+
+### Changed
+- `metadataBase` + og:url + canonical homepage lấy từ `site.ts` (thay hardcode).
+- `robots.txt` chặn `/admin`, `/api` và các trang dev-verify (`/brand`, `/logo`, `/components`, `/animations`).
+
+### Dependencies
+- Thêm `velite`, `@tailwindcss/typography`, `concurrently` (devDep). Build script: `velite && next build`.
+
+### Notes
+- Khi deploy: set env `NEXT_PUBLIC_SITE_URL=https://nguyenvantai.com` để canonical/OG/sitemap dùng đúng domain.
+
 ## 2026-05-16
 
 ### Added
