@@ -17,6 +17,7 @@
  * Wired at `layout.tsx` root → renders above all pages.
  */
 
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { NavLogo } from '@/components/brand/prod-logo';
 import { NavMobileDrawer } from './nav-mobile-drawer';
@@ -76,29 +77,44 @@ export function NavBar() {
           {/* Center-right: Desktop anchor links */}
           <ul className="hidden md:flex items-center gap-1 lg:gap-2">
             {links.map((link) => {
-              const isActive = active === link.sectionId;
+              const isActive = link.isPage
+                ? pathname === link.href || pathname.startsWith(`${link.href}/`)
+                : isHome && active === link.sectionId;
+              const linkClass = `
+                relative inline-flex items-center
+                px-4 py-2 lg:px-5 lg:py-2.5 rounded-full
+                font-display text-sm lg:text-[15px] font-semibold tracking-wide
+                transition-colors duration-150
+                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-violet
+                ${
+                  isActive
+                    ? 'text-brand-violet bg-brand-violet/10'
+                    : 'text-text-secondary hover:text-brand-violet hover:bg-surface-subtle'
+                }
+              `;
               return (
-                <li key={link.sectionId}>
-                  <a
-                    href={resolveHashHref(link.href, pathname)}
-                    data-cta-location={link.analyticsId}
-                    aria-current={isActive ? 'location' : undefined}
-                    onClick={() => trackCtaClick(link.analyticsId)}
-                    className={`
-                      relative inline-flex items-center
-                      px-4 py-2 lg:px-5 lg:py-2.5 rounded-full
-                      font-display text-sm lg:text-[15px] font-semibold tracking-wide
-                      transition-colors duration-150
-                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-violet
-                      ${
-                        isActive
-                          ? 'text-brand-violet bg-brand-violet/10'
-                          : 'text-text-secondary hover:text-brand-violet hover:bg-surface-subtle'
-                      }
-                    `}
-                  >
-                    {link.label}
-                  </a>
+                <li key={link.href}>
+                  {link.isPage ? (
+                    <Link
+                      href={link.href}
+                      data-cta-location={link.analyticsId}
+                      aria-current={isActive ? 'page' : undefined}
+                      onClick={() => trackCtaClick(link.analyticsId)}
+                      className={linkClass}
+                    >
+                      {link.label}
+                    </Link>
+                  ) : (
+                    <a
+                      href={resolveHashHref(link.href, pathname)}
+                      data-cta-location={link.analyticsId}
+                      aria-current={isActive ? 'location' : undefined}
+                      onClick={() => trackCtaClick(link.analyticsId)}
+                      className={linkClass}
+                    >
+                      {link.label}
+                    </a>
+                  )}
                 </li>
               );
             })}

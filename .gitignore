@@ -51,3 +51,7 @@ next-env.d.ts
 .pnpm-store/
 .claude/
 supabase/.temp/
+
+# velite content layer (generated)
+/.velite
+/public/static

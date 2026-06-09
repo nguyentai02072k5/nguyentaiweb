@@ -105,26 +105,40 @@ export function NavMobileDrawer({ content }: NavMobileDrawerProps) {
 
           {/* Anchor links */}
           <nav className="flex flex-col gap-1 px-3 pb-3" aria-label="Liên kết mục">
-            {content.links.map((link) => (
-              <Dialog.Close key={link.sectionId} asChild>
-                <a
-                  href={resolveHashHref(link.href, pathname)}
-                  data-cta-location={link.analyticsId}
-                  onClick={() => trackCtaClick(link.analyticsId)}
-                  className="
-                    flex items-center
-                    px-4 py-3 min-h-[48px]
-                    rounded-2xl
-                    font-display font-semibold text-base text-text-primary
-                    hover:bg-surface-subtle hover:text-brand-violet
-                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-violet
-                    transition-colors
-                  "
-                >
-                  {link.label}
-                </a>
-              </Dialog.Close>
-            ))}
+            {content.links.map((link) => {
+              const linkClass = `
+                flex items-center
+                px-4 py-3 min-h-[48px]
+                rounded-2xl
+                font-display font-semibold text-base text-text-primary
+                hover:bg-surface-subtle hover:text-brand-violet
+                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-violet
+                transition-colors
+              `;
+              return (
+                <Dialog.Close key={link.href} asChild>
+                  {link.isPage ? (
+                    <Link
+                      href={link.href}
+                      data-cta-location={link.analyticsId}
+                      onClick={() => trackCtaClick(link.analyticsId)}
+                      className={linkClass}
+                    >
+                      {link.label}
+                    </Link>
+                  ) : (
+                    <a
+                      href={resolveHashHref(link.href, pathname)}
+                      data-cta-location={link.analyticsId}
+                      onClick={() => trackCtaClick(link.analyticsId)}
+                      className={linkClass}
+                    >
+                      {link.label}
+                    </a>
+                  )}
+                </Dialog.Close>
+              );
+            })}
           </nav>
 
           {/* Footer block: legal links (gray, small) sit just above the CTA */}

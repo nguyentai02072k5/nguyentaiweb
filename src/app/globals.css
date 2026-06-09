@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 /* Tailwind v4 - class-based dark variant (toggle via .dark on <html>) */
 @custom-variant dark (&:where(.dark, .dark *));
@@ -253,6 +254,30 @@
     rgba(255, 255, 255, 0.45) 50%,
     transparent 70%
   );
+}
+
+/* ====================================================================
+   Prose (MDX content) — map @tailwindcss/typography vars sang Aurora tokens.
+   Hầu hết var trỏ tới --color-* (tự flip ở .dark) nên không cần .dark .prose riêng.
+   Code block bg/chữ cố định tối ở cả 2 theme (do MdxCodeBlock tự style nền).
+   ==================================================================== */
+.prose {
+  --tw-prose-body: var(--color-text-secondary);
+  --tw-prose-headings: var(--color-text-primary);
+  --tw-prose-lead: var(--color-text-secondary);
+  --tw-prose-links: var(--color-brand-violet);
+  --tw-prose-bold: var(--color-text-primary);
+  --tw-prose-counters: var(--color-text-tertiary);
+  --tw-prose-bullets: var(--color-border-strong);
+  --tw-prose-hr: var(--color-border-default);
+  --tw-prose-quotes: var(--color-text-primary);
+  --tw-prose-quote-borders: var(--color-brand-violet);
+  --tw-prose-captions: var(--color-text-tertiary);
+  --tw-prose-code: var(--color-text-primary);
+  --tw-prose-pre-code: #e5e7eb;
+  --tw-prose-pre-bg: var(--color-surface-inverse);
+  --tw-prose-th-borders: var(--color-border-strong);
+  --tw-prose-td-borders: var(--color-border-default);
 }
 
 /* ====================================================================

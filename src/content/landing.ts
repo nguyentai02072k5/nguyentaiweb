@@ -44,7 +44,11 @@ export type CtaLocation =
   | 'nav_services'
   | 'nav_process'
   | 'nav_faq'
-  | 'nav_cta';
+  | 'nav_templates'
+  | 'nav_blog'
+  | 'nav_cta'
+  | 'templates_cta'
+  | 'blog_cta';
 
 export type Cta = {
   label: string;
@@ -101,8 +105,10 @@ export type StickyCtaContent = {
 export type NavLink = {
   label: string;
   href: string;
-  /** Section ID for IntersectionObserver active-link tracking */
-  sectionId: string;
+  /** Section ID for IntersectionObserver active-link tracking (hash links only) */
+  sectionId?: string;
+  /** True = cross-page route link (next/link, active theo pathname; bỏ qua IntersectionObserver) */
+  isPage?: boolean;
   analyticsId: CtaLocation;
 };
 
@@ -259,9 +265,11 @@ export type LandingContent = {
 export const LANDING: LandingContent = {
   nav: {
     links: [
-      { label: 'Dịch vụ',   href: '#services', sectionId: 'services', analyticsId: 'nav_services' },
-      { label: 'Quy trình', href: '#process',  sectionId: 'process',  analyticsId: 'nav_process'  },
-      { label: 'FAQ',       href: '#faq',      sectionId: 'faq',      analyticsId: 'nav_faq'      },
+      { label: 'Dịch vụ',   href: '#services',  sectionId: 'services', analyticsId: 'nav_services'  },
+      { label: 'Quy trình', href: '#process',   sectionId: 'process',  analyticsId: 'nav_process'   },
+      { label: 'FAQ',       href: '#faq',       sectionId: 'faq',      analyticsId: 'nav_faq'       },
+      { label: 'Templates', href: '/templates', isPage: true,          analyticsId: 'nav_templates' },
+      { label: 'Blog',      href: '/blog',      isPage: true,          analyticsId: 'nav_blog'      },
     ],
     desktopCta: {
       label: 'Đặt lịch Meet →',

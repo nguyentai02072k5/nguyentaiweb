@@ -8,6 +8,7 @@ import { MetaPixel } from "@/components/analytics/meta-pixel";
 import { NavBar } from "@/components/layout/nav-bar";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { ScrollToTopButton } from "@/components/ui/scroll-to-top-button";
+import { SITE_URL } from "@/lib/seo/site";
 import "./globals.css";
 
 /* FOUC prevention — reads stored theme & toggles `.dark` on <html> before paint.
@@ -32,7 +33,7 @@ const beVietnamPro = Be_Vietnam_Pro({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://nguyenvantai.com"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Tài AI Automation - Chatbot AI bán hàng tự động",
     template: "%s | Tài AI Automation",
@@ -52,7 +53,7 @@ export const metadata: Metadata = {
       "Chatbot AI thông minh - nhận hình, tư vấn, chốt đơn tự động.",
     locale: "vi_VN",
     type: "website",
-    url: "https://nguyenvantai.com",
+    url: SITE_URL,
     siteName: "Tài AI Automation",
     images: [
       {
@@ -70,7 +71,7 @@ export const metadata: Metadata = {
       "Chatbot AI thông minh - nhận hình, tư vấn, chốt đơn tự động.",
     images: ["/og/og-image.png"],
   },
-  alternates: { canonical: "https://nguyenvantai.com" },
+  alternates: { canonical: SITE_URL },
   robots: { index: true, follow: true },
 };
 
