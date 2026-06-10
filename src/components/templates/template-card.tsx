@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { Sparkles } from 'lucide-react';
 import type { TemplateSummary } from '@/lib/content/queries';
 import { Badge } from '@/components/ui/badge';
+import { CoverImage } from '@/components/content/cover-image';
 import { getBusinessModelLabel, getIndustryLabel } from '@/lib/content/taxonomy';
 
 /**
@@ -25,22 +25,11 @@ export function TemplateCard({ template }: { template: TemplateSummary }) {
     >
       {/* Cover */}
       <div className="relative aspect-[16/9] overflow-hidden bg-aurora-soft">
-        {template.cover ? (
-          <Image
-            src={template.cover}
-            alt={template.title}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover transition-transform duration-300 group-hover:scale-105 motion-reduce:group-hover:scale-100"
-          />
-        ) : (
-          <div
-            aria-hidden
-            className="absolute inset-0 flex items-center justify-center"
-          >
-            <Sparkles className="h-10 w-10 text-text-on-brand/70" />
-          </div>
-        )}
+        <CoverImage
+          src={template.cover}
+          alt={template.title}
+          fallback={<Sparkles className="h-10 w-10 text-text-on-brand/70" />}
+        />
       </div>
 
       {/* Body */}

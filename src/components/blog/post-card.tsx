@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { Newspaper } from 'lucide-react';
 import type { PostSummary } from '@/lib/content/queries';
 import { Badge } from '@/components/ui/badge';
+import { CoverImage } from '@/components/content/cover-image';
 import { formatDateLong } from '@/lib/format/date-vn';
 
 /**
@@ -22,19 +22,11 @@ export function PostCard({ post }: { post: PostSummary }) {
       "
     >
       <div className="relative aspect-[16/9] overflow-hidden bg-aurora-soft">
-        {post.cover ? (
-          <Image
-            src={post.cover}
-            alt={post.title}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover transition-transform duration-300 group-hover:scale-105 motion-reduce:group-hover:scale-100"
-          />
-        ) : (
-          <div aria-hidden className="absolute inset-0 flex items-center justify-center">
-            <Newspaper className="h-10 w-10 text-text-on-brand/70" />
-          </div>
-        )}
+        <CoverImage
+          src={post.cover}
+          alt={post.title}
+          fallback={<Newspaper className="h-10 w-10 text-text-on-brand/70" />}
+        />
       </div>
 
       <div className="flex flex-1 flex-col gap-2.5 p-4 sm:p-5">
