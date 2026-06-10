@@ -1,5 +1,5 @@
 /**
- * DayChip — one day card in the date picker.
+ * DayChip - one day card in the date picker.
  * Touch target ≥ 48px (mobile-first). Three states: default / selected / disabled.
  */
 

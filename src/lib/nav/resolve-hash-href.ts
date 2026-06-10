@@ -1,5 +1,5 @@
 /**
- * resolve-hash-href.ts — Make in-page hash links work across routes.
+ * resolve-hash-href.ts - Make in-page hash links work across routes.
  *
  * Anchor links like "#booking" only scroll within the current page. When the
  * user is on a non-home route (e.g. /thank-you), clicking such a link merely

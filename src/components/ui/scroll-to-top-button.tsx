@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * scroll-to-top-button.tsx — Floating "back to top" pill.
+ * scroll-to-top-button.tsx - Floating "back to top" pill.
  *
  * Appears after the user scrolls past 600px. Mobile position sits above the
  * StickyCtaBar (56px) so the two never overlap. Smooth scrolls to page top.

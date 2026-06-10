@@ -32,7 +32,7 @@ Found **12 title elements** across the codebase that need Vietnamese-aware Title
 #### 1. **src/components/admin/admin-header.tsx** (Line 23)
 - **Current:** `Dashboard đặt lịch`
 - **Suggested:** `Dashboard Đặt Lịch`
-- **Note:** Main h1 title of admin page. "Dashboard" is English, "Đặt Lịch" is Vietnamese—capitalize both content words.
+- **Note:** Main h1 title of admin page. "Dashboard" is English, "Đặt Lịch" is Vietnamese-capitalize both content words.
 
 #### 2. **src/components/booking/variants/date-picker-grid.tsx** (Line 21)
 - **Current:** `Chọn ngày phù hợp`
@@ -104,17 +104,17 @@ Found **12 title elements** across the codebase that need Vietnamese-aware Title
 
 The following files already have correct title case or don't contain Vietnamese titles:
 
-- `src/components/sections/hero.tsx` — dynamically pulls from `LANDING.hero` ✓
-- `src/components/sections/services.tsx` — dynamically pulls from `LANDING.services` ✓
-- `src/components/sections/about.tsx` — dynamically pulls from `LANDING.about` ✓
-- `src/components/sections/process-journey.tsx` — dynamically pulls from `LANDING.process` ✓
-- `src/components/sections/faq.tsx` — dynamically pulls from `LANDING.faq` ✓
-- `src/components/sections/booking.tsx` — booking form section
-- `src/components/services/service-card.tsx` — dynamically pulls from service module data ✓
-- `src/components/process/step-card.tsx` — dynamically pulls from step data ✓
-- `src/components/legal/legal-section.tsx` — dynamic title prop (no hardcoded strings)
-- `src/app/page.tsx` — landing page root (no hardcoded titles)
-- `src/app/admin/page.tsx` — admin dashboard (filter bar labels already correct)
+- `src/components/sections/hero.tsx` - dynamically pulls from `LANDING.hero` ✓
+- `src/components/sections/services.tsx` - dynamically pulls from `LANDING.services` ✓
+- `src/components/sections/about.tsx` - dynamically pulls from `LANDING.about` ✓
+- `src/components/sections/process-journey.tsx` - dynamically pulls from `LANDING.process` ✓
+- `src/components/sections/faq.tsx` - dynamically pulls from `LANDING.faq` ✓
+- `src/components/sections/booking.tsx` - booking form section
+- `src/components/services/service-card.tsx` - dynamically pulls from service module data ✓
+- `src/components/process/step-card.tsx` - dynamically pulls from step data ✓
+- `src/components/legal/legal-section.tsx` - dynamic title prop (no hardcoded strings)
+- `src/app/page.tsx` - landing page root (no hardcoded titles)
+- `src/app/admin/page.tsx` - admin dashboard (filter bar labels already correct)
 
 ---
 
@@ -125,9 +125,9 @@ Your team has done a thorough job keeping Vietnamese copy properly diacriticized
 
 ### B. Title Case Action Items
 - **Scope:** 12 hardcoded title strings across booking flow & admin components
-- **Effort:** Low — each requires only letter capitalization, no semantic changes
-- **Priority:** Medium — affects user-facing labels, improves visual polish
-- **No dynamic content affected** — these are all string literals, no content sourcing issues
+- **Effort:** Low - each requires only letter capitalization, no semantic changes
+- **Priority:** Medium - affects user-facing labels, improves visual polish
+- **No dynamic content affected** - these are all string literals, no content sourcing issues
 
 ### C. Suggested Implementation Order
 1. Fix form headers (high visibility): form-sectioned.tsx, form-single-column.tsx

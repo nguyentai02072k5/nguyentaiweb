@@ -44,7 +44,7 @@ export default async function AdminLoginPage({
                 Admin dashboard
               </h1>
               <p className="text-text-secondary mt-1 text-sm">
-                admin.nguyenvantai.com — Quản lý lịch demo
+                admin.nguyenvantai.com - Quản lý lịch demo
               </p>
             </div>
           </div>

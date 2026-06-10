@@ -1,15 +1,15 @@
-# Supabase Setup — Phase 07 v1
+# Supabase Setup - Phase 07 v1
 
 Hướng dẫn anh chạy toàn bộ migration trong `supabase/migrations/` sau khi review xong.
 
 ## Pre-flight: chuẩn bị project
 
 1. Vào https://supabase.com/dashboard → **New project**
-2. Chọn region **Singapore (`ap-southeast-1`)** — latency VN tốt nhất
+2. Chọn region **Singapore (`ap-southeast-1`)** - latency VN tốt nhất
 3. Đặt password DB mạnh, lưu vào password manager
 4. Đợi project provision xong (~2 phút)
 
-## Bước 1 — Lấy 3 key cho app
+## Bước 1 - Lấy 3 key cho app
 
 Settings → **API**:
 
@@ -21,11 +21,11 @@ Settings → **API**:
 
 Copy 3 giá trị này vào `.env.local` (tạo từ `.env.local.example`).
 
-⚠️ `service_role` bypass RLS — **không bao giờ** ship vào client bundle. Code đã isolate qua `src/lib/supabase/server-client.ts` với `import 'server-only'`.
+⚠️ `service_role` bypass RLS - **không bao giờ** ship vào client bundle. Code đã isolate qua `src/lib/supabase/server-client.ts` với `import 'server-only'`.
 
 ⚠️ Key `sbp_...` (Personal Access Token) là cho Supabase CLI / Management API, không phải 3 key trên. App **không** dùng PAT.
 
-## Bước 2 — Review SQL trước khi migrate
+## Bước 2 - Review SQL trước khi migrate
 
 Các file để review theo thứ tự:
 
@@ -39,22 +39,22 @@ Các file để review theo thứ tự:
 | `0006_update_working_hours.sql` | Cập nhật `curation_skip_hours` theo khung giờ owner đang muốn nhận lịch | Idempotent |
 | `0007_forward_only_booking_block.sql` | Đổi block rule sang strict forward-only, drop exclusion constraint bidirectional cũ | Fix case book 19:30 không được khóa ngược 18:00/18:30/19:00 |
 
-## Bước 3 — Chạy migrations (3 cách, chọn 1)
+## Bước 3 - Chạy migrations (3 cách, chọn 1)
 
-### Cách A — SQL Editor (đơn giản nhất, recommend cho v1)
+### Cách A - SQL Editor (đơn giản nhất, recommend cho v1)
 
 1. Supabase Dashboard → **SQL Editor** → **New query**
 2. Mở `0001_init_bookings.sql`, copy toàn bộ → paste → **Run**
 3. Lặp lại với các file còn lại theo thứ tự `0002` → `0007`
 4. Kiểm tra ở **Table Editor**: phải thấy 3 table (`bookings`, `booking_config`, `blocked_periods`) và `booking_config` có 1 row id=1
 
-### Cách B — Supabase CLI (recommend khi muốn versioning)
+### Cách B - Supabase CLI (recommend khi muốn versioning)
 
 ```bash
 # Install once
 pnpm dlx supabase --version
 
-# Login bằng Personal Access Token (sbp_...) — KHÔNG dùng password
+# Login bằng Personal Access Token (sbp_...) - KHÔNG dùng password
 pnpm dlx supabase login
 
 # Link với project (lấy ref ở Settings → General → Reference ID)
@@ -64,7 +64,7 @@ pnpm dlx supabase link --project-ref YOUR_PROJECT_REF
 pnpm dlx supabase db push
 ```
 
-### Cách C — psql trực tiếp
+### Cách C - psql trực tiếp
 
 ```bash
 # Connection string ở Settings → Database → Connection string → URI
@@ -78,7 +78,7 @@ psql "postgresql://postgres:PASSWORD@db.YOUR_REF.supabase.co:5432/postgres" \
   -f supabase/migrations/0007_forward_only_booking_block.sql
 ```
 
-## Bước 4 — Verify
+## Bước 4 - Verify
 
 Chạy nhanh trong SQL Editor:
 
@@ -98,10 +98,10 @@ select tablename, rowsecurity from pg_tables where schemaname='public';
 -- 4. Test constraint consent gate (phải fail)
 insert into public.bookings (phone_zalo, meeting_start, meeting_end, consent_zalo)
 values ('0901234567', now() + interval '1 day', now() + interval '1 day' + interval '20 min', false);
--- expected: ERROR — constraint "consent_required" violated
+-- expected: ERROR - constraint "consent_required" violated
 ```
 
-## Bước 5 — Generate TypeScript types (sau khi migrate xong)
+## Bước 5 - Generate TypeScript types (sau khi migrate xong)
 
 ```bash
 pnpm dlx supabase gen types typescript \
@@ -114,7 +114,7 @@ File này sẽ được import bởi `server-client.ts` và `anon-client.ts` ở
 ## Rollback (nếu cần làm lại)
 
 ```sql
--- Nuke trong SQL Editor (CẨN THẬN — mất hết data)
+-- Nuke trong SQL Editor (CẨN THẬN - mất hết data)
 drop table if exists public.bookings cascade;
 drop table if exists public.booking_config cascade;
 drop table if exists public.blocked_periods cascade;

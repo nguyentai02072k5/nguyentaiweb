@@ -1,5 +1,5 @@
 /**
- * timeline-variants.ts — Framer Motion variants for Process Journey timeline.
+ * timeline-variants.ts - Framer Motion variants for Process Journey timeline.
  *
  * Alternating left/right card reveal for desktop, slide-up for mobile.
  * All durations 0.5s, EASE_OUT cubic-bezier matching site standard.
@@ -17,7 +17,7 @@ export const timelineContainer: Variants = {
   },
 };
 
-/** Odd-indexed steps (1, 3, 5) — slide in from left */
+/** Odd-indexed steps (1, 3, 5) - slide in from left */
 export const stepCardLeft: Variants = {
   hidden: { opacity: 0, x: -40 },
   visible: {
@@ -27,7 +27,7 @@ export const stepCardLeft: Variants = {
   },
 };
 
-/** Even-indexed steps (2, 4, 6) — slide in from right */
+/** Even-indexed steps (2, 4, 6) - slide in from right */
 export const stepCardRight: Variants = {
   hidden: { opacity: 0, x: 40 },
   visible: {
@@ -37,7 +37,7 @@ export const stepCardRight: Variants = {
   },
 };
 
-/** Mobile single-column — slide up from below */
+/** Mobile single-column - slide up from below */
 export const stepCardMobile: Variants = {
   hidden: { opacity: 0, y: 30 },
   visible: {
@@ -47,7 +47,7 @@ export const stepCardMobile: Variants = {
   },
 };
 
-/** Number badge — scale + slight rotation entrance */
+/** Number badge - scale + slight rotation entrance */
 export const numberBadgeVariants: Variants = {
   hidden: { opacity: 0, scale: 0.7, rotate: -8 },
   visible: {

@@ -1,20 +1,19 @@
 'use client';
 
 /**
- * soft-cta.tsx — CTA mềm dùng chung (template detail + blog post). Không gate.
- * Đặt lịch tư vấn (booking) + Nhắn Zalo, có track analytics.
+ * soft-cta.tsx - CTA mềm cuối trang chi tiết template. Không gate.
+ * Một nút gradient "Liên hệ qua Zalo" (aurora gradient động + glow), có track analytics.
  */
 
-import Link from 'next/link';
-import { CalendarCheck, MessageCircle } from 'lucide-react';
+import { MessageCircle } from 'lucide-react';
 import { trackCtaClick } from '@/lib/analytics/track-cta-click';
 import type { CtaLocation } from '@/content/landing';
 
 const ZALO_LINK = 'https://zalo.me/0345324467';
 
 export function SoftCta({
-  heading = 'Cần áp dụng cho shop của anh/chị?',
-  description = 'Đặt lịch tư vấn 1-1 miễn phí — mình giúp anh/chị tinh chỉnh đúng ngành, đúng sản phẩm rồi đưa vào chatbot thật.',
+  heading = 'Cần hỗ trợ gì cho shop của anh/chị?',
+  description = 'Nhắn mình qua Zalo - mình tư vấn chọn đúng template, tinh chỉnh theo ngành và sản phẩm rồi đưa vào chatbot thật cho anh/chị.',
   location = 'templates_cta',
 }: {
   heading?: string;
@@ -29,22 +28,7 @@ export function SoftCta({
       <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-text-secondary sm:text-base">
         {description}
       </p>
-      <div className="mt-5 flex flex-col items-center justify-center gap-3 sm:flex-row">
-        <Link
-          href="/#booking"
-          data-cta-location={location}
-          onClick={() => trackCtaClick(location)}
-          className="
-            inline-flex w-full items-center justify-center gap-2 sm:w-auto
-            rounded-full bg-aurora bg-[length:200%_200%] animate-aurora motion-reduce:animate-none
-            px-6 py-3 font-display font-semibold text-text-on-brand
-            shadow-glow-violet transition-transform hover:scale-[1.02] motion-reduce:hover:scale-100
-            focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-violet focus-visible:ring-offset-2
-          "
-        >
-          <CalendarCheck className="h-5 w-5" aria-hidden />
-          Đặt lịch tư vấn
-        </Link>
+      <div className="mt-6 flex justify-center">
         <a
           href={ZALO_LINK}
           target="_blank"
@@ -52,15 +36,15 @@ export function SoftCta({
           data-cta-location={location}
           onClick={() => trackCtaClick(location)}
           className="
-            inline-flex w-full items-center justify-center gap-2 sm:w-auto
-            rounded-full border border-border-strong px-6 py-3
-            font-display font-semibold text-text-primary
-            transition-colors hover:border-brand-violet hover:text-brand-violet
-            focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-violet/40
+            inline-flex items-center justify-center gap-2
+            rounded-full bg-aurora bg-[length:200%_200%] animate-aurora motion-reduce:animate-none
+            px-8 py-3.5 text-base font-display font-semibold text-text-on-brand
+            shadow-glow-violet transition-transform hover:scale-[1.03] motion-reduce:hover:scale-100
+            focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-violet focus-visible:ring-offset-2
           "
         >
           <MessageCircle className="h-5 w-5" aria-hidden />
-          Nhắn Zalo
+          Liên hệ qua Zalo
         </a>
       </div>
     </section>

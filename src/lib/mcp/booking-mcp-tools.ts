@@ -1,5 +1,5 @@
 /**
- * booking-mcp-tools.ts — Pure handlers for MCP booking tools.
+ * booking-mcp-tools.ts - Pure handlers for MCP booking tools.
  *
  * Each function is the business logic for one MCP tool. Kept transport-free
  * so the same code could be reused from a CLI or test harness. The MCP route

@@ -1,7 +1,7 @@
 /**
- * slot-curator.ts — Pick 3-5 representative slots spread across time-of-day.
+ * slot-curator.ts - Pick 3-5 representative slots spread across time-of-day.
  *
- * Phase 06 UX rule: don't show all 48 slots — too many choices = paralysis.
+ * Phase 06 UX rule: don't show all 48 slots - too many choices = paralysis.
  * Default shows curated picks, "Xem thêm" button reveals full grid.
  */
 
@@ -18,7 +18,7 @@ const PERIOD_ORDER: readonly TimePeriod[] = TIME_PERIODS; // morning → night
 export function curatePicks(args: {
   slots: Slot[];
   skipHours: number[];
-  /** Include 'night' (22:00-05:59) in picks. Default false — too unusual. */
+  /** Include 'night' (22:00-05:59) in picks. Default false - too unusual. */
   includeNight?: boolean;
   /** Hard cap on returned picks. Default 5. */
   maxPicks?: number;

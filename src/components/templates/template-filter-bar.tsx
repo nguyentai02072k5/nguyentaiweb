@@ -8,7 +8,7 @@ import {
 } from '@/lib/content/taxonomy';
 
 /**
- * template-filter-bar.tsx — Bộ lọc gọn: mô hình + mục tiêu = segmented control,
+ * template-filter-bar.tsx - Bộ lọc gọn: mô hình + mục tiêu = segmented control,
  * ngành = dropdown (nhóm theo mô hình khi chưa chọn), search. State do explorer giữ.
  */
 
@@ -23,7 +23,7 @@ type FilterBarProps = {
   resultCount: number;
 };
 
-/** Segmented control nhỏ gọn (ít option) — cuộn ngang nếu hẹp. */
+/** Segmented control nhỏ gọn (ít option) - cuộn ngang nếu hẹp. */
 function Segmented<T extends string>({
   ariaLabel,
   value,
@@ -148,7 +148,7 @@ export function TemplateFilterBar({
           />
         </div>
 
-        {/* Search — chiếm phần còn lại trên desktop */}
+        {/* Search - chiếm phần còn lại trên desktop */}
         <div className="relative w-full lg:flex-1 lg:min-w-[160px]">
           <Search
             className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-tertiary"

@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { getBusinessModelLabel, getIndustryLabel } from '@/lib/content/taxonomy';
 
 /**
- * template-card.tsx — Thẻ template trên trang kho + pSEO.
+ * template-card.tsx - Thẻ template trên trang kho + pSEO.
  * Cover dùng ảnh nếu có, không thì fallback gradient Aurora (không vỡ layout).
  * `featured` chỉ dùng cho sort/related (không render ribbon).
  */

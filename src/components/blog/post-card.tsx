@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { formatDateLong } from '@/lib/format/date-vn';
 
 /**
- * post-card.tsx — Thẻ bài blog (cover fallback gradient, tag, ngày + thời gian đọc).
+ * post-card.tsx - Thẻ bài blog (cover fallback gradient, tag, ngày + thời gian đọc).
  */
 export function PostCard({ post }: { post: PostSummary }) {
   return (

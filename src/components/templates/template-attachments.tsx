@@ -2,7 +2,7 @@ import { Download } from 'lucide-react';
 import type { Template } from '#site/content';
 
 /**
- * template-attachments.tsx — Phần file/ảnh đính kèm (nếu template có).
+ * template-attachments.tsx - Phần file/ảnh đính kèm (nếu template có).
  * Ẩn hoàn toàn khi không có attachments.
  */
 export function TemplateAttachments({

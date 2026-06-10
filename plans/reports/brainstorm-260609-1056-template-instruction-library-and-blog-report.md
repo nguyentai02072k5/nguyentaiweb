@@ -1,15 +1,15 @@
-# Brainstorm — Kho Template Instruction + Blog
+# Brainstorm - Kho Template Instruction + Blog
 
 - Date: 2026-06-09
-- Project: tai-ai-automation (`nguyenvantai.com`) — Next.js 16 App Router
+- Project: tai-ai-automation (`nguyenvantai.com`) - Next.js 16 App Router
 - Status: Design approved by owner → ready for `/ck:plan`
 - Type: brainstorm design report
 
 ## 1. Problem statement
 
 Cần 2 tính năng nội dung mới cho landing page:
-1. **Kho Template Instruction** — owner quản lý + thêm "hàng tá" template theo ngành; khách duyệt/lọc/chọn xem dễ dàng.
-2. **Blog** — owner chia sẻ kiến thức (SEO/traffic play).
+1. **Kho Template Instruction** - owner quản lý + thêm "hàng tá" template theo ngành; khách duyệt/lọc/chọn xem dễ dàng.
+2. **Blog** - owner chia sẻ kiến thức (SEO/traffic play).
 
 Mục tiêu kép: cung cấp giá trị cho khách + kéo organic traffic + đẩy vào funnel đặt lịch hiện có.
 
@@ -39,16 +39,16 @@ Mục tiêu kép: cung cấp giá trị cho khách + kéo organic traffic + đ�
 ## 4. Approaches evaluated
 
 ### Storage/management
-- **A. MDX trong repo + Velite** ✅ CHỌN — SEO/tốc độ tốt nhất, version-controlled, miễn phí, typed frontmatter. Nhược: đăng bài cần git + deploy lại (owner chấp nhận).
-- B. Supabase DB + Admin CRUD — không cần deploy, khớp hạ tầng admin. Nhược: tốn công (form soạn thảo, upload ảnh, editor); loại vì owner ưu tiên SEO + chấp nhận redeploy.
-- C. Hybrid (template DB + blog MDX) — phức tạp duy trì 2 cơ chế. Loại.
+- **A. MDX trong repo + Velite** ✅ CHỌN - SEO/tốc độ tốt nhất, version-controlled, miễn phí, typed frontmatter. Nhược: đăng bài cần git + deploy lại (owner chấp nhận).
+- B. Supabase DB + Admin CRUD - không cần deploy, khớp hạ tầng admin. Nhược: tốn công (form soạn thảo, upload ảnh, editor); loại vì owner ưu tiên SEO + chấp nhận redeploy.
+- C. Hybrid (template DB + blog MDX) - phức tạp duy trì 2 cơ chế. Loại.
 
 ### MDX tooling
-- **Velite** ✅ CHỌN — typed (zod), auto index, validate build-time, image pipeline.
-- gray-matter + next-mdx-remote — ít dep hơn, full control → giữ làm **fallback** nếu Velite vướng Turbopack.
-- @next/mdx native — mỗi template = 1 page file, khó listing/filter động. Loại.
+- **Velite** ✅ CHỌN - typed (zod), auto index, validate build-time, image pipeline.
+- gray-matter + next-mdx-remote - ít dep hơn, full control → giữ làm **fallback** nếu Velite vướng Turbopack.
+- @next/mdx native - mỗi template = 1 page file, khó listing/filter động. Loại.
 
-## 5. Taxonomy (starter — đã duyệt)
+## 5. Taxonomy (starter - đã duyệt)
 
 3 chiều, SSOT ở `src/lib/content/taxonomy.ts` (drive cả zod schema lẫn UI filter):
 
@@ -60,7 +60,7 @@ Mục tiêu kép: cung cấp giá trị cho khách + kéo organic traffic + đ�
 
 UX `/templates`: chọn Mô hình → lọc Ngành (chips động) → lọc chéo Mục tiêu + ô search tên → grid cards.
 
-## 6. Final solution — kiến trúc
+## 6. Final solution - kiến trúc
 
 Shared content layer (Templates + Blog tái dùng):
 
@@ -92,25 +92,25 @@ publishedAt, updatedAt
 ```
 
 ### Touchpoints (sửa file sẵn có)
-- `src/content/landing.ts` — thêm nav link Templates (+ Blog sau)
-- `src/components/layout/nav-bar.tsx` + `nav-mobile-drawer.tsx` — hỗ trợ "page link" (không chỉ hash); `resolve-hash-href` đã xử lý off-home
-- `src/app/api/og/route.tsx` — nhận title/category render OG card template/blog
-- `next.config.*` + `package.json` scripts — tích hợp Velite build step
+- `src/content/landing.ts` - thêm nav link Templates (+ Blog sau)
+- `src/components/layout/nav-bar.tsx` + `nav-mobile-drawer.tsx` - hỗ trợ "page link" (không chỉ hash); `resolve-hash-href` đã xử lý off-home
+- `src/app/api/og/route.tsx` - nhận title/category render OG card template/blog
+- `next.config.*` + `package.json` scripts - tích hợp Velite build step
 - Tái dùng: `trackCtaClick`, design tokens, shadcn primitives
 
 ## 7. Phases
 
-- **Phase 0 — Foundation & risk-buster**: cài Velite, config, `taxonomy.ts` SSOT, content queries, mdx-components, cập nhật nav, **verify Velite chạy với Next 16/Turbopack**.
-- **Phase 1 — Templates listing**: `/templates` + filter đa chiều + cards + seed 3–5 template mẫu.
-- **Phase 2 — Template detail**: render MDX + đính kèm + nút copy + CTA mềm + related.
-- **Phase 3 — SEO**: metadata + OG động + JSON-LD (HowTo/Article) + sitemap + robots.
-- **Phase 4 (sau) — Blog**: `/blog` + `/blog/[slug]` tái dùng content layer.
+- **Phase 0 - Foundation & risk-buster**: cài Velite, config, `taxonomy.ts` SSOT, content queries, mdx-components, cập nhật nav, **verify Velite chạy với Next 16/Turbopack**.
+- **Phase 1 - Templates listing**: `/templates` + filter đa chiều + cards + seed 3–5 template mẫu.
+- **Phase 2 - Template detail**: render MDX + đính kèm + nút copy + CTA mềm + related.
+- **Phase 3 - SEO**: metadata + OG động + JSON-LD (HowTo/Article) + sitemap + robots.
+- **Phase 4 (sau) - Blog**: `/blog` + `/blog/[slug]` tái dùng content layer.
 
 ## 8. Risks & mitigations
 
-1. **Velite + Next 16 Turbopack** — Velite là build step riêng; Turbopack không cắm webpack plugin. Mitigation: chạy `velite` qua `predev`/`prebuild` hoặc `concurrently --watch`; verify ở Phase 0; fallback `gray-matter + next-mdx-remote` nếu vướng (giữ nguyên kiến trúc còn lại).
-2. **Nav hash-based** — cần thêm page-link type; nhẹ, `resolve-hash-href` đã hỗ trợ off-home.
-3. **Redeploy để publish** — owner đã chấp nhận (đổi lấy SEO + version control).
+1. **Velite + Next 16 Turbopack** - Velite là build step riêng; Turbopack không cắm webpack plugin. Mitigation: chạy `velite` qua `predev`/`prebuild` hoặc `concurrently --watch`; verify ở Phase 0; fallback `gray-matter + next-mdx-remote` nếu vướng (giữ nguyên kiến trúc còn lại).
+2. **Nav hash-based** - cần thêm page-link type; nhẹ, `resolve-hash-href` đã hỗ trợ off-home.
+3. **Redeploy để publish** - owner đã chấp nhận (đổi lấy SEO + version control).
 
 ## 9. Success metrics / validation
 
@@ -122,7 +122,7 @@ publishedAt, updatedAt
 
 ## 10. Next steps & dependencies
 
-- `/ck:plan` (default) — sinh plan phase-by-phase từ report này.
+- `/ck:plan` (default) - sinh plan phase-by-phase từ report này.
 - Dep mới: `velite` (+ có thể `concurrently`). Verify tương thích Next 16 ở Phase 0.
 - Cần owner cung cấp: nội dung template mẫu thật (Phase 1 seed có thể dùng placeholder trước).
 

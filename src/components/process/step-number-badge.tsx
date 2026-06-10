@@ -1,5 +1,5 @@
 /**
- * step-number-badge.tsx — Circular gradient badge showing step number (1-6).
+ * step-number-badge.tsx - Circular gradient badge showing step number (1-6).
  *
  * Uses Aurora gradient background with glow shadow.
  * aria-hidden since parent step card title provides context.

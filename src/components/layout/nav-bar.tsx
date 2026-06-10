@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * nav-bar.tsx — Phase 03d Global Navigation bar.
+ * nav-bar.tsx - Phase 03d Global Navigation bar.
  *
  * Sticky top, glass-on-scroll, responsive:
  *   • Desktop (md+): NavLogo · anchor links · Đặt lịch CTA
@@ -40,7 +40,7 @@ export function NavBar() {
 
   return (
     <>
-      {/* Skip-to-content link — visible only on keyboard focus */}
+      {/* Skip-to-content link - visible only on keyboard focus */}
       <a
         href="#main"
         className="
@@ -70,7 +70,7 @@ export function NavBar() {
           aria-label="Điều hướng chính"
           className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8 h-16 lg:h-20 flex items-center justify-between gap-4"
         >
-          {/* Left: Logo — NavLogo already contains <Link href="/"> internally.
+          {/* Left: Logo - NavLogo already contains <Link href="/"> internally.
               Clicking same-route Link scrolls to top, equivalent to "#hero" behavior. */}
           <NavLogo />
 
@@ -147,7 +147,7 @@ export function NavBar() {
           </div>
         </nav>
 
-        {/* Aurora gradient hairline divider — always-on, tách biệt nav với content */}
+        {/* Aurora gradient hairline divider - always-on, tách biệt nav với content */}
         <div
           aria-hidden="true"
           className="

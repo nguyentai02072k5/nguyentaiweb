@@ -31,7 +31,7 @@ KPI chính: book Meet 1-1 demo (20 phút) qua Supabase-backed smart calendar (bl
 | 02 | Content + Copywriting (VN) | ✅ Complete | `copywriting`, `marketing-psychology`, `brand`, `ckm:write:cro`, `ckm:write:formula`, `ckm:write:audit` | Page copy + legal content locked |
 | 03a | Hero + About + Content Schema | ⏭ Next (P0) | `frontend-design`, `ui-ux-pro-max`, `web-design-guidelines`, `ai-multimodal`, `react-best-practices` | `src/content/landing.ts` schema · Hero section · About section · Mobile pills replace floating badges |
 | 03b | Mobile Sticky CTA | Depends 03a (P0) | `frontend-design`, `ui-ux-pro-max`, `web-design-guidelines` | Sticky CTA bar component + intersection observer, text Phase-02-locked `Demo miễn phí - 20 phút →` |
-| 03c | og:image Banner | ✅ Complete | `banner-design`, `ai-artist`, `frontend-design` | `@vercel/og` Option C adopted — VN font passes via WOFF + IE11 UA |
+| 03c | og:image Banner | ✅ Complete | `banner-design`, `ai-artist`, `frontend-design` | `@vercel/og` Option C adopted - VN font passes via WOFF + IE11 UA |
 | 03d | Nav Bar (global) | ⏭ Next (P0) | `frontend-design`, `ui-ux-pro-max`, `ui-styling` | Sticky nav `<layout.tsx>` global: NavLogo + anchor links (Dịch vụ · Quy trình · FAQ · Đặt lịch) + desktop CTA + mobile drawer |
 | 04 | Services + Tech Graph | Pending | `frontend-design`, `mermaidjs-v11`, `ai-artist`, `shader` | Service cards + animated graph |
 | 05 | Process + Trust + FAQ | Pending | `frontend-design`, `marketing-psychology`, `ui-ux-pro-max` | Timeline + FAQ accordion |

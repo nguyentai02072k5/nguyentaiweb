@@ -2,7 +2,7 @@ import type { TemplateSummary } from '@/lib/content/queries';
 import { TemplateCard } from './template-card';
 
 /**
- * related-templates.tsx — Template liên quan (đã tính sẵn ở queries.getRelatedTemplates).
+ * related-templates.tsx - Template liên quan (đã tính sẵn ở queries.getRelatedTemplates).
  * Ẩn section khi không có item. 2 cột (vừa cột đọc max-w-3xl).
  */
 export function RelatedTemplates({ items }: { items: TemplateSummary[] }) {

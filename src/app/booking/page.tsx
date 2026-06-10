@@ -1,9 +1,9 @@
 /**
- * /booking — Preview-only showcase route.
+ * /booking - Preview-only showcase route.
  *
  * Shows 2 variants per phase 06 step (date / slot / form / thank-you) side-by-side.
  * Mobile: stack vertically. Desktop: A vs B columns.
- * NO API calls — all components use static mock data.
+ * NO API calls - all components use static mock data.
  *
  * After anh chốt combo (vd "A1 + B2 + C1 + D2"), em integrate vào main `/` page
  * với real API. /booking route được giữ làm reference, hoặc xoá đi.
@@ -28,7 +28,7 @@ import { ThankYouCelebration } from '@/components/booking/variants/thank-you-cel
 import { ThankYouTech } from '@/components/booking/variants/thank-you-tech';
 
 export const metadata: Metadata = {
-  title: 'Booking variants — preview',
+  title: 'Booking variants - preview',
   robots: { index: false, follow: false },
 };
 
@@ -59,7 +59,7 @@ const SECTIONS = [
   {
     id: 'desktop-ticket',
     step: '⭐ Recommend (desktop · NEW)',
-    title: 'Desktop ticket — schedule + form trong 1 vé ngang',
+    title: 'Desktop ticket - schedule + form trong 1 vé ngang',
     fullWidth: true,
     variants: [
       {
@@ -87,16 +87,16 @@ const SECTIONS = [
   {
     id: 'date',
     step: 'Bước 1 (legacy split)',
-    title: 'Chọn ngày — variants cũ',
+    title: 'Chọn ngày - variants cũ',
     variants: [
-      { id: 'A1', label: 'A1 · Horizontal scroll chips', summary: 'Swipe sang ngang, scroll-snap, chip lớn — cảm giác "schedule strip".', Component: DatePickerHorizontal },
+      { id: 'A1', label: 'A1 · Horizontal scroll chips', summary: 'Swipe sang ngang, scroll-snap, chip lớn - cảm giác "schedule strip".', Component: DatePickerHorizontal },
       { id: 'A2', label: 'A2 · Compact week grid',        summary: 'Tất cả ngày visible một lúc trong grid 4-col, không scroll.',     Component: DatePickerGrid },
     ],
   },
   {
     id: 'slot',
     step: 'Bước 2 (legacy split)',
-    title: 'Chọn giờ — variants cũ',
+    title: 'Chọn giờ - variants cũ',
     variants: [
       { id: 'B1', label: 'B1 · Period-grouped',  summary: 'Group theo time-of-day với emoji header, 2-col button cards.', Component: SlotPickerGrouped },
       { id: 'B2', label: 'B2 · Flat sorted list', summary: 'List theo thứ tự thời gian, period tag bên phải, compact.',   Component: SlotPickerFlat },
@@ -117,8 +117,8 @@ const SECTIONS = [
     title: 'Thank-you',
     variants: [
       { id: 'D1', label: 'D1 · Inline card',           summary: 'Compact card với checkmark + detail rows, tối giản.',                                              Component: ThankYouCard },
-      { id: 'D2', label: 'D2 · Celebration',           summary: 'Aurora gradient + confetti dots + animated checkmark — "wow" warm.',                              Component: ThankYouCelebration },
-      { id: 'D3', label: 'D3 · Tech HUD (new)',         summary: 'Dark mesh gradient bg + sonar pulse rings + scanning line + corner brackets — AI automation vibe.', Component: ThankYouTech },
+      { id: 'D2', label: 'D2 · Celebration',           summary: 'Aurora gradient + confetti dots + animated checkmark - "wow" warm.',                              Component: ThankYouCelebration },
+      { id: 'D3', label: 'D3 · Tech HUD (new)',         summary: 'Dark mesh gradient bg + sonar pulse rings + scanning line + corner brackets - AI automation vibe.', Component: ThankYouTech },
     ],
   },
 ];
@@ -168,7 +168,7 @@ export default function BookingPreviewPage() {
         </div>
       </header>
 
-      {/* 4 sections — main wrapper max-w-7xl để desktop-ticket showcase
+      {/* 4 sections - main wrapper max-w-7xl để desktop-ticket showcase
           được rộng. Nav/header/footer giữ max-w-6xl (site standard). */}
       <main className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8 pb-20 space-y-16">
         {SECTIONS.map((section) => (

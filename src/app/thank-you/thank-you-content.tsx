@@ -1,5 +1,5 @@
 /**
- * thank-you-content.tsx — Client component for /thank-you page.
+ * thank-you-content.tsx - Client component for /thank-you page.
  *
  * Receives validated booking data as props from the Server Component parent.
  * Renders ThankYouTech variant with real booking data (no MOCK).
@@ -30,7 +30,7 @@ type Props = {
 export function ThankYouContent({ bookingId, dateLabel, timeRange, phoneMask }: Props) {
   return (
     <div className="relative overflow-hidden rounded-2xl bg-slate-950 p-6 shadow-2xl min-h-[520px]">
-      {/* Tech grid backdrop (mobile only — desktop uses full-page grid from page.tsx) */}
+      {/* Tech grid backdrop (mobile only - desktop uses full-page grid from page.tsx) */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.08] md:hidden"
         style={{
@@ -72,13 +72,13 @@ export function ThankYouContent({ bookingId, dateLabel, timeRange, phoneMask }: 
         <Corner pos="br" />
 
         <div className="flex flex-col items-center text-center pt-4 pb-2">
-          {/* "Booking confirmed" — above icon, centered */}
+          {/* "Booking confirmed" - above icon, centered */}
           <p className="font-display text-[11px] uppercase tracking-[0.32em] text-cyan-400/90 mb-4 inline-flex items-center justify-center gap-2">
             <Hexagon className="w-3.5 h-3.5" strokeWidth={2} />
             Booking confirmed
           </p>
 
-          {/* Ripple checkmark — 1.5x larger, centered via flex parent */}
+          {/* Ripple checkmark - 1.5x larger, centered via flex parent */}
           <div className="relative flex h-44 w-44 items-center justify-center mb-4 text-brand-violet">
             <Ripple
               mainCircleSize={180}
@@ -87,7 +87,7 @@ export function ThankYouContent({ bookingId, dateLabel, timeRange, phoneMask }: 
               className="[mask-image:radial-gradient(circle_at_center,black_30%,transparent_75%)]"
             />
 
-            {/* Soft glow halo — continuous pulse behind gradient circle */}
+            {/* Soft glow halo - continuous pulse behind gradient circle */}
             <motion.span
               aria-hidden
               className="absolute h-36 w-36 rounded-full bg-gradient-to-br from-brand-indigo via-brand-violet to-brand-pink blur-2xl"
@@ -96,7 +96,7 @@ export function ThankYouContent({ bookingId, dateLabel, timeRange, phoneMask }: 
               transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
             />
 
-            {/* Ring pulse — crisp outer ring expanding rhythmically */}
+            {/* Ring pulse - crisp outer ring expanding rhythmically */}
             <motion.span
               aria-hidden
               className="absolute h-36 w-36 rounded-full ring-2 ring-brand-violet/60"
@@ -161,7 +161,7 @@ export function ThankYouContent({ bookingId, dateLabel, timeRange, phoneMask }: 
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            {/* Primary CTA — PulsatingButton style via CSS */}
+            {/* Primary CTA - PulsatingButton style via CSS */}
             <Link
               href="/"
               className="relative inline-flex items-center gap-2 h-11 px-6 rounded-xl font-display text-sm font-semibold text-white
@@ -173,7 +173,7 @@ export function ThankYouContent({ bookingId, dateLabel, timeRange, phoneMask }: 
               Quay về trang chủ
             </Link>
 
-            {/* Secondary — Zalo direct contact */}
+            {/* Secondary - Zalo direct contact */}
             <a
               href="https://zalo.me/0345324467"
               target="_blank"

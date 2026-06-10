@@ -1,5 +1,5 @@
 /**
- * site-footer.tsx — Minimal global footer.
+ * site-footer.tsx - Minimal global footer.
  *
  * Three stacked rows on mobile, balanced two-column on md+:
  *   1. Brand mark + one-line tagline
@@ -7,7 +7,7 @@
  *   3. Copyright + legal links
  *
  * Aurora hairline at the top mirrors the nav divider so the page feels
- * bookended. Server component — no client-side state needed.
+ * bookended. Server component - no client-side state needed.
  */
 
 import Link from 'next/link';
@@ -32,13 +32,13 @@ export function SiteFooter() {
         text-white
       "
     >
-      {/* Aurora hairline — mirrors nav top divider so the page feels bookended */}
+      {/* Aurora hairline - mirrors nav top divider so the page feels bookended */}
       <div
         aria-hidden="true"
         className="h-px w-full bg-[linear-gradient(90deg,transparent_0%,rgba(99,102,241,0.5)_18%,rgba(168,85,247,0.7)_50%,rgba(236,72,153,0.5)_82%,transparent_100%)]"
       />
 
-      {/* Subtle aurora wash radiating from top — depth without distraction */}
+      {/* Subtle aurora wash radiating from top - depth without distraction */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 top-0 h-48 bg-[radial-gradient(ellipse_at_50%_0%,rgba(168,85,247,0.12),transparent_70%)]"

@@ -1,5 +1,5 @@
 /**
- * unified-schedule-mobile-wired.tsx — Mobile booking widget wired to real API.
+ * unified-schedule-mobile-wired.tsx - Mobile booking widget wired to real API.
  *
  * Replaces MOCK_DAYS / MOCK_SLOTS_BY_DAY with useDays() + useSlots() hooks.
  * Uses BookingFormWired for form submit.
@@ -65,7 +65,7 @@ export function UnifiedScheduleMobileWired() {
         booking_time: info.time,
       });
       clearAutoAdvance();
-      // Skip auto-advance if user already moved to form (defensive — TimeGrid only renders on schedule step).
+      // Skip auto-advance if user already moved to form (defensive - TimeGrid only renders on schedule step).
       autoAdvanceTimerRef.current = setTimeout(() => {
         setDir(1);
         setStep('form');

@@ -3,7 +3,7 @@ import { TemplateCard } from './template-card';
 import { TemplateEmptyState } from './template-empty-state';
 
 /**
- * template-grid.tsx — Lưới thẻ template dùng chung (trang kho + pSEO ngành).
+ * template-grid.tsx - Lưới thẻ template dùng chung (trang kho + pSEO ngành).
  */
 export function TemplateGrid({
   templates,

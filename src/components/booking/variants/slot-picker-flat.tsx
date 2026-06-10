@@ -1,7 +1,7 @@
 /**
  * Variant B: Flat list ordered by time.
  * Pros: compact, ít cuộn, dễ scan theo thứ tự thời gian.
- * Cons: ít cảm giác "morning/evening" — phải đọc period tag.
+ * Cons: ít cảm giác "morning/evening" - phải đọc period tag.
  */
 
 'use client';

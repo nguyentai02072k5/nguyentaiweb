@@ -1,7 +1,7 @@
 import { SearchX } from 'lucide-react';
 
 /**
- * template-empty-state.tsx — Khi không có template khớp bộ lọc.
+ * template-empty-state.tsx - Khi không có template khớp bộ lọc.
  */
 export function TemplateEmptyState({ onReset }: { onReset?: () => void }) {
   return (

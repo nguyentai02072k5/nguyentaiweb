@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Minimal theme provider — replaces next-themes to avoid React 19 warning
+ * Minimal theme provider - replaces next-themes to avoid React 19 warning
  * about inline <script> tags in component render tree.
  *
  * FOUC prevention script is injected in app/layout via next/script
@@ -69,7 +69,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     try {
       localStorage.setItem(STORAGE_KEY, next);
     } catch {
-      /* localStorage may be unavailable (private mode) — ignore */
+      /* localStorage may be unavailable (private mode) - ignore */
     }
     document.documentElement.classList.toggle("dark", next === "dark");
     window.dispatchEvent(new Event(STORAGE_EVENT));

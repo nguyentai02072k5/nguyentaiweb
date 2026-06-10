@@ -1,5 +1,5 @@
 /**
- * legal-section.tsx — numbered section primitive used by /privacy & /terms.
+ * legal-section.tsx - numbered section primitive used by /privacy & /terms.
  *
  * Renders an anchorable <section id> with the section number rendered as
  * a small Aurora-tinted chip beside the h2 title. Body content is whatever

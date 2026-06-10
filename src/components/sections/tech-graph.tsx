@@ -35,7 +35,7 @@ export function TechGraph({ content }: TechGraphProps) {
   const shouldReduceMotion = useReducedMotion();
   const initialState = shouldReduceMotion ? 'visible' : 'hidden';
   const isDesktop = useDesktopViewport();
-  // Tune density per viewport — denser sparkle wash on desktop, lighter on
+  // Tune density per viewport - denser sparkle wash on desktop, lighter on
   // mobile for perf. `isDesktop === null` (pre-mount) → skip render to avoid
   // hydration flash; reduced-motion → skip entirely.
   const sparkleDensity = isDesktop ? 500 : 180;
@@ -49,7 +49,7 @@ export function TechGraph({ content }: TechGraphProps) {
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_16%,rgba(34,211,238,0.18),transparent_34%),radial-gradient(circle_at_82%_20%,rgba(168,85,247,0.20),transparent_36%),linear-gradient(180deg,rgba(9,11,20,0),rgba(9,11,20,0.95))]" />
 
-      {/* Sparkles backdrop — soft radial mask so it fades toward the edges,
+      {/* Sparkles backdrop - soft radial mask so it fades toward the edges,
           keeping the eye drawn to the workflow diagram in the center. */}
       {showSparkles && (
         <div

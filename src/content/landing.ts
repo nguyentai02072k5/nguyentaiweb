@@ -47,8 +47,7 @@ export type CtaLocation =
   | 'nav_templates'
   | 'nav_blog'
   | 'nav_cta'
-  | 'templates_cta'
-  | 'blog_cta';
+  | 'templates_cta';
 
 export type Cta = {
   label: string;
@@ -119,13 +118,13 @@ export type NavContent = {
 };
 
 // ---------------------------------------------------------------------------
-// Services (S3) — 3 module cards
+// Services (S3) - 3 module cards
 // ---------------------------------------------------------------------------
 
 export type ServiceFeature = {
   icon: string;          // emoji
   label: string;
-  /** Highlight differentiator (e.g. image recognition) — special styling */
+  /** Highlight differentiator (e.g. image recognition) - special styling */
   highlight?: boolean;
 };
 
@@ -148,7 +147,7 @@ export type ServicesContent = {
 };
 
 // ---------------------------------------------------------------------------
-// Tech Graph (S4) — animated SVG node-edge diagram
+// Tech Graph (S4) - animated SVG node-edge diagram
 // ---------------------------------------------------------------------------
 
 export type TechGraphNode = {
@@ -165,7 +164,7 @@ export type TechGraphNode = {
 export type TechGraphEdge = {
   from: string;          // node id
   to: string;            // node id
-  /** Pulse animation start delay (ms) — stagger edges so dots don't sync */
+  /** Pulse animation start delay (ms) - stagger edges so dots don't sync */
   delayMs: number;
 };
 
@@ -177,7 +176,7 @@ export type TechGraphContent = {
 };
 
 // ---------------------------------------------------------------------------
-// Process Journey (S5) — 6-step timeline
+// Process Journey (S5) - 6-step timeline
 // ---------------------------------------------------------------------------
 
 export type ProcessStep = {
@@ -195,11 +194,11 @@ export type ProcessContent = {
 };
 
 // ---------------------------------------------------------------------------
-// Trust Strip — 4 mini trust signals between Process and FAQ
+// Trust Strip - 4 mini trust signals between Process and FAQ
 // ---------------------------------------------------------------------------
 
 export type TrustSignal = {
-  /** Lucide icon key — mapped to component in trust-strip.tsx */
+  /** Lucide icon key - mapped to component in trust-strip.tsx */
   icon: 'shield-check' | 'clock' | 'life-buoy' | 'play-circle';
   text: string;
 };
@@ -209,7 +208,7 @@ export type TrustStripContent = {
 };
 
 // ---------------------------------------------------------------------------
-// FAQ (S7) — shadcn Accordion 6 Q&A
+// FAQ (S7) - shadcn Accordion 6 Q&A
 // ---------------------------------------------------------------------------
 
 export type FaqItem = {
@@ -440,7 +439,7 @@ export const LANDING: LandingContent = {
   },
 
   services: {
-    title: 'Hệ Thống Đầy Đủ — Không Phải Mỗi Chatbot',
+    title: 'Hệ Thống Đầy Đủ - Không Phải Mỗi Chatbot',
     subtitle:
       '3 module hoạt động cùng nhau. Triển khai từng phần hoặc trọn gói.',
     modules: [
@@ -448,14 +447,14 @@ export const LANDING: LandingContent = {
         id: 'module_1',
         index: 1,
         title: 'Chatbot AI Tư Vấn & Chốt Đơn',
-        tagline: 'Trái tim của hệ thống — hiểu khách, chốt khách',
+        tagline: 'Trái tim của hệ thống - hiểu khách, chốt khách',
         accent: 'indigo',
         features: [
-          { icon: '🧠', label: 'Hiểu ngữ cảnh — không trả như robot lập trình sẵn' },
-          { icon: '📸', label: 'Nhận diện hình ảnh — khách gửi ảnh sản phẩm, bot biết là gì, gợi ý đúng', highlight: true },
-          { icon: '💬', label: 'Tư vấn theo ngành — thời trang, mỹ phẩm, F&B, công nghệ' },
-          { icon: '🛒', label: 'Chốt đơn end-to-end — thu thập thông tin → tạo đơn → xác nhận' },
-          { icon: '⚙️', label: 'Tinh chỉnh không cần code — chủ shop tự cập nhật qua giao diện' },
+          { icon: '🧠', label: 'Hiểu ngữ cảnh - không trả như robot lập trình sẵn' },
+          { icon: '📸', label: 'Nhận diện hình ảnh - khách gửi ảnh sản phẩm, bot biết là gì, gợi ý đúng', highlight: true },
+          { icon: '💬', label: 'Tư vấn theo ngành - thời trang, mỹ phẩm, F&B, công nghệ' },
+          { icon: '🛒', label: 'Chốt đơn end-to-end - thu thập thông tin → tạo đơn → xác nhận' },
+          { icon: '⚙️', label: 'Tinh chỉnh không cần code - chủ shop tự cập nhật qua giao diện' },
         ],
         cta: {
           label: 'Đặt lịch demo Module 1 →',
@@ -468,13 +467,13 @@ export const LANDING: LandingContent = {
         id: 'module_2',
         index: 2,
         title: 'Marketing Automation Đa Kênh',
-        tagline: 'Đăng bài · chạy ads · báo cáo — tự động',
+        tagline: 'Đăng bài · chạy ads · báo cáo - tự động',
         accent: 'violet',
         features: [
-          { icon: '📅', label: 'Lịch đăng tự động — Facebook, Instagram, Zalo OA, TikTok cùng lúc' },
-          { icon: '🎯', label: 'Quản lý quảng cáo — theo dõi, đề xuất tối ưu ngân sách' },
-          { icon: '📊', label: 'Báo cáo gọn — lượt xem, tương tác, chuyển đổi, không lan man' },
-          { icon: '🔄', label: 'Re-target khách quan tâm — nuôi lại người đã inbox/comment' },
+          { icon: '📅', label: 'Lịch đăng tự động - Facebook, Instagram, Zalo OA, TikTok cùng lúc' },
+          { icon: '🎯', label: 'Quản lý quảng cáo - theo dõi, đề xuất tối ưu ngân sách' },
+          { icon: '📊', label: 'Báo cáo gọn - lượt xem, tương tác, chuyển đổi, không lan man' },
+          { icon: '🔄', label: 'Re-target khách quan tâm - nuôi lại người đã inbox/comment' },
         ],
         cta: {
           label: 'Đặt lịch demo Module 2 →',
@@ -487,13 +486,13 @@ export const LANDING: LandingContent = {
         id: 'module_3',
         index: 3,
         title: 'Bàn Giao + Hỗ Trợ',
-        tagline: 'Anh/chị làm chủ — không bị khóa vào platform',
+        tagline: 'Anh/chị làm chủ - không bị khóa vào platform',
         accent: 'gradient',
         features: [
-          { icon: '🔑', label: 'Tài khoản đầy đủ — anh/chị giữ, không phụ thuộc tôi' },
-          { icon: '📚', label: 'Video hướng dẫn — vận hành từng bước' },
+          { icon: '🔑', label: 'Tài khoản đầy đủ - anh/chị giữ, không phụ thuộc tôi' },
+          { icon: '📚', label: 'Video hướng dẫn - vận hành từng bước' },
           { icon: '🛠', label: '30 ngày tinh chỉnh miễn phí sau bàn giao' },
-          { icon: '♾', label: 'Hỗ trợ sử dụng lâu dài — không "bán xong rồi biến"' },
+          { icon: '♾', label: 'Hỗ trợ sử dụng lâu dài - không "bán xong rồi biến"' },
         ],
         cta: {
           label: 'Đặt lịch demo Module 3 →',
@@ -509,7 +508,7 @@ export const LANDING: LandingContent = {
     title: 'Cách AI Hoạt Động Trong Workflow Của Anh/Chị',
     caption:
       'Inbox → AI Nhận diện hình ảnh → Chatbot → Sản phẩm/CRM → Báo cáo',
-    /* SVG viewBox 1200×420 — desktop coordinates.
+    /* SVG viewBox 1200×420 - desktop coordinates.
        Row 1 (y=100): Inbox → Vision → Chatbot → Knowledge
        Row 2 (y=270): Báo cáo ← Marketing ← CRM (flows back left)
        Mobile renderer stacks vertically ignoring x/y. */
@@ -581,16 +580,16 @@ export const LANDING: LandingContent = {
 
   trustStrip: {
     signals: [
-      { icon: 'shield-check', text: 'Không cam kết tối thiểu — bàn giao 100% tài khoản' },
+      { icon: 'shield-check', text: 'Không cam kết tối thiểu - bàn giao 100% tài khoản' },
       { icon: 'clock', text: '20 phút demo, không cần chuẩn bị' },
       { icon: 'life-buoy', text: '30 ngày hỗ trợ tinh chỉnh miễn phí' },
-      { icon: 'play-circle', text: 'Demo trước khi quyết định — không cần cọc gì cả!' },
+      { icon: 'play-circle', text: 'Demo trước khi quyết định - không cần cọc gì cả!' },
     ],
   },
 
   faq: {
     title: 'Câu Hỏi Thường Gặp',
-    subtitle: 'Anh/chị có thắc mắc gì mà không thấy ở đây? Cứ đặt Meet — tôi giải đáp trực tiếp.',
+    subtitle: 'Anh/chị có thắc mắc gì mà không thấy ở đây? Cứ đặt Meet - tôi giải đáp trực tiếp.',
     items: [
       {
         id: 'q1',
@@ -602,31 +601,31 @@ export const LANDING: LandingContent = {
         id: 'q2',
         question: 'Tôi không rành kỹ thuật, có dùng được không?',
         answer:
-          'Được. UI tinh chỉnh thiết kế cho người không kỹ thuật — anh/chị tự cập nhật sản phẩm, FAQ qua giao diện trực quan, cực dễ dàng. Có video hướng dẫn từng bước. 30 ngày đầu tôi hỗ trợ trực tiếp nếu vướng.',
+          'Được. UI tinh chỉnh thiết kế cho người không kỹ thuật - anh/chị tự cập nhật sản phẩm, FAQ qua giao diện trực quan, cực dễ dàng. Có video hướng dẫn từng bước. 30 ngày đầu tôi hỗ trợ trực tiếp nếu vướng.',
       },
       {
         id: 'q3',
         question: 'Giá bao nhiêu?',
         answer:
-          'Tùy quy mô + module anh/chị cần. Đặt lịch Meet 1-1 để có báo giá chính xác sau khi hiểu nhu cầu. Tôi không niêm yết kiểu "one size fits all" — vì shop 100 SKU và shop 5000 SKU khác nhau.',
+          'Tùy quy mô + module anh/chị cần. Đặt lịch Meet 1-1 để có báo giá chính xác sau khi hiểu nhu cầu. Tôi không niêm yết kiểu "one size fits all" - vì shop 100 SKU và shop 5000 SKU khác nhau.',
       },
       {
         id: 'q4',
         question: 'Cam kết tối thiểu sử dụng bao lâu?',
         answer:
-          'Không cam kết tối thiểu sử dụng. Anh/chị nhận tài khoản → tự vận hành. Tôi không khóa anh/chị vào nền tảng của tôi. Muốn dừng dùng — anh/chị vẫn giữ data, sản phẩm, FAQ đã build.',
+          'Không cam kết tối thiểu sử dụng. Anh/chị nhận tài khoản → tự vận hành. Tôi không khóa anh/chị vào nền tảng của tôi. Muốn dừng dùng - anh/chị vẫn giữ data, sản phẩm, FAQ đã build.',
       },
       {
         id: 'q5',
         question: 'Có sửa được sau khi triển khai không?',
         answer:
-          'Có. Anh chị có thể dễ dàng sửa trên giao diện, và có hỗ trợ Ticket ưu tiên trong 30 ngày miễn phí — anh/chị nhắn là em sửa. Sau 30 ngày: anh/chị tự sửa qua UI, cần hỗ trợ trong quá trình sử dụng thì bên em vẫn support nhiệt tình.',
+          'Có. Anh chị có thể dễ dàng sửa trên giao diện, và có hỗ trợ Ticket ưu tiên trong 30 ngày miễn phí - anh/chị nhắn là em sửa. Sau 30 ngày: anh/chị tự sửa qua UI, cần hỗ trợ trong quá trình sử dụng thì bên em vẫn support nhiệt tình.',
       },
       {
         id: 'q6',
         question: 'Chatbot có nhận được hình mọi loại sản phẩm không?',
         answer:
-          'AI nhận diện hình ảnh được train theo hình ảnh cụ thể của anh/chị (thời trang, mỹ phẩm, F&B...). Không phải "all-purpose AI" — hiểu sản phẩm anh/chị bán mới gợi ý chính xác. Demo sẽ chạy thử trên 5-10 ảnh sản phẩm thật của shop để anh/chị thấy độ chính xác.',
+          'AI nhận diện hình ảnh được train theo hình ảnh cụ thể của anh/chị (thời trang, mỹ phẩm, F&B...). Không phải "all-purpose AI" - hiểu sản phẩm anh/chị bán mới gợi ý chính xác. Demo sẽ chạy thử trên 5-10 ảnh sản phẩm thật của shop để anh/chị thấy độ chính xác.',
       },
     ],
     finalCta: {

@@ -1,5 +1,22 @@
 # Project Changelog
 
+## 2026-06-10
+
+### Added
+- 2 bài blog dạng "landing" (từ HTML mockup → MDX): `tuong-lai-doanh-nghiep-ky-nguyen-ai` (McKinsey/Goldman, 4.400 tỷ USD · 300 triệu việc làm) + `kich-ban-2027-2029-dieu-phoi-hay-bi-bo-lai` (GEO/AEO · cú phân tách 3–10× · Spiral Dynamics).
+- Bộ block MDX rich on-brand (Aurora token, an toàn dark): `StatGrid · KeyTakeaways · Callout · AdminNote · DataStat · Fork · CardGrid · Tiers · Steps · Checklist · PullQuote · CTACard` (`src/components/content/blog-mdx-*.tsx`, đăng ký trong `mdx-components.tsx`, dùng theo tên trong `.mdx` không cần import).
+- Frontmatter `faqs` (tuỳ chọn) cho blog → section FAQ accordion (`PostFaq`) + `FAQPage` JSON-LD (`buildFaqPageJsonLd`) phục vụ AEO/rich result.
+
+### Changed
+- Thay 2 template demo ngành Thời trang & Mỹ phẩm bằng bộ chỉ dẫn chatbot đầy đủ (quy trình tư vấn, NLU, quy tắc khuyến mãi, bảng size dáng người Việt / bảng tư vấn theo loại da, mẫu câu, an toàn tư vấn da). Mỗi trang gói toàn bộ instruction trong 1 khối `text` để copy & dán một chạm vào system prompt chatbot.
+- `MdxCodeBlock`: khung cố định `max-h-[36rem]`, chỉ cuộn DỌC (`overflow-y-auto overflow-x-hidden`), dòng dài tự xuống dòng (`whitespace-pre-wrap break-words`) thay vì tràn ngang; nút Copy luôn hiển thị, nội dung copy vẫn đúng (soft-wrap không thêm newline). Áp dụng mọi template + blog.
+- Prose heading nổi bật hơn: `.prose h2` thêm thanh accent gradient aurora bên trái + hairline phân tách section; `.prose h3` thêm marker brand-violet. Áp dụng chung template + blog.
+- CTA template (`SoftCta`): rút còn 1 nút gradient aurora động "Liên hệ qua Zalo" (heading "Cần hỗ trợ gì cho shop của anh/chị?"), bỏ nút "Đặt lịch tư vấn".
+
+### Removed
+- Bỏ hẳn CTA cuối bài blog (`SoftCta` + import khỏi `/blog/[slug]`); gỡ location `blog_cta` khỏi `CtaLocation`.
+- Demo `mau-thoi-trang-thu-lead.mdx` (thay bằng `mau-thoi-trang-chot-don.mdx`). Template Mỹ phẩm giữ slug `mau-my-pham-chot-don` nhưng thay toàn bộ nội dung.
+
 ## 2026-06-09
 
 ### Added

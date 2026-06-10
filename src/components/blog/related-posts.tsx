@@ -2,7 +2,7 @@ import type { PostSummary } from '@/lib/content/queries';
 import { PostCard } from './post-card';
 
 /**
- * related-posts.tsx — Bài liên quan (tính sẵn ở queries.getRelatedPosts). Ẩn khi rỗng.
+ * related-posts.tsx - Bài liên quan (tính sẵn ở queries.getRelatedPosts). Ẩn khi rỗng.
  */
 export function RelatedPosts({ items }: { items: PostSummary[] }) {
   if (items.length === 0) return null;

@@ -1,5 +1,5 @@
 /**
- * template-filters.ts — Logic lọc template thuần (pure), KHÔNG import data.
+ * template-filters.ts - Logic lọc template thuần (pure), KHÔNG import data.
  *
  * Tách khỏi queries.ts (vốn import `templates` từ #site/content) để client
  * component dùng được mà không kéo toàn bộ JSON template vào bundle lần nữa

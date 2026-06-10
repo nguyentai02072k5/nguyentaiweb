@@ -1,5 +1,5 @@
 /**
- * availability-fetch.ts — Shared Supabase fetch for booking availability.
+ * availability-fetch.ts - Shared Supabase fetch for booking availability.
  *
  * Centralizes the config + bookings + blocked_periods query used by both
  * the public availability routes and the MCP server tools. Returns the

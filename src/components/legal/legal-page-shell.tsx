@@ -1,5 +1,5 @@
 /**
- * legal-page-shell.tsx — shared chrome for /privacy & /terms.
+ * legal-page-shell.tsx - shared chrome for /privacy & /terms.
  *
  * Aurora-themed hero header (eyebrow label, gradient title, meta pills) +
  * narrow content container. Server component, no client state needed.
@@ -30,7 +30,7 @@ export function LegalPageShell({
 }: LegalPageShellProps) {
   return (
     <main id="main" className="relative bg-surface-base">
-      {/* Aurora hero background — same recipe Hero/About use */}
+      {/* Aurora hero background - same recipe Hero/About use */}
       <div
         aria-hidden="true"
         className="absolute inset-x-0 top-0 h-[420px] bg-[radial-gradient(ellipse_at_50%_0%,rgba(168,85,247,0.18),transparent_70%)]"
@@ -59,7 +59,7 @@ export function LegalPageShell({
           </Link>
         </div>
 
-        {/* Hero block — centered, tight rhythm so eyebrow → title → intro → meta read as one unit */}
+        {/* Hero block - centered, tight rhythm so eyebrow → title → intro → meta read as one unit */}
         <header className="mt-10 sm:mt-12 flex flex-col items-center text-center">
           {/* Eyebrow */}
           <div className="inline-flex items-center gap-2 rounded-full border border-brand-violet/30 bg-surface-elevated/80 px-3.5 py-1.5 backdrop-blur-sm shadow-[0_4px_16px_-8px_rgba(168,85,247,0.35)]">
@@ -83,7 +83,7 @@ export function LegalPageShell({
             </p>
           ) : null}
 
-          {/* Meta pills — centered row, wraps on narrow screens */}
+          {/* Meta pills - centered row, wraps on narrow screens */}
           {meta.length > 0 ? (
             <dl className="mt-7 flex flex-wrap justify-center gap-2.5">
               {meta.map((item) => (

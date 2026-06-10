@@ -2,7 +2,7 @@
  * Variant A: Single-column form (per phase 06 plan).
  * One field per row, minimal sections, sequential reading flow.
  * Pros: classic UX, low friction, mobile-natural.
- * Cons: long page khi mở rộng field — phải scroll dài.
+ * Cons: long page khi mở rộng field - phải scroll dài.
  */
 
 'use client';

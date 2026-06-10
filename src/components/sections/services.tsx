@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * services.tsx — Phase 04 Services section (S3).
+ * services.tsx - Phase 04 Services section (S3).
  *
  * Renders 3 ServiceCard with D7 viewport stagger reveal.
  * Section anchor `#services` for nav + Hero secondary CTA `Xem cách hoạt động`.

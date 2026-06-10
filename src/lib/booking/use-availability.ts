@@ -1,5 +1,5 @@
 /**
- * use-availability.ts — SWR hooks for booking availability API.
+ * use-availability.ts - SWR hooks for booking availability API.
  *
  * Two hooks:
  *   useDays()          → GET /api/availability/days
@@ -42,7 +42,7 @@ export type UseSlotsResult = {
 };
 
 // ---------------------------------------------------------------------------
-// Shared fetcher — throws on non-ok HTTP so SWR enters error state
+// Shared fetcher - throws on non-ok HTTP so SWR enters error state
 // ---------------------------------------------------------------------------
 
 async function fetcher<T>(url: string): Promise<T> {
@@ -63,7 +63,7 @@ const SWR_OPTIONS = {
 } as const;
 
 // ---------------------------------------------------------------------------
-// useDays — next 7 available dates with slot counts + stats
+// useDays - next 7 available dates with slot counts + stats
 // ---------------------------------------------------------------------------
 
 export function useDays(): UseDaysResult {
@@ -89,7 +89,7 @@ export function useDays(): UseDaysResult {
 }
 
 // ---------------------------------------------------------------------------
-// useSlots — slots for a specific HCM date (pass null to skip fetch)
+// useSlots - slots for a specific HCM date (pass null to skip fetch)
 // ---------------------------------------------------------------------------
 
 export function useSlots(date: string | null): UseSlotsResult {

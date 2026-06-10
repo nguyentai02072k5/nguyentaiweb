@@ -78,7 +78,7 @@ export function Hero({ content }: HeroProps) {
             animate={visibleVariant}
             className="flex flex-col"
           >
-            {/* Eyebrow — Phase 1 (t=0 → 0.3s) */}
+            {/* Eyebrow - Phase 1 (t=0 → 0.3s) */}
             <motion.p
               variants={heroEyebrowVariants}
               className="
@@ -97,7 +97,7 @@ export function Hero({ content }: HeroProps) {
               {content.eyebrow}
             </motion.p>
 
-            {/* Headline — Phase 2 (t=0.3 → 2.0s) 4 lines stagger 0.4s + F1 sketch */}
+            {/* Headline - Phase 2 (t=0.3 → 2.0s) 4 lines stagger 0.4s + F1 sketch */}
             <motion.h1
               id="hero-headline"
               variants={headlineWordContainerVariants}
@@ -126,7 +126,7 @@ export function Hero({ content }: HeroProps) {
               >
                 <span className="relative inline-block whitespace-nowrap">
                   <span className="text-aurora">Chốt Sale</span>
-                  {/* Phase 3 — Sketch underline starts after title done (t≈1.5s) */}
+                  {/* Phase 3 - Sketch underline starts after title done (t≈1.5s) */}
                   <SketchUnderline delay={1.5} duration={1.2} />
                 </span>
               </motion.span>
@@ -141,7 +141,7 @@ export function Hero({ content }: HeroProps) {
 
             </motion.h1>
 
-            {/* Body text — Phase 4 (t=3.2s) */}
+            {/* Body text - Phase 4 (t=3.2s) */}
             <motion.p
               variants={heroBodyVariants}
               className="font-body text-body-lg text-text-secondary max-w-xl mb-2 leading-relaxed"
@@ -149,7 +149,7 @@ export function Hero({ content }: HeroProps) {
               {content.body}
             </motion.p>
 
-            {/* USP Close block — Phase 4 (t=3.35s) */}
+            {/* USP Close block - Phase 4 (t=3.35s) */}
             <motion.div variants={heroUspVariants}>
               <UspCloseBlock
                 firstLine="→ Đặc biệt, không phụ thuộc Tài."
@@ -157,7 +157,7 @@ export function Hero({ content }: HeroProps) {
               />
             </motion.div>
 
-            {/* CTA buttons — Phase 4 (t=3.50s) */}
+            {/* CTA buttons - Phase 4 (t=3.50s) */}
             <motion.div
               variants={heroCtaVariants}
               className="flex flex-col sm:flex-row gap-3 mb-8"
@@ -219,7 +219,7 @@ export function Hero({ content }: HeroProps) {
               </a>
             </motion.div>
 
-            {/* Trust bullets — Phase 4 (t=3.65s) with internal stagger 0.1s per bullet */}
+            {/* Trust bullets - Phase 4 (t=3.65s) with internal stagger 0.1s per bullet */}
             <motion.ul
               variants={heroTrustContainerVariants}
               className="flex flex-col gap-2"
@@ -242,7 +242,7 @@ export function Hero({ content }: HeroProps) {
               ))}
             </motion.ul>
 
-            {/* Mobile pills — Phase 4 (t=3.80s), D5: visible only on mobile (< md) */}
+            {/* Mobile pills - Phase 4 (t=3.80s), D5: visible only on mobile (< md) */}
             <motion.div variants={heroPillsVariants}>
               <MobilePills pills={content.mobilePills} />
             </motion.div>

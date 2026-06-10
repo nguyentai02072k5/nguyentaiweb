@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * faq-item.tsx — Single FAQ entry với custom AnimatePresence height/opacity.
+ * faq-item.tsx - Single FAQ entry với custom AnimatePresence height/opacity.
  *
  * Pattern: Plus icon rotate-45 khi active, content slide xuống với height 0→auto + opacity.
  * A11y: native <button> giữ keyboard nav (Space/Enter), aria-expanded/aria-controls manual,

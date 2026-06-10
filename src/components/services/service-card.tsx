@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * service-card.tsx — Phase 04 Service module card.
+ * service-card.tsx - Phase 04 Service module card.
  *
  * 3 cards rendered side-by-side desktop, stacked mobile.
  * Each card has signature accent color (indigo / violet / gradient).
@@ -165,7 +165,7 @@ export function ServiceCard({ module: m }: ServiceCardProps) {
   );
 }
 
-/** Motion wrapper — staggered viewport reveal D7 */
+/** Motion wrapper - staggered viewport reveal D7 */
 type MotionVariantsProp = Parameters<typeof motion.div>[0]['variants'];
 
 export function ServiceCardMotion({

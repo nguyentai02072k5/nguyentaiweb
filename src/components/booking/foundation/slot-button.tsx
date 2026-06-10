@@ -1,5 +1,5 @@
 /**
- * SlotButton — one time slot button.
+ * SlotButton - one time slot button.
  * Touch target ≥ 48px. Shows time large + period hint + availability state.
  */
 

@@ -1,7 +1,7 @@
 /**
- * Variant E1: Unified schedule + slot picker (new — phase 06 redesign).
+ * Variant E1: Unified schedule + slot picker (new - phase 06 redesign).
  *
- * Tech/modern aesthetic — phase 06 redesign 2026-05-14:
+ * Tech/modern aesthetic - phase 06 redesign 2026-05-14:
  *   - Lock window: 7 ngày tính từ now (`hcmToday()` + 6 days)
  *   - Top: 7 day pills with availability bar visualization
  *   - Below: slot grid for selected day with period color bands

@@ -9,7 +9,7 @@ import {
 import { formatDateLong } from '@/lib/format/date-vn';
 
 /**
- * template-detail-header.tsx — Breadcrumb + badges 3 chiều + tiêu đề + ngày cập nhật.
+ * template-detail-header.tsx - Breadcrumb + badges 3 chiều + tiêu đề + ngày cập nhật.
  * Breadcrumb link ngành về trang pSEO (internal linking tốt cho SEO).
  */
 export function TemplateDetailHeader({ template }: { template: Template }) {

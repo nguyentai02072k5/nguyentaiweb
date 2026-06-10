@@ -1,5 +1,5 @@
 /**
- * legal-table.tsx — Aurora-styled table for /privacy & /terms.
+ * legal-table.tsx - Aurora-styled table for /privacy & /terms.
  *
  * Renders a header row + body rows from a typed schema. Mobile-friendly:
  * horizontally scrollable on narrow screens, padded cells, soft Aurora hairline

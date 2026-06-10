@@ -1,5 +1,5 @@
 /**
- * PhoneFrame — iPhone-styled mockup container for mobile previews.
+ * PhoneFrame - iPhone-styled mockup container for mobile previews.
  * Constrains content to 375px × 740px viewport with notch + home indicator.
  */
 
@@ -34,7 +34,7 @@ export function PhoneFrame({ children, label = 'iPhone preview · 375×740' }: P
             </span>
           </div>
 
-          {/* Content area — scrolls internally so embeddable widgets w/o
+          {/* Content area - scrolls internally so embeddable widgets w/o
               their own scroll still render inside the fixed phone-frame */}
           <div className="absolute inset-0 pt-8 overflow-y-auto">
             {children}

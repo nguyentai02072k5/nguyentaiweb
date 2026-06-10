@@ -1,5 +1,5 @@
 /**
- * server-client.ts — Service-role Supabase client.
+ * server-client.ts - Service-role Supabase client.
  *
  * SECURITY-CRITICAL: `import 'server-only'` ensures Next.js throws at
  * build time if this module is imported from a Client Component or browser

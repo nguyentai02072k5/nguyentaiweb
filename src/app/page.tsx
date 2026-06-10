@@ -1,10 +1,10 @@
 /**
- * page.tsx — Landing page root.
+ * page.tsx - Landing page root.
  *
  * Wires Hero (S1) + About (S6) + Services (S3) + TechGraph (S4)
  * + ProcessJourney (S5) + TrustStrip + Faq (S7) + Sticky CTA.
  *
- * All content sourced from LANDING constant — no hardcoded copy.
+ * All content sourced from LANDING constant - no hardcoded copy.
  */
 
 import { Hero } from '@/components/sections/hero';

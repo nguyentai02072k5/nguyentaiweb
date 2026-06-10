@@ -3,7 +3,7 @@ import { getPostTags, getPosts } from '@/lib/content/queries';
 import { PostListExplorer } from '@/components/blog/post-list-explorer';
 
 /**
- * /blog — Danh sách bài viết (SSG). Lọc theo chủ đề + search client-side.
+ * /blog - Danh sách bài viết (SSG). Lọc theo chủ đề + search client-side.
  */
 const TITLE = 'Blog';
 const DESCRIPTION =
@@ -34,7 +34,7 @@ export default function BlogPage() {
           Kiến thức & Kinh nghiệm
         </h1>
         <p className="mt-2 text-sm leading-relaxed text-text-secondary sm:text-base">
-          Chia sẻ thực chiến về chatbot AI, tự động hoá bán hàng và chăm sóc khách hàng —
+          Chia sẻ thực chiến về chatbot AI, tự động hoá bán hàng và chăm sóc khách hàng -
           giúp shop của anh/chị bán tốt hơn mà nhẹ việc hơn.
         </p>
       </header>

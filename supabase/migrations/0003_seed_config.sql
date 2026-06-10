@@ -1,5 +1,5 @@
 -- Migration 0003: seed default booking_config singleton row
--- Idempotent — safe to re-run
+-- Idempotent - safe to re-run
 
 insert into public.booking_config (
   id,

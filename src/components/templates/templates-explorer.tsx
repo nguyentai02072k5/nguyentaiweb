@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * templates-explorer.tsx — Trạng thái filter client cho trang kho /templates.
+ * templates-explorer.tsx - Trạng thái filter client cho trang kho /templates.
  * Lọc client-side instant (KISS cho ~hàng tá item). pSEO routes lo phần index.
  */
 

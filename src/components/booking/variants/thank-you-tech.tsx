@@ -1,12 +1,12 @@
 /**
- * Variant D3: Tech thank-you (new — phase 06 redesign 2026-05-14).
+ * Variant D3: Tech thank-you (new - phase 06 redesign 2026-05-14).
  *
  * AI-automation aesthetic:
  *   - Animated mesh gradient bg (3 blurred orbs drifting)
  *   - Tech grid overlay
  *   - Sonar pulse rings around checkmark
  *   - Glassmorphism card with gradient border
- *   - Light bg animations — không chói, không distract
+ *   - Light bg animations - không chói, không distract
  *
  * Uses framer-motion for smooth animations. All animations respect
  * `prefers-reduced-motion` via the motion library's defaults.
@@ -25,7 +25,7 @@ type ThankYouTechProps = {
   phoneMask?: string;
 };
 
-/** ThankYouTech — accepts real props, falls back to MOCK for /booking preview. */
+/** ThankYouTech - accepts real props, falls back to MOCK for /booking preview. */
 export function ThankYouTech({
   bookingId   = MOCK_THANK_YOU.bookingId,
   dateLabel   = MOCK_THANK_YOU.dateLabel,
@@ -70,7 +70,7 @@ export function ThankYouTech({
 
       {/* Content card */}
       <div className="relative">
-        {/* Corner brackets — tech HUD vibe */}
+        {/* Corner brackets - tech HUD vibe */}
         <Corner pos="tl" />
         <Corner pos="tr" />
         <Corner pos="bl" />

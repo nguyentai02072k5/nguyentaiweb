@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * post-list-explorer.tsx — Lọc bài blog theo chủ đề (tag) + search không dấu.
+ * post-list-explorer.tsx - Lọc bài blog theo chủ đề (tag) + search không dấu.
  * Tông minimal khớp filter của Templates (track xám, ô chọn nổi nền trắng).
  */
 

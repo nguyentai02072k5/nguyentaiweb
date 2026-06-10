@@ -11,8 +11,8 @@ Authorization: Bearer <MCP_API_KEY>
 ```
 
 Response codes:
-- `503` — server has no `MCP_API_KEY` set (or shorter than 16 chars).
-- `401` — missing / wrong token.
+- `503` - server has no `MCP_API_KEY` set (or shorter than 16 chars).
+- `401` - missing / wrong token.
 
 ## Tools
 
@@ -21,8 +21,8 @@ Response codes:
 Returns the next N (1–14, default 7) HCM-local dates with the count of bookable 30-min slots per day.
 
 Input:
-- `start_date?: string` — `YYYY-MM-DD`, defaults to today HCM.
-- `count?: number` — 1–14, default 7.
+- `start_date?: string` - `YYYY-MM-DD`, defaults to today HCM.
+- `count?: number` - 1–14, default 7.
 
 Output (JSON inside the text content):
 ```json
@@ -40,7 +40,7 @@ Output (JSON inside the text content):
 Returns all 30-min slots for one day with `available` flag + reason when not.
 
 Input:
-- `date: string` — `YYYY-MM-DD`.
+- `date: string` - `YYYY-MM-DD`.
 
 Output:
 ```json
@@ -59,7 +59,7 @@ Take the `iso` field directly into `create_booking`.
 
 ### `create_booking`
 
-Creates a booking. Slot is re-checked atomically — returns `slot-taken` if another booking won the race.
+Creates a booking. Slot is re-checked atomically - returns `slot-taken` if another booking won the race.
 
 Input:
 - `full_name: string` (2–100)
@@ -68,7 +68,7 @@ Input:
 - `email?: string`
 - `expectations?: string[]` (slugs from `src/lib/booking/types.ts:EXPECTATION_SLUGS`)
 - `expectation_other?: string` (required iff `expectations` contains `"other"`)
-- `source?: string` — defaults to `"mcp"`. Override per chatbot (e.g. `"telegram-bot"`).
+- `source?: string` - defaults to `"mcp"`. Override per chatbot (e.g. `"telegram-bot"`).
 
 Success output:
 ```json
@@ -105,7 +105,7 @@ Errors are returned as `isError: true` with `{error, message}` payload. Codes: `
 
 ### Cursor / Cline / generic MCP client
 
-Most clients accept the same shape — `type: "streamable-http"` or `type: "http"` depending on version, plus the `Authorization` header.
+Most clients accept the same shape - `type: "streamable-http"` or `type: "http"` depending on version, plus the `Authorization` header.
 
 ## Differences vs `/api/book`
 
@@ -121,8 +121,8 @@ Most clients accept the same shape — `type: "streamable-http"` or `type: "http
 
 ## Implementation notes
 
-- File: `src/app/api/mcp/route.ts` — registers tools via `mcp-handler`, wraps GET/POST/DELETE with API-key gate.
-- Tool logic: `src/lib/mcp/booking-mcp-tools.ts` — transport-free handlers.
-- Shared fetch: `src/lib/booking/availability-fetch.ts` — single Supabase query, reused window helpers.
+- File: `src/app/api/mcp/route.ts` - registers tools via `mcp-handler`, wraps GET/POST/DELETE with API-key gate.
+- Tool logic: `src/lib/mcp/booking-mcp-tools.ts` - transport-free handlers.
+- Shared fetch: `src/lib/booking/availability-fetch.ts` - single Supabase query, reused window helpers.
 - Stateless: no MCP session storage; each request initializes a fresh server. Safe on Vercel serverless.
 - Auth uses `timingSafeEqual` with UTF-8 byte length matching.

@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * faq.tsx — FAQ section (S7) với custom single-active accordion.
+ * faq.tsx - FAQ section (S7) với custom single-active accordion.
  *
  * Pattern: useState single activeIndex (Q1 mở mặc định), custom button + AnimatePresence
  * thay cho shadcn Accordion. Animation: Plus rotate-45, content height 0→auto + opacity với
@@ -69,7 +69,7 @@ export function Faq({ content }: FaqProps) {
           </motion.p>
         </motion.div>
 
-        {/* Accordion container — single rounded panel với divider */}
+        {/* Accordion container - single rounded panel với divider */}
         <motion.div
           variants={fadeInVariant}
           initial={shouldReduceMotion ? 'visible' : 'hidden'}

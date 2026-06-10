@@ -1,8 +1,8 @@
 /**
- * date-vn.ts — VN-locale + Asia/Ho_Chi_Minh formatters and date math.
+ * date-vn.ts - VN-locale + Asia/Ho_Chi_Minh formatters and date math.
  *
  * DB stores timestamptz (UTC). UI renders in HCM tz. Server may run with
- * TZ=Asia/Ho_Chi_Minh hint, but we never rely on process TZ for display —
+ * TZ=Asia/Ho_Chi_Minh hint, but we never rely on process TZ for display -
  * always pass timeZone explicitly to Intl for determinism.
  */
 
@@ -61,19 +61,19 @@ export function toHcmTimeString(d: Date): string {
   return `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
 }
 
-/** `T2 11/05` — short day-chip label. */
+/** `T2 11/05` - short day-chip label. */
 export function formatDayChip(d: Date): string {
   const { day, month, dayOfWeek } = getHcmParts(d);
   return `${WEEKDAY_VN_SHORT[dayOfWeek]} ${String(day).padStart(2, '0')}/${String(month).padStart(2, '0')}`;
 }
 
-/** `T2, 11/05/2026` — long display for confirm screen. */
+/** `T2, 11/05/2026` - long display for confirm screen. */
 export function formatDateLong(d: Date): string {
   const { year, month, day, dayOfWeek } = getHcmParts(d);
   return `${WEEKDAY_VN_SHORT[dayOfWeek]}, ${String(day).padStart(2, '0')}/${String(month).padStart(2, '0')}/${year}`;
 }
 
-/** `15:00 ngày 16/5/2026` — natural Vietnamese label for messages/webhooks. */
+/** `15:00 ngày 16/5/2026` - natural Vietnamese label for messages/webhooks. */
 export function formatHcmLabelVi(d: Date): string {
   const { year, month, day, hour, minute } = getHcmParts(d);
   const hh = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;

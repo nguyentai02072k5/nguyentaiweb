@@ -1,12 +1,12 @@
 /**
- * booking/types.ts — Domain types for the booking flow.
+ * booking/types.ts - Domain types for the booking flow.
  *
  * Distinct from src/lib/supabase/database-types.ts (auto-gen row shapes).
  * These are business concepts shared between UI, API, and tests.
  */
 
 // ---------------------------------------------------------------------------
-// Enums (closed sets — TS narrows beyond DB `text` columns)
+// Enums (closed sets - TS narrows beyond DB `text` columns)
 // ---------------------------------------------------------------------------
 
 export const EXPECTATION_SLUGS = [
@@ -30,7 +30,7 @@ export type BookingStatus =
   | 'no-show';
 
 // ---------------------------------------------------------------------------
-// Availability — what UI renders for date/slot pickers
+// Availability - what UI renders for date/slot pickers
 // ---------------------------------------------------------------------------
 
 export type DayAvailability = {

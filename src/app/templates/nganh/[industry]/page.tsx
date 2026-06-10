@@ -12,7 +12,7 @@ import { JsonLdScript } from '@/components/seo/json-ld-script';
 import { buildBreadcrumb, buildCollectionJsonLd } from '@/lib/seo/json-ld';
 
 /**
- * /templates/nganh/[industry] — pSEO route theo ngành (SSG, index được).
+ * /templates/nganh/[industry] - pSEO route theo ngành (SSG, index được).
  * Chỉ generate ngành có ≥1 template; dynamicParams=false → ngành rỗng/sai = 404 (chống thin content).
  */
 export const dynamicParams = false;

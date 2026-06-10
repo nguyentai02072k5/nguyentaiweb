@@ -1,5 +1,5 @@
 /**
- * /api/mcp — Model Context Protocol endpoint for booking automation.
+ * /api/mcp - Model Context Protocol endpoint for booking automation.
  *
  * Exposes 3 tools that let an LLM chatbot browse availability and create
  * bookings on behalf of a user:
@@ -26,7 +26,7 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 // ---------------------------------------------------------------------------
-// MCP handler — registers the 3 booking tools
+// MCP handler - registers the 3 booking tools
 // ---------------------------------------------------------------------------
 
 const mcpHandler = createMcpHandler(
@@ -72,7 +72,7 @@ const mcpHandler = createMcpHandler(
           .string()
           .min(9)
           .max(20)
-          .describe('VN phone number. Accepts +84, 84, or 0 prefix with spaces/dashes — server normalizes.'),
+          .describe('VN phone number. Accepts +84, 84, or 0 prefix with spaces/dashes - server normalizes.'),
         meeting_start_iso: z
           .string()
           .datetime()
@@ -104,7 +104,7 @@ const mcpHandler = createMcpHandler(
     },
   },
   {
-    // mcp-handler config — stateless mode keeps things simple on Vercel
+    // mcp-handler config - stateless mode keeps things simple on Vercel
     basePath: '/api',
     maxDuration: 60,
     verboseLogs: false,
@@ -112,7 +112,7 @@ const mcpHandler = createMcpHandler(
 );
 
 // ---------------------------------------------------------------------------
-// API key gate — wraps every method (GET/POST/DELETE)
+// API key gate - wraps every method (GET/POST/DELETE)
 // ---------------------------------------------------------------------------
 
 function unauthorized(message: string, status: number): Response {

@@ -15,7 +15,7 @@ import { buildBreadcrumb, buildTemplateJsonLd } from '@/lib/seo/json-ld';
 import { getIndustryLabel } from '@/lib/content/taxonomy';
 
 /**
- * /templates/[slug] — Chi tiết template: render MDX (prose + nút copy) + đính kèm
+ * /templates/[slug] - Chi tiết template: render MDX (prose + nút copy) + đính kèm
  * + CTA mềm + related. SSG; slug sai → 404. (JSON-LD/OG hoàn thiện ở Phase 4.)
  */
 export const dynamicParams = false;
@@ -87,7 +87,7 @@ export default async function TemplateDetailPage({
       </article>
 
       <TemplateAttachments attachments={template.attachments} />
-      <SoftCta heading="Cần áp dụng template này cho shop của anh/chị?" location="templates_cta" />
+      <SoftCta heading="Cần hỗ trợ gì cho shop của anh/chị?" location="templates_cta" />
       <RelatedTemplates items={related} />
     </main>
   );

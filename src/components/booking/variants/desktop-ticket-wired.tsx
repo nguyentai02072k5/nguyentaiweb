@@ -1,5 +1,5 @@
 /**
- * desktop-ticket-wired.tsx — DesktopTicket wired to real API (SWR + form submit).
+ * desktop-ticket-wired.tsx - DesktopTicket wired to real API (SWR + form submit).
  *
  * Replaces MOCK_DAYS / MOCK_SLOTS_BY_DAY with useDays() + useSlots() hooks.
  * Uses BookingFormWired for form submit.
@@ -195,7 +195,7 @@ export function DesktopTicketWired() {
               Lock 7 ngày kể từ hôm nay · timezone Asia/Ho_Chi_Minh
             </p>
 
-            {/* Day strip — loading skeleton */}
+            {/* Day strip - loading skeleton */}
             {daysLoading && (
               <div className="grid grid-cols-7 gap-1.5 mb-5">
                 {Array.from({ length: 7 }).map((_, i) => (
@@ -207,7 +207,7 @@ export function DesktopTicketWired() {
               </div>
             )}
 
-            {/* Day strip — error */}
+            {/* Day strip - error */}
             {daysError && !daysLoading && (
               <div className="mb-5 rounded-xl border border-dashed border-rose-300 bg-rose-50/50 p-4 text-center">
                 <p className="text-xs text-rose-600 mb-2">Không tải được lịch. Thử lại?</p>
@@ -222,7 +222,7 @@ export function DesktopTicketWired() {
               </div>
             )}
 
-            {/* Day strip — data */}
+            {/* Day strip - data */}
             {!daysLoading && !daysError && days && days.length > 0 && (
               <div className="grid grid-cols-7 gap-1.5">
                 {days.slice(0, 7).map((day) => {
@@ -310,7 +310,7 @@ export function DesktopTicketWired() {
                 </div>
               )}
 
-              {/* Slot grid — data */}
+              {/* Slot grid - data */}
               {!slotsLoading && !slotsError && slots.length > 0 && (
                 <div className="grid grid-cols-4 gap-1.5">
                   {slots.map((s) => {

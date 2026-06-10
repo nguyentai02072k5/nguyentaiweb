@@ -6,7 +6,7 @@ import { OG_CONTENT_TYPE, OG_SIZE, OgCard } from '@/lib/seo/og-card';
 
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
-export const alt = 'Template theo ngành — Tài AI Automation';
+export const alt = 'Template theo ngành - Tài AI Automation';
 export const dynamicParams = false;
 
 export function generateStaticParams() {

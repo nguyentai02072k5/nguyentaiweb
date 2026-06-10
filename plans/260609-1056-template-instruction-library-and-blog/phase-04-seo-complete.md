@@ -29,26 +29,26 @@ SEO đầy đủ cho templates (và khung dùng lại cho blog): per-page metada
 
 ## Related Code Files
 - Create:
-  - `src/app/templates/[slug]/opengraph-image.tsx` — OG per-template
-  - `src/app/templates/nganh/[industry]/opengraph-image.tsx` — OG per-ngành
-  - `src/app/templates/opengraph-image.tsx` — OG trang kho (số template + highlight)
-  - `src/lib/seo/json-ld.ts` — builders `TechArticle`/`HowTo`/`CollectionPage`/`ItemList`/`BreadcrumbList`/`BlogPosting`
-  - `src/lib/seo/site.ts` — site URL SSOT (env + fallback) cho metadataBase/sitemap/robots/JSON-LD
-  - `src/lib/seo/og-fonts.ts` — load font local cho ImageResponse (DRY 3 OG routes)
-  - `src/components/seo/json-ld-script.tsx` — inject an toàn
+  - `src/app/templates/[slug]/opengraph-image.tsx` - OG per-template
+  - `src/app/templates/nganh/[industry]/opengraph-image.tsx` - OG per-ngành
+  - `src/app/templates/opengraph-image.tsx` - OG trang kho (số template + highlight)
+  - `src/lib/seo/json-ld.ts` - builders `TechArticle`/`HowTo`/`CollectionPage`/`ItemList`/`BreadcrumbList`/`BlogPosting`
+  - `src/lib/seo/site.ts` - site URL SSOT (env + fallback) cho metadataBase/sitemap/robots/JSON-LD
+  - `src/lib/seo/og-fonts.ts` - load font local cho ImageResponse (DRY 3 OG routes)
+  - `src/components/seo/json-ld-script.tsx` - inject an toàn
   - `src/app/sitemap.ts`, `src/app/robots.ts`
-  - `public/fonts/*` — font file (.ttf/.otf) Be Vietnam Pro + Space Grotesk (nếu repo chưa có local — verify TRƯỚC)
+  - `public/fonts/*` - font file (.ttf/.otf) Be Vietnam Pro + Space Grotesk (nếu repo chưa có local - verify TRƯỚC)
 - Modify:
-  - `src/app/layout.tsx` — refactor `metadataBase` (đang hardcode `https://nguyenvantai.com`) dùng `site.ts` SSOT
-  - `src/app/templates/page.tsx` + `nganh/[industry]/page.tsx` + `[slug]/page.tsx` — `generateMetadata` + JSON-LD
-  - (giữ nguyên) `src/app/api/og/route.tsx` — proxy tĩnh cho home; OG động dùng file convention
+  - `src/app/layout.tsx` - refactor `metadataBase` (đang hardcode `https://nguyenvantai.com`) dùng `site.ts` SSOT
+  - `src/app/templates/page.tsx` + `nganh/[industry]/page.tsx` + `[slug]/page.tsx` - `generateMetadata` + JSON-LD
+  - (giữ nguyên) `src/app/api/og/route.tsx` - proxy tĩnh cho home; OG động dùng file convention
 
 ## Implementation Steps
 1. **Verify font local TRƯỚC** (chặn rủi ro fail muộn): kiểm tra `public/fonts/`. App hiện dùng `next/font` (không có file thô) → tải `BeVietnamPro-Regular.ttf` + `SpaceGrotesk-Medium.ttf` (Google Fonts → Download family, range Latin + Vietnamese), đặt `public/fonts/`. Làm đầu tiên.
-2. **Site URL SSOT** `src/lib/seo/site.ts`: đọc `NEXT_PUBLIC_SITE_URL` (fallback `https://nguyenvantai.com`). Refactor `metadataBase` ở `layout.tsx` (đang hardcode) + sitemap + robots + JSON-LD đều import từ đây (tránh 3 nguồn — N5).
+2. **Site URL SSOT** `src/lib/seo/site.ts`: đọc `NEXT_PUBLIC_SITE_URL` (fallback `https://nguyenvantai.com`). Refactor `metadataBase` ở `layout.tsx` (đang hardcode) + sitemap + robots + JSON-LD đều import từ đây (tránh 3 nguồn - N5).
 3. `generateMetadata`: `[slug]` (title `${title} · Template`, canonical `/templates/${slug}`), `nganh/[industry]` (title `Template [Ngành]`, canonical `/templates/nganh/${industry}`), `/templates` (canonical `/templates`). openGraph + twitter card.
 4. `og-fonts.ts` + 3 `opengraph-image.tsx` (`[slug]`, `nganh/[industry]`, `/templates`): ImageResponse 1200×630, nền Aurora, title (Space Grotesk), badge (Be Vietnam Pro), brand; font qua `readFile(public/fonts/..)`; `runtime='nodejs'`; export size + contentType. Test dấu tiếng Việt.
-5. `json-ld.ts`: `buildTechArticle` (default detail), `buildHowTo` (chỉ khi `schemaType==='howto'`, step từ frontmatter có cấu trúc — KHÔNG parse heading), `buildCollectionPage/ItemList(industry,templates)`, `buildBreadcrumb`. `json-ld-script.tsx` render an toàn.
+5. `json-ld.ts`: `buildTechArticle` (default detail), `buildHowTo` (chỉ khi `schemaType==='howto'`, step từ frontmatter có cấu trúc - KHÔNG parse heading), `buildCollectionPage/ItemList(industry,templates)`, `buildBreadcrumb`. `json-ld-script.tsx` render an toàn.
 6. Gắn JSON-LD: detail (TechArticle|HowTo + Breadcrumb); pSEO industry (CollectionPage + ItemList + Breadcrumb).
 7. `app/sitemap.ts`: static routes + pSEO industry routes (ngành có template) + template detail; lastModified `updatedAt||publishedAt`. `app/robots.ts`: disallow `/admin` + `/api` (KHÔNG `/booking`), host + sitemap URL.
 8. Verify: build OK; xem OG `/templates/<slug>/opengraph-image` + `/templates/nganh/<industry>/opengraph-image`; validate JSON-LD (Rich Results) cho TechArticle + HowTo (nếu có) + ItemList; mở `/sitemap.xml` (đủ pSEO + detail) + `/robots.txt`.

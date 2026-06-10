@@ -1,5 +1,5 @@
 /**
- * phone-vn.ts — Vietnamese phone normalization + masking.
+ * phone-vn.ts - Vietnamese phone normalization + masking.
  *
  * Matches DB constraint: `^(\+84|0)\d{9,10}$` (10-11 digit mobile/landline).
  * Server normalizes paste/typed variants into single canonical form `0XXXXXXXXX`.

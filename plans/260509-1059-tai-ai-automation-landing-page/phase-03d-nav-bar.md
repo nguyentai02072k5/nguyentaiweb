@@ -1,7 +1,7 @@
-# Phase 03d — Nav Bar (Global)
+# Phase 03d - Nav Bar (Global)
 
 **Status:** ⏭ Next (P0)
-**Priority:** P0 (foundational — anchor links referenced by Hero + Sticky + Phase 04+ CTAs)
+**Priority:** P0 (foundational - anchor links referenced by Hero + Sticky + Phase 04+ CTAs)
 **Effort:** 30-45 phút
 **Ship gate:** Build clean + visual verify desktop + mobile
 **Depends on:** Phase 01 (`NavLogo` component) + Phase 03a (`LANDING` schema)
@@ -15,17 +15,17 @@
   - `#process` (Phase 05, not yet) → Quy trình
   - `#faq` (Phase 05, not yet) → FAQ
   - `#booking` (Phase 06, not yet) → Đặt lịch
-- Palette: Aurora Glow tokens — glass surface for nav bg
+- Palette: Aurora Glow tokens - glass surface for nav bg
 
 ## Scope (4 deliverables)
 1. **NavBar component** sticky top, glass blur, NavLogo left + links right (desktop)
 2. **Mobile drawer** hamburger trigger + side drawer (Radix Dialog wraps shadcn)
-3. **Active section tracking** via IntersectionObserver — highlight current link
+3. **Active section tracking** via IntersectionObserver - highlight current link
 4. **Wire global** trong `src/app/layout.tsx` (above `{children}`)
 
 ---
 
-## Spec — Desktop
+## Spec - Desktop
 
 ### Layout
 ```
@@ -36,16 +36,16 @@
 ```
 
 ### Sticky behavior
-- `fixed top-0 inset-x-0 z-50` — always on screen
-- Initial state (over Hero): `bg-transparent backdrop-blur-md` — letting Aurora show through
-- Scrolled state (past Hero): `bg-surface-elevated/85 backdrop-blur-md border-b border-border-default` — solid glass
+- `fixed top-0 inset-x-0 z-50` - always on screen
+- Initial state (over Hero): `bg-transparent backdrop-blur-md` - letting Aurora show through
+- Scrolled state (past Hero): `bg-surface-elevated/85 backdrop-blur-md border-b border-border-default` - solid glass
 - Toggle based on scroll distance > 80px
 
 ### Anchor links (desktop)
 - Display: `hidden md:flex gap-1`
 - Each link: `<a href="#section" data-cta-location="nav_X">` with hover indigo → violet
 - Active section: indigo bg pill + underline F1 hint
-- Tracking via IntersectionObserver — observe section IDs, set `data-active` on matching link
+- Tracking via IntersectionObserver - observe section IDs, set `data-active` on matching link
 
 ### CTA Button (desktop)
 - Right edge: `Đặt lịch Meet →` Aurora gradient pill
@@ -54,7 +54,7 @@
 
 ---
 
-## Spec — Mobile
+## Spec - Mobile
 
 ### Layout
 ```
@@ -211,21 +211,21 @@ Also extend `CtaLocation` union to include `nav_services | nav_process | nav_faq
 
 ## Risks
 
-- **`#services` `#process` `#faq` chưa exist** (Phase 04-05 chưa build) — anchor links scroll to top of page when target missing. Mitigation: graceful — sections exist as Phase ship. Pre-Phase 04, sticky nav shows "Trang chủ"-style behavior. Acceptable intermediate.
-- **Radix Dialog bundle delta** — `radix-ui` deps already included in package.json. No new install.
-- **IntersectionObserver SSR safety** — hook uses `useEffect`, client-only ✓
-- **Glass blur perf on low-end mobile** — `backdrop-blur-md` GPU-cheap on iOS. Fallback: `motion-reduce` disables blur
+- **`#services` `#process` `#faq` chưa exist** (Phase 04-05 chưa build) - anchor links scroll to top of page when target missing. Mitigation: graceful - sections exist as Phase ship. Pre-Phase 04, sticky nav shows "Trang chủ"-style behavior. Acceptable intermediate.
+- **Radix Dialog bundle delta** - `radix-ui` deps already included in package.json. No new install.
+- **IntersectionObserver SSR safety** - hook uses `useEffect`, client-only ✓
+- **Glass blur perf on low-end mobile** - `backdrop-blur-md` GPU-cheap on iOS. Fallback: `motion-reduce` disables blur
 
 ---
 
 ## Resolved
 
 - ✅ Anchor map locked (Trang chủ implicit · Dịch vụ · Quy trình · FAQ · Đặt lịch CTA)
-- ✅ Mobile pattern: hamburger drawer (not bottom-sheet) — standard pattern
+- ✅ Mobile pattern: hamburger drawer (not bottom-sheet) - standard pattern
 - ✅ No theme toggle in nav v1 (light-only D10)
 
 ---
 
 ## Next
 
-→ Phase 04 (Services + Tech Graph) — Nav `#services` anchor will target Phase 04 section
+→ Phase 04 (Services + Tech Graph) - Nav `#services` anchor will target Phase 04 section

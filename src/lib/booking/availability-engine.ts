@@ -1,5 +1,5 @@
 /**
- * availability-engine.ts — Pure functions to compute bookable slots.
+ * availability-engine.ts - Pure functions to compute bookable slots.
  *
  * No I/O. Caller fetches bookings/blocks/config from DB and passes in.
  * Forward-only 2h block: a slot S is blocked by an existing booking T
@@ -80,7 +80,7 @@ export function computeDaySlots(args: {
   const nowMs = now.getTime();
   const durationMs = config.default_duration_minutes * 60 * 1000;
 
-  // Hours outside working window — slot grid completely skips these
+  // Hours outside working window - slot grid completely skips these
   // (vs old behavior: only curator skipped, full grid still showed all 48 slots).
   const skipHours = new Set(config.curation_skip_hours);
 
@@ -89,7 +89,7 @@ export function computeDaySlots(args: {
     const hour = Math.floor(totalMin / 60);
     const minute = totalMin % 60;
 
-    // Skip hours outside working window entirely — don't push slot at all
+    // Skip hours outside working window entirely - don't push slot at all
     if (skipHours.has(hour)) continue;
 
     const slotDate = hcmDateTimeToDate(hcmDateString, hour, minute);
@@ -165,7 +165,7 @@ export function computeDayAvailability(args: {
   const slots = computeDaySlots(args);
   const availableCount = slots.filter((s) => s.available).length;
 
-  // Use noon UTC of that date for weekday calc — safe across DST (HCM has none)
+  // Use noon UTC of that date for weekday calc - safe across DST (HCM has none)
   const sampleDate = new Date(`${args.hcmDateString}T12:00:00+07:00`);
   const { dayOfWeek, day, month } = getHcmParts(sampleDate);
 

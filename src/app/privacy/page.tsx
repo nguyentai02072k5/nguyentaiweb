@@ -1,12 +1,12 @@
 /**
- * /privacy — Chính sách Bảo mật & Quyền riêng tư.
+ * /privacy - Chính sách Bảo mật & Quyền riêng tư.
  *
  * Source of truth content lives in
  * `plans/260509-1059-tai-ai-automation-landing-page/legal/privacy-policy.md`.
  * Sections rendered via shared <LegalPageShell> + <LegalSection> primitives
  * to keep the visual language identical to landing (Aurora palette, font tokens).
  *
- * Server component — no client hooks, fully static so it benefits from SSG.
+ * Server component - no client hooks, fully static so it benefits from SSG.
  */
 
 import type { Metadata } from 'next';
@@ -18,7 +18,7 @@ import { LegalBullets } from '@/components/legal/legal-bullets';
 export const metadata: Metadata = {
   title: 'Chính sách Bảo mật & Quyền riêng tư',
   description:
-    'Tài AI Automation thu thập dữ liệu gì, dùng làm gì, lưu bao lâu — và anh/chị có quyền gì với dữ liệu của mình. Tuân thủ NĐ 13/2022.',
+    'Tài AI Automation thu thập dữ liệu gì, dùng làm gì, lưu bao lâu - và anh/chị có quyền gì với dữ liệu của mình. Tuân thủ NĐ 13/2022.',
   alternates: { canonical: 'https://nguyenvantai.com/privacy' },
   robots: { index: true, follow: true },
 };
@@ -31,7 +31,7 @@ export default function PrivacyPage() {
     <LegalPageShell
       eyebrow="Pháp lý · Dữ liệu cá nhân"
       title="Chính sách Bảo mật & Quyền riêng tư"
-      intro="Chúng tôi thu thập dữ liệu gì, dùng làm gì, lưu trong bao lâu — và anh/chị có quyền gì với dữ liệu của mình."
+      intro="Chúng tôi thu thập dữ liệu gì, dùng làm gì, lưu trong bao lâu - và anh/chị có quyền gì với dữ liệu của mình."
       meta={[
         { label: 'Hiệu lực', value: '05/2026' },
         { label: 'Phiên bản', value: 'v1.0' },
@@ -51,7 +51,7 @@ export default function PrivacyPage() {
             'Không bán, không chia sẻ dữ liệu cho bên thứ ba ngoài mục đích đã nêu',
             'Anh/chị có quyền xem, sửa, xóa dữ liệu bất kỳ lúc nào',
             <>
-              Minh bạch — câu nào không rõ, anh/chị nhắn{' '}
+              Minh bạch - câu nào không rõ, anh/chị nhắn{' '}
               <a href={ZALO_LINK} target="_blank" rel="noopener noreferrer">
                 Zalo
               </a>{' '}
@@ -206,7 +206,7 @@ export default function PrivacyPage() {
             [
               'Xác nhận và quản lý lịch hẹn Meet 1-1',
               <>
-                <strong>Sự đồng ý</strong> (Điều 11, NĐ 13/2022) — anh/chị tick checkbox khi submit form
+                <strong>Sự đồng ý</strong> (Điều 11, NĐ 13/2022) - anh/chị tick checkbox khi submit form
               </>,
             ],
             [
@@ -218,7 +218,7 @@ export default function PrivacyPage() {
             [
               'Phân tích UX tổng hợp (anonymous)',
               <>
-                <strong>Lợi ích hợp pháp</strong> — không định danh cá nhân
+                <strong>Lợi ích hợp pháp</strong> - không định danh cá nhân
               </>,
             ],
             [
@@ -299,7 +299,7 @@ export default function PrivacyPage() {
       <LegalSection number="7" title="Chia sẻ dữ liệu với bên thứ ba">
         <p>
           Chúng tôi <strong>KHÔNG bán</strong> dữ liệu. Dữ liệu chỉ chia sẻ với các bên dưới
-          đây — chỉ ở phạm vi tối thiểu cần thiết:
+          đây - chỉ ở phạm vi tối thiểu cần thiết:
         </p>
         <LegalTable
           headers={['Bên thứ ba', 'Dữ liệu chia sẻ', 'Lý do', 'Vị trí xử lý']}
@@ -357,15 +357,15 @@ export default function PrivacyPage() {
             [
               '3. Quyền truy cập',
               'Yêu cầu xem dữ liệu cá nhân của mình',
-              'Nhắn Zalo/email — chúng tôi cung cấp trong 72 giờ',
+              'Nhắn Zalo/email - chúng tôi cung cấp trong 72 giờ',
             ],
             [
               '4. Quyền rút lại đồng ý',
               'Rút lại sự đồng ý bất kỳ lúc nào',
-              'Nhắn Zalo/email — xác nhận trong 24 giờ',
+              'Nhắn Zalo/email - xác nhận trong 24 giờ',
             ],
-            ['5. Quyền xóa dữ liệu', 'Yêu cầu xóa dữ liệu', 'Nhắn yêu cầu — xóa trong 72 giờ'],
-            ['6. Quyền hạn chế xử lý', 'Yêu cầu tạm ngừng xử lý', 'Nhắn yêu cầu — áp dụng ngay'],
+            ['5. Quyền xóa dữ liệu', 'Yêu cầu xóa dữ liệu', 'Nhắn yêu cầu - xóa trong 72 giờ'],
+            ['6. Quyền hạn chế xử lý', 'Yêu cầu tạm ngừng xử lý', 'Nhắn yêu cầu - áp dụng ngay'],
             ['7. Quyền phản đối', 'Phản đối hoạt động xử lý cụ thể', 'Nhắn yêu cầu kèm lý do'],
             [
               '8. Quyền khiếu nại',
@@ -401,7 +401,7 @@ export default function PrivacyPage() {
                 <strong>Database mã hóa at-rest</strong> (Supabase enterprise encryption)
               </>,
               <>
-                <strong>Row-Level Security (RLS)</strong> — chỉ owner Tài truy cập được dữ liệu booking
+                <strong>Row-Level Security (RLS)</strong> - chỉ owner Tài truy cập được dữ liệu booking
               </>,
               <>
                 <strong>Rate limiting</strong> chống brute-force/spam submission
@@ -448,7 +448,7 @@ export default function PrivacyPage() {
 
       <LegalSection number="10" title="Dữ liệu của trẻ em (dưới 16 tuổi)">
         <p>
-          Dịch vụ này dành cho <strong>chủ doanh nghiệp</strong> — chúng tôi{' '}
+          Dịch vụ này dành cho <strong>chủ doanh nghiệp</strong> - chúng tôi{' '}
           <strong>không chủ động thu thập dữ liệu trẻ em dưới 16 tuổi</strong>.
         </p>
         <p>
@@ -476,14 +476,14 @@ export default function PrivacyPage() {
             ],
             [
               <strong key="ch3">Subject email gợi ý</strong>,
-              '"Yêu cầu về dữ liệu cá nhân — [tên anh/chị]"',
-              '—',
+              '"Yêu cầu về dữ liệu cá nhân - [tên anh/chị]"',
+              '-',
             ],
           ]}
         />
         <p>
-          <strong>Khiếu nại cấp cao hơn:</strong> Cục An toàn Thông tin — Bộ Thông tin &
-          Truyền thông —{' '}
+          <strong>Khiếu nại cấp cao hơn:</strong> Cục An toàn Thông tin - Bộ Thông tin &
+          Truyền thông -{' '}
           <a href="https://ais.gov.vn" target="_blank" rel="noopener noreferrer">
             https://ais.gov.vn
           </a>
@@ -522,18 +522,18 @@ export default function PrivacyPage() {
         <p>
           Dữ liệu của anh/chị không phải là sản phẩm. Đây là{' '}
           <strong>thông tin anh/chị tin tưởng giao cho tôi</strong> để tôi giúp anh/chị tốt
-          hơn — và tôi tôn trọng điều đó.
+          hơn - và tôi tôn trọng điều đó.
         </p>
         <p>
           Nếu có bất kỳ chỗ nào trong chính sách này anh/chị thấy khó hiểu, không hợp lý,
-          hoặc muốn tôi giải thích thêm — nhắn{' '}
+          hoặc muốn tôi giải thích thêm - nhắn{' '}
           <a href={ZALO_LINK} target="_blank" rel="noopener noreferrer">
             Zalo
           </a>{' '}
           tôi trực tiếp. Tôi sẽ trả lời thẳng, không né câu hỏi.
         </p>
         <p className="font-display font-semibold text-text-primary">
-          — Tài, Tài AI Automation
+          - Tài, Tài AI Automation
         </p>
       </LegalSection>
     </LegalPageShell>

@@ -6,7 +6,7 @@
 --
 -- Why RPC instead of direct insert from /api/book?
 --   - Encapsulates server-side computation (meeting_end from duration)
---   - Single API surface — schema change later doesn't touch route code
+--   - Single API surface - schema change later doesn't touch route code
 --   - Type-safe via supabase gen types (RPC signature reflected in TS)
 --
 -- v1 LOCKED 2026-05-14: NO outbox, NO event table, NO worker.

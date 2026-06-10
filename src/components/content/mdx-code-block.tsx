@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * mdx-code-block.tsx — Client wrapper cho <pre> trong nội dung MDX.
+ * mdx-code-block.tsx - Client wrapper cho <pre> trong nội dung MDX.
  *
  * Bọc code block bằng nút Copy (đọc innerText qua ref → clipboard).
  * Style nền/chữ code do `.prose` (typography tokens) lo; component này chỉ thêm nút copy.
@@ -25,7 +25,7 @@ export function MdxCodeBlock({ className, ...props }: MdxCodeBlockProps) {
       setCopied(true);
       window.setTimeout(() => setCopied(false), 1500);
     } catch {
-      // clipboard có thể bị chặn (http, quyền) — im lặng, không phá UI
+      // clipboard có thể bị chặn (http, quyền) - im lặng, không phá UI
     }
   }
 
@@ -60,7 +60,10 @@ export function MdxCodeBlock({ className, ...props }: MdxCodeBlockProps) {
       <pre
         ref={ref}
         className={cn(
-          'overflow-x-auto rounded-xl bg-surface-inverse p-4 text-sm leading-relaxed text-[#e5e7eb]',
+          // Khung cố định: chỉ cuộn DỌC (overflow-y), KHÔNG cuộn ngang (overflow-x-hidden).
+          // whitespace-pre-wrap + break-words cho dòng dài tự xuống dòng trong khung thay vì
+          // tràn ngang; vẫn giữ \n gốc nên nút Copy lấy đúng nội dung (soft-wrap không thêm newline).
+          'max-h-[36rem] overflow-y-auto overflow-x-hidden whitespace-pre-wrap break-words rounded-xl bg-surface-inverse p-4 text-sm leading-relaxed text-[#e5e7eb]',
           className,
         )}
         {...props}

@@ -1,6 +1,6 @@
 /**
  * Variant B: Compact week grid (no scrolling).
- * 7 ngày trong 3 hàng (4-3 layout) — tất cả visible một lúc.
+ * 7 ngày trong 3 hàng (4-3 layout) - tất cả visible một lúc.
  * Pros: thấy hết, không scroll, ít cognitive load.
  * Cons: chip nhỏ hơn, ít "play" feel.
  */
@@ -37,7 +37,7 @@ export function DatePickerGrid() {
       </div>
 
       <p className="mt-4 text-xs text-text-tertiary text-center">
-        Tất cả ngày visible — không cần cuộn
+        Tất cả ngày visible - không cần cuộn
       </p>
     </div>
   );

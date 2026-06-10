@@ -1,11 +1,11 @@
 /**
  * POST /api/book
  *
- * Flow (v1 KISS — LOCKED 2026-05-14):
+ * Flow (v1 KISS - LOCKED 2026-05-14):
  *   1. Zod validate body
  *   2. Normalize VN phone (paste-friendly → canonical 0XXXXXXXXX)
  *   3. Hash client IP for spam detection
- *   4. Call RPC create_booking — DB enforces 2h exclusion + check constraints
+ *   4. Call RPC create_booking - DB enforces 2h exclusion + check constraints
  *   5. Map DB errors:
  *      - 23P01 (exclusion)  → 409 slot-taken
  *      - 23514 (check)      → 400 validation
@@ -59,8 +59,8 @@ export async function POST(request: Request) {
   try {
     ipHash = hashIp(ip);
   } catch {
-    // IP_HASH_SALT missing — log but don't block booking
-    console.error('[book] IP hash failed — booking continues without ip_hash');
+    // IP_HASH_SALT missing - log but don't block booking
+    console.error('[book] IP hash failed - booking continues without ip_hash');
   }
 
   // ---- 4. Re-check slot server-side before RPC ----
@@ -87,7 +87,7 @@ export async function POST(request: Request) {
     return NextResponse.json(mapped.body, { status: mapped.status });
   }
 
-  // RPC returns table with single row — supabase-js represents as array
+  // RPC returns table with single row - supabase-js represents as array
   const row = Array.isArray(rpcData) ? rpcData[0] : rpcData;
   if (!row?.id) {
     return jsonError('server', 'RPC trả về dữ liệu không hợp lệ', 500);

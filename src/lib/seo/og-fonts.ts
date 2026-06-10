@@ -2,8 +2,8 @@ import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
 /**
- * og-fonts.ts — Load font local cho ImageResponse (OG động).
- * Be Vietnam Pro (OFL) hỗ trợ dấu tiếng Việt — dùng cho cả title (600) lẫn body (400).
+ * og-fonts.ts - Load font local cho ImageResponse (OG động).
+ * Be Vietnam Pro (OFL) hỗ trợ dấu tiếng Việt - dùng cho cả title (600) lẫn body (400).
  * Phải là file local: ImageResponse/Satori cần ArrayBuffer, không fetch Google runtime.
  */
 

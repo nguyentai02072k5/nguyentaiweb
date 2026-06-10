@@ -1,5 +1,5 @@
 /**
- * /thank-you — Booking confirmation page (Server Component).
+ * /thank-you - Booking confirmation page (Server Component).
  *
  * Reads searchParams: booking_id, phone_mask, date, time
  * Validates required fields → redirect to / if booking_id missing.
@@ -29,7 +29,7 @@ export default async function ThankYouPage({
 }) {
   const params = await searchParams;
 
-  // booking_id is required — missing means user navigated here directly
+  // booking_id is required - missing means user navigated here directly
   if (!params.booking_id) {
     redirect('/');
   }
@@ -41,7 +41,7 @@ export default async function ThankYouPage({
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-950 flex items-center justify-center p-4">
-      {/* Full-page tech grid (desktop only) — fades out toward edges via radial mask */}
+      {/* Full-page tech grid (desktop only) - fades out toward edges via radial mask */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 hidden md:block opacity-[0.14]"

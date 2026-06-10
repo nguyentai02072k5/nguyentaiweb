@@ -23,10 +23,10 @@ function countSourceMdx(dir: string): number {
 }
 
 /**
- * velite.config.ts — Content layer cho Template Instruction + Blog.
+ * velite.config.ts - Content layer cho Template Instruction + Blog.
  *
- * Build: `velite && next build` (script tường minh — Turbopack KHÔNG dùng webpack plugin).
- * Schema viết bằng `s` của velite (zod-based, KHÔNG import `z` của project — velite bundle zod riêng).
+ * Build: `velite && next build` (script tường minh - Turbopack KHÔNG dùng webpack plugin).
+ * Schema viết bằng `s` của velite (zod-based, KHÔNG import `z` của project - velite bundle zod riêng).
  * Output `.velite/` (git-ignored) → import qua alias `#site/content`.
  * Ảnh cover để thẳng trong `public/templates/<slug>/` (KHÔNG dùng s.image() → tránh sharp coupling).
  */
@@ -75,6 +75,10 @@ const posts = defineCollection({
       cover: s.string().optional(),
       author: s.string().optional(),
       draft: s.boolean().default(false),
+      // FAQ (tuỳ chọn) → render section + FAQPage JSON-LD (tín hiệu AEO/rich result).
+      faqs: s
+        .array(s.object({ question: s.string(), answer: s.string() }))
+        .optional(),
       publishedAt: s.isodate(),
       updatedAt: s.isodate().optional(),
       metadata: s.metadata(), // { readingTime, wordCount } tính từ raw content
@@ -107,7 +111,7 @@ export default defineConfig({
       const source = countSourceMdx(dir);
       if (resolved !== source) {
         throw new Error(
-          `[velite] content/${dir}: ${source} file .mdx nhưng chỉ ${resolved} hợp lệ — ` +
+          `[velite] content/${dir}: ${source} file .mdx nhưng chỉ ${resolved} hợp lệ - ` +
             `${source - resolved} file bị loại do frontmatter sai. Sửa theo content/templates/README.md.`,
         );
       }

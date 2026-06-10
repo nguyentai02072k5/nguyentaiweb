@@ -1,5 +1,5 @@
 /**
- * booking-form-wired.tsx — React Hook Form + Zod wired to POST /api/book.
+ * booking-form-wired.tsx - React Hook Form + Zod wired to POST /api/book.
  *
  * Shared by DesktopTicketWired + UnifiedScheduleMobileWired.
  * Caller provides selectedSlot (null = disabled) + onSuccess callback.
@@ -57,9 +57,9 @@ export type FormSuccessData = {
 
 type Props = {
   selectedSlot: SelectedSlotInfo | null;
-  /** Called on 201 success — navigate to /thank-you */
+  /** Called on 201 success - navigate to /thank-you */
   onSuccess: (data: FormSuccessData) => void;
-  /** Called on 409 conflict — parent should refetch + reset selectedSlot */
+  /** Called on 409 conflict - parent should refetch + reset selectedSlot */
   onSlotConflict: () => void;
   /** Layout variant affects field sizing */
   layout?: 'desktop' | 'mobile';

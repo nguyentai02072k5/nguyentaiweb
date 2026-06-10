@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * nav-mobile-drawer.tsx — Phase 03d Mobile navigation drawer.
+ * nav-mobile-drawer.tsx - Phase 03d Mobile navigation drawer.
  *
  * Slides in from right when hamburger tapped. Built on Radix Dialog (already in deps)
  * for accessible focus trap + ESC handling + ARIA.
@@ -53,7 +53,7 @@ export function NavMobileDrawer({ content }: NavMobileDrawerProps) {
       </Dialog.Trigger>
 
       <Dialog.Portal>
-        {/* Overlay backdrop — fades in slightly faster than the panel so the dimmer reads first */}
+        {/* Overlay backdrop - fades in slightly faster than the panel so the dimmer reads first */}
         <Dialog.Overlay
           className="
             fixed inset-0 z-50
@@ -65,7 +65,7 @@ export function NavMobileDrawer({ content }: NavMobileDrawerProps) {
           "
         />
 
-        {/* Slide-in panel — longer duration + custom ease curve for smoother feel.
+        {/* Slide-in panel - longer duration + custom ease curve for smoother feel.
             ease-out cubic-bezier(0.22, 1, 0.36, 1) matches landing-wide animation language. */}
         <Dialog.Content
           aria-describedby={undefined}

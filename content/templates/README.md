@@ -7,7 +7,7 @@ Mỗi template là 1 file `.mdx` trong thư mục này. Thêm file mới → ch�
 - Dùng kebab-case, tiếng Việt không dấu: `mau-spa-chot-don.mdx`
 - Tên file = slug URL: file `mau-spa-chot-don.mdx` → `/templates/mau-spa-chot-don`
 
-## Frontmatter (phần `---` đầu file) — BẮT BUỘC đúng
+## Frontmatter (phần `---` đầu file) - BẮT BUỘC đúng
 
 ```yaml
 ---
@@ -27,7 +27,7 @@ updatedAt: 2026-06-10                  # tuỳ chọn: ngày cập nhật
 ---
 ```
 
-> Nếu frontmatter sai (vd `industry` không thuộc `businessModel`), **build sẽ báo lỗi** — đây là cố ý để chặn phân loại sai.
+> Nếu frontmatter sai (vd `industry` không thuộc `businessModel`), **build sẽ báo lỗi** - đây là cố ý để chặn phân loại sai.
 
 ## Danh sách `businessModel` × `industry` hợp lệ
 

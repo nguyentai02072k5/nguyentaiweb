@@ -4,9 +4,9 @@
 -- SUPABASE_SERVICE_ROLE_KEY (which bypasses RLS).
 --
 -- Rationale (review fix 2026-05-14):
---   - booking_config has owner_zalo_phone — must not leak via REST
---   - blocked_periods.reason may contain private notes — must not leak
---   - bookings contains PII (phone, email, name) — never client-accessible
+--   - booking_config has owner_zalo_phone - must not leak via REST
+--   - blocked_periods.reason may contain private notes - must not leak
+--   - bookings contains PII (phone, email, name) - never client-accessible
 --
 -- If later anh muốn admin client-side đọc bookings, thêm policy auth-based
 -- with role check (e.g. `auth.jwt() ->> 'role' = 'admin'`).

@@ -1,5 +1,5 @@
 /**
- * _mock-data.ts — Static fake data for /booking preview ONLY.
+ * _mock-data.ts - Static fake data for /booking preview ONLY.
  * Production routes use real API.
  */
 
@@ -15,7 +15,7 @@ export const MOCK_DAYS: DayAvailability[] = [
   { date: '2026-05-20', dayOfWeek: 3, label: 'T4 20/05', isToday: false, availableCount: 0  },
 ];
 
-// Curated subset for legacy B1/B2 variants — 8 representative slots within
+// Curated subset for legacy B1/B2 variants - 8 representative slots within
 // working windows 09:00-11:30 + 14:00-19:30 (LOCKED 2026-05-15).
 export const MOCK_SLOTS: Slot[] = [
   { time: '09:00', iso: '2026-05-15T02:00:00Z', available: true,  period: 'morning'   },
@@ -52,13 +52,13 @@ export const PERIOD_META = {
 } as const;
 
 /**
- * Slot grid per day — deterministic mock generator. Each day gets the same
+ * Slot grid per day - deterministic mock generator. Each day gets the same
  * shape with slight variation per index to make preview look real.
  */
 function buildSlotsForDay(date: string, dayIndex: number): Slot[] {
   // Working windows (LOCKED 2026-05-15):
-  //   09:00 → 11:30  (6 slots — morning + early midday)
-  //   14:00 → 19:30  (12 slots — afternoon + evening)
+  //   09:00 → 11:30  (6 slots - morning + early midday)
+  //   14:00 → 19:30  (12 slots - afternoon + evening)
   // Total = 18 slots/day
   const windows: Array<[number, number]> = [[9, 12], [14, 20]];
   const baseSlots: Array<[string, Slot['period']]> = [];
@@ -71,7 +71,7 @@ function buildSlotsForDay(date: string, dayIndex: number): Slot[] {
     }
   }
   // Drop the 12:00 slot since window is 09:00 → 11:30 (last slot 11:30)
-  // — endExclusive=12 makes loop generate up to 11:30 inclusive (h=11 last).
+  // - endExclusive=12 makes loop generate up to 11:30 inclusive (h=11 last).
   // Same logic for evening: endExclusive=20 → last slot 19:30. So no extra trim needed.
   return baseSlots.map(([time, period], i) => {
     const blocked = (dayIndex * 3 + i * 7) % 11 === 0;

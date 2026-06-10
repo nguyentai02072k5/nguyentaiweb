@@ -1,5 +1,5 @@
 /**
- * ExpectationRow — single full-row clickable checkbox option.
+ * ExpectationRow - single full-row clickable checkbox option.
  * Touch target ≥ 48px (entire row, not just checkbox).
  */
 

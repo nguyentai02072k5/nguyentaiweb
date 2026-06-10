@@ -1,5 +1,5 @@
 /**
- * booking-schema.ts — Single source of truth for booking form validation.
+ * booking-schema.ts - Single source of truth for booking form validation.
  *
  * Used by:
  *   - UI form (`zodResolver(bookingFormSchema)` in React Hook Form)
@@ -12,7 +12,7 @@
 import { z } from 'zod';
 import { EXPECTATION_SLUGS } from '@/lib/booking/types';
 
-// VN phone — accept paste/typed variants. Final canonical normalization
+// VN phone - accept paste/typed variants. Final canonical normalization
 // happens server-side via `normalizeVnPhone()` before RPC call.
 const VN_PHONE_INPUT = /^[\d\s+\-().]+$/;
 

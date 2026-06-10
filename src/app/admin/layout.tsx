@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="bg-surface-base min-h-[100dvh]">
-      {/* NavBar global đã có sẵn ở root layout — không cần thêm */}
+      {/* NavBar global đã có sẵn ở root layout - không cần thêm */}
       {children}
     </div>
   );

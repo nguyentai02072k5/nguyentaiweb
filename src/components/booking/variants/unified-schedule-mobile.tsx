@@ -2,9 +2,9 @@
  * Variant E1m: Unified schedule (REDESIGN v5 2026-05-15).
  *
  * Feedback iteration:
- *   v1-v3 — layout tinkering (slot list → period accordion → flat 4-col grid)
- *   v4    — ticket aesthetic (notches + perforation)
- *   v5    — natural flow for embed (bỏ internal scroll + sticky header/CTA),
+ *   v1-v3 - layout tinkering (slot list → period accordion → flat 4-col grid)
+ *   v4    - ticket aesthetic (notches + perforation)
+ *   v5    - natural flow for embed (bỏ internal scroll + sticky header/CTA),
  *           widget grows tự nhiên trong landing-page section
  *
  * Layout (collapsed):
@@ -94,7 +94,7 @@ export function UnifiedScheduleMobile() {
 
   return (
     <div className="bg-gradient-to-b from-violet-100/70 via-violet-50/40 to-indigo-100/50">
-      {/* Header — natural flow, NOT sticky (embed widget) */}
+      {/* Header - natural flow, NOT sticky (embed widget) */}
       <header className="px-4 pt-4 pb-3 border-b border-border-default bg-white/70">
         <div className="flex items-center justify-between mb-1">
           <p className="font-display text-[10px] uppercase tracking-[0.2em] text-brand-violet font-semibold">
@@ -115,7 +115,7 @@ export function UnifiedScheduleMobile() {
         </div>
       </header>
 
-      {/* ===== 2-step wizard body — slide left/right giữa schedule & form ===== */}
+      {/* ===== 2-step wizard body - slide left/right giữa schedule & form ===== */}
       <div className="relative overflow-hidden">
       <AnimatePresence mode="wait" initial={false} custom={dir}>
       {step === 'schedule' && (
@@ -128,7 +128,7 @@ export function UnifiedScheduleMobile() {
         exit="exit"
         transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
       >
-      {/* Day list — natural flow, NO internal scroll */}
+      {/* Day list - natural flow, NO internal scroll */}
       <div>
         <div className="px-4 pt-3 pb-3 space-y-2">
           {dayData.map(({ day, slots, earliest, availableCount }) => {
@@ -171,7 +171,7 @@ export function UnifiedScheduleMobile() {
                   )}
                 >
                   {/* Vertical dashed perforation between date stub & body.
-                      Height locked to ~button area only — doesn't extend down
+                      Height locked to ~button area only - doesn't extend down
                       into the time-grid panel when expanded. */}
                   <span
                     aria-hidden
@@ -179,7 +179,7 @@ export function UnifiedScheduleMobile() {
                     style={{ bottom: 'auto', height: 56 }}
                   />
 
-                  {/* Day row — grid: [stub 60px | body 1fr | meta auto] */}
+                  {/* Day row - grid: [stub 60px | body 1fr | meta auto] */}
                   <button
                     type="button"
                     disabled={disabled}
@@ -284,7 +284,7 @@ export function UnifiedScheduleMobile() {
                     )}
                   </button>
 
-                  {/* Expanded — full time grid (no period grouping) */}
+                  {/* Expanded - full time grid (no period grouping) */}
                   <AnimatePresence initial={false}>
                     {isOpen && !disabled && (
                       <motion.div
@@ -327,7 +327,7 @@ export function UnifiedScheduleMobile() {
       >
       {/* ===== Form section (C2 sectioned · 3 cards) ·
             Dùng font-body (Be Vietnam Pro) cho mềm/humanist hơn font-display
-            (Space Grotesk) — form input vibe thay vì heading vibe. */}
+            (Space Grotesk) - form input vibe thay vì heading vibe. */}
       <div className="px-4 pt-4 pb-3 space-y-2.5 bg-white/60 font-body">
         <h3 className="text-[12px] font-semibold tracking-wide text-text-primary flex items-center gap-2 mb-1">
           <span className="size-1.5 rounded-full bg-brand-pink animate-pulse" />
@@ -367,7 +367,7 @@ export function UnifiedScheduleMobile() {
           </div>
         </Section>
 
-        {/* Section 2: Nhu cầu — giãn rộng hơn (gap-2.5 + py-2.5) cho thoáng */}
+        {/* Section 2: Nhu cầu - giãn rộng hơn (gap-2.5 + py-2.5) cho thoáng */}
         <Section step="02" title="Nhu Cầu" icon={Target} subtitle="Chọn 1 hoặc nhiều">
           <div className="grid grid-cols-1 gap-2 mt-0.5">
             {MOCK_EXPECTATIONS.slice(0, 4).map((e) => {
@@ -426,7 +426,7 @@ export function UnifiedScheduleMobile() {
       </AnimatePresence>
       </div>
 
-      {/* ===== CTA — sticky bottom (đổi label & buttons theo step) ===== */}
+      {/* ===== CTA - sticky bottom (đổi label & buttons theo step) ===== */}
       <div className="sticky bottom-0 z-10 px-3 pt-2 pb-2.5 border-t border-border-default bg-white/95 backdrop-blur-md shadow-[0_-6px_18px_rgba(168,85,247,0.06)]">
         {step === 'schedule' ? (
           // STEP 1 → 1 button "Tiếp tục"
@@ -488,7 +488,7 @@ const slideVariants = {
 };
 
 // ---------------------------------------------------------------------------
-// DotIndicator — 2 chấm pagination ở header (active = brand-violet pill)
+// DotIndicator - 2 chấm pagination ở header (active = brand-violet pill)
 // ---------------------------------------------------------------------------
 
 function DotIndicator({ step }: { step: 'schedule' | 'form' }) {
@@ -517,7 +517,7 @@ function DotIndicator({ step }: { step: 'schedule' | 'form' }) {
 }
 
 // ---------------------------------------------------------------------------
-// Section card (C2 style) — step badge + Lucide icon + title + subtitle.
+// Section card (C2 style) - step badge + Lucide icon + title + subtitle.
 // ---------------------------------------------------------------------------
 
 function Section({
@@ -584,7 +584,7 @@ function Field({
 }
 
 // ---------------------------------------------------------------------------
-// TodayShinyBadge — gradient pill with periodic shine sweep
+// TodayShinyBadge - gradient pill with periodic shine sweep
 // ---------------------------------------------------------------------------
 
 function TodayShinyBadge() {
@@ -604,7 +604,7 @@ function TodayShinyBadge() {
 }
 
 // ---------------------------------------------------------------------------
-// TimeGrid — flat 4-col grid, no period grouping, all 30-min slots visible
+// TimeGrid - flat 4-col grid, no period grouping, all 30-min slots visible
 // ---------------------------------------------------------------------------
 
 function TimeGrid({

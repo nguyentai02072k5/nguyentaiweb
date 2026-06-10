@@ -3,7 +3,7 @@
 -- See: plans/260509-1059-tai-ai-automation-landing-page/phase-07-supabase-backend.md
 
 -- ---------------------------------------------------------------------------
--- Table: public.booking_config (singleton — row id always = 1)
+-- Table: public.booking_config (singleton - row id always = 1)
 -- ---------------------------------------------------------------------------
 
 create table if not exists public.booking_config (
@@ -43,7 +43,7 @@ create trigger booking_config_set_updated_at
   for each row execute function public.set_updated_at();
 
 -- ---------------------------------------------------------------------------
--- Table: public.blocked_periods (manual blocks — owner sets via Supabase Studio)
+-- Table: public.blocked_periods (manual blocks - owner sets via Supabase Studio)
 -- ---------------------------------------------------------------------------
 
 create table if not exists public.blocked_periods (

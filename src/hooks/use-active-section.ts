@@ -1,13 +1,13 @@
 "use client";
 
 /**
- * use-active-section.ts — Returns the currently active section ID via IntersectionObserver.
+ * use-active-section.ts - Returns the currently active section ID via IntersectionObserver.
  *
  * Watches DOM elements matching `#${id}` for each id in sectionIds[].
  * Marks a section active when its center crosses the upper-third of viewport.
  *
  * SSR-safe: returns null server-side. Missing elements skipped gracefully
- * (Phase 04-06 sections not yet built — hook tolerates absence).
+ * (Phase 04-06 sections not yet built - hook tolerates absence).
  */
 
 import { useEffect, useState } from 'react';

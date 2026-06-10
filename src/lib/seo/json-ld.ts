@@ -1,8 +1,8 @@
 /**
- * json-ld.ts — Builders cho structured data (schema.org).
+ * json-ld.ts - Builders cho structured data (schema.org).
  *
  * Template detail: TechArticle (luôn hợp lệ). `schemaType: 'howto'` để DÀNH cho tương lai
- * — chỉ nên emit HowTo khi có `step[]` đúng cấu trúc (frontmatter chưa có field steps),
+ * - chỉ nên emit HowTo khi có `step[]` đúng cấu trúc (frontmatter chưa có field steps),
  * nên hiện tại luôn TechArticle để tránh markup HowTo thiếu step (Google bỏ qua, không lợi).
  */
 
@@ -69,6 +69,20 @@ export function buildBlogPostingJsonLd(post: Post): JsonLd {
       url: absoluteUrl('/'),
     },
     keywords: post.tags.join(', '),
+  };
+}
+
+export function buildFaqPageJsonLd(
+  faqs: { question: string; answer: string }[],
+): JsonLd {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.question,
+      acceptedAnswer: { '@type': 'Answer', text: f.answer },
+    })),
   };
 }
 

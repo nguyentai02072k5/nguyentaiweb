@@ -27,15 +27,15 @@ Trang `/templates/[slug]`: render full nội dung MDX (mô tả + instruction) +
 
 ## Related Code Files
 - Create:
-  - `src/app/templates/[slug]/page.tsx` — detail RSC + generateStaticParams
-  - `src/app/templates/[slug]/not-found.tsx` — 404 riêng (optional, dùng global nếu có)
+  - `src/app/templates/[slug]/page.tsx` - detail RSC + generateStaticParams
+  - `src/app/templates/[slug]/not-found.tsx` - 404 riêng (optional, dùng global nếu có)
   - `src/components/templates/template-attachments.tsx`
   - `src/components/templates/template-cta.tsx`
   - `src/components/templates/related-templates.tsx`
-  - `src/components/templates/template-detail-header.tsx` — title/badges/meta
+  - `src/components/templates/template-detail-header.tsx` - title/badges/meta
 - Modify:
-  - `src/lib/content/queries.ts` — `getRelatedTemplates(current, limit)`
-  - `src/components/content/mdx-components.tsx` — hoàn thiện nếu Phase 1 để khung
+  - `src/lib/content/queries.ts` - `getRelatedTemplates(current, limit)`
+  - `src/components/content/mdx-components.tsx` - hoàn thiện nếu Phase 1 để khung
 - Reuse:
   - `src/lib/analytics/track-cta-click.ts`, design tokens, `badge`/`separator` shadcn
 

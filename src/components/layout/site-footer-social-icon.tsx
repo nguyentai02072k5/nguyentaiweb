@@ -1,5 +1,5 @@
 /**
- * site-footer-social-icon.tsx — Brand-accurate SVG glyphs for footer socials.
+ * site-footer-social-icon.tsx - Brand-accurate SVG glyphs for footer socials.
  *
  * Lucide ships Facebook but not TikTok or Zalo, so we inline minimal SVG paths
  * for visual consistency. All glyphs render at `currentColor` and accept a

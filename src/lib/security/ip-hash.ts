@@ -1,8 +1,8 @@
 /**
- * ip-hash.ts — One-way IP hashing for spam detection without storing PII.
+ * ip-hash.ts - One-way IP hashing for spam detection without storing PII.
  *
  * Uses Node's `crypto.createHash` (server-only). Salt from `IP_HASH_SALT`
- * env — rotated per environment so hashes don't cross-correlate.
+ * env - rotated per environment so hashes don't cross-correlate.
  */
 
 import 'server-only';

@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * use-scroll-past.ts — Boolean hook: has the window scrolled past N pixels?
+ * use-scroll-past.ts - Boolean hook: has the window scrolled past N pixels?
  *
  * Returns true when `window.scrollY > threshold`. SSR-safe (defaults false).
  * Used by NavBar to toggle transparent → glass background on scroll.

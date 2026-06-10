@@ -1,10 +1,10 @@
 -- Migration 0001: bookings table
--- Phase 07 spec — schema for 1-1 Meet booking
+-- Phase 07 spec - schema for 1-1 Meet booking
 -- (default 20-min duration, 24/7, 30-min grid, 2h forward block, DB-enforced)
 -- See: plans/260509-1059-tai-ai-automation-landing-page/phase-07-supabase-backend.md
 
 -- ---------------------------------------------------------------------------
--- IMMUTABLE helper — needed because `timestamptz + interval` is STABLE
+-- IMMUTABLE helper - needed because `timestamptz + interval` is STABLE
 -- (PG cannot statically prove interval arithmetic is timezone-independent),
 -- and exclusion-constraint expressions must be IMMUTABLE.
 -- We use pure epoch arithmetic (no interval) which is genuinely deterministic.
@@ -20,13 +20,13 @@ as $$
 $$;
 
 -- ---------------------------------------------------------------------------
--- Table: public.bookings — all constraints inline (idempotent on re-run)
+-- Table: public.bookings - all constraints inline (idempotent on re-run)
 -- ---------------------------------------------------------------------------
 
 create table if not exists public.bookings (
   id uuid primary key default gen_random_uuid(),
 
-  -- Customer info (minimal — phase 06 form-cro lock)
+  -- Customer info (minimal - phase 06 form-cro lock)
   phone_zalo          text    not null
     constraint phone_zalo_format
       check (phone_zalo ~ '^(\+84|0)\d{9,10}$'),
@@ -47,7 +47,7 @@ create table if not exists public.bookings (
   consent_zalo        boolean not null default false
     constraint consent_required check (consent_zalo = true),
 
-  -- Meeting timing — duration + start fully determine end (DB enforces)
+  -- Meeting timing - duration + start fully determine end (DB enforces)
   meeting_start       timestamptz not null,
   duration_minutes    integer  not null default 20
     constraint duration_positive check (duration_minutes > 0)
@@ -63,7 +63,7 @@ create table if not exists public.bookings (
       check (status in ('pending','confirmed','rescheduled','cancelled','completed','no-show')),
   notes               text,
 
-  -- v1.5 placeholders (Zalo notify tracking — deferred)
+  -- v1.5 placeholders (Zalo notify tracking - deferred)
   zalo_notified_at    timestamptz,
   zalo_notify_error   text,
 
@@ -88,7 +88,7 @@ create table if not exists public.bookings (
   constraint meeting_end_matches_duration
     check (meeting_end = meeting_start + duration_minutes * interval '1 minute'),
 
-  -- 2h forward block — DB-enforced exclusion. Two active bookings cannot
+  -- 2h forward block - DB-enforced exclusion. Two active bookings cannot
   -- have meeting_start within 2h of each other (bidirectional).
   -- '[)' = right-exclusive so a booking at 14:00 blocks [14:00, 16:00),
   -- 16:00 sharp is bookable again.

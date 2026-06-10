@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * trust-strip.tsx — Compact trust signals row between Process and FAQ.
+ * trust-strip.tsx - Compact trust signals row between Process and FAQ.
  *
  * Desktop: flex row with separator pipes between signals.
  * Tablet (sm-md): 2×2 grid.
@@ -36,19 +36,19 @@ export function TrustStrip({ content }: TrustStripProps) {
       aria-label="Cam kết dịch vụ"
       className="relative bg-surface-subtle py-8 sm:py-10"
     >
-      {/* Top fade — blend from prev section's surface-base into surface-subtle */}
+      {/* Top fade - blend from prev section's surface-base into surface-subtle */}
       <span
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 top-0 h-8 bg-gradient-to-b from-surface-base to-transparent"
       />
-      {/* Bottom fade — blend surface-subtle out into next section's surface-base */}
+      {/* Bottom fade - blend surface-subtle out into next section's surface-base */}
       <span
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-surface-base to-transparent"
       />
 
       <div className="relative mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
-        {/* Desktop: single row — hidden on mobile/tablet */}
+        {/* Desktop: single row - hidden on mobile/tablet */}
         <motion.div
           variants={timelineContainer}
           initial={shouldReduceMotion ? 'visible' : 'hidden'}
@@ -74,7 +74,7 @@ export function TrustStrip({ content }: TrustStripProps) {
                     {signal.text}
                   </span>
                 </motion.div>
-                {/* Separator — hide after last item */}
+                {/* Separator - hide after last item */}
                 {index < content.signals.length - 1 && (
                   <span
                     aria-hidden="true"
@@ -88,7 +88,7 @@ export function TrustStrip({ content }: TrustStripProps) {
           })}
         </motion.div>
 
-        {/* Mobile/tablet: 2×2 grid — icon-left compact, equal-height cards */}
+        {/* Mobile/tablet: 2×2 grid - icon-left compact, equal-height cards */}
         <motion.div
           variants={timelineContainer}
           initial={shouldReduceMotion ? 'visible' : 'hidden'}

@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next';
 import { SITE_URL, absoluteUrl } from '@/lib/seo/site';
 
 /**
- * robots.txt — Cho index tất cả trừ khu admin + API. KHÔNG chặn /booking (trang chuyển đổi).
+ * robots.txt - Cho index tất cả trừ khu admin + API. KHÔNG chặn /booking (trang chuyển đổi).
  */
 export default function robots(): MetadataRoute.Robots {
   return {

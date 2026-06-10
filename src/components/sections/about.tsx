@@ -6,7 +6,7 @@
  * Desktop layout (md+):
  *   Centered column: avatar → title → 4 story paragraphs → divider → bullets → inline CTA
  *
- * Mobile layout (< md, compact — reduce scroll length):
+ * Mobile layout (< md, compact - reduce scroll length):
  *   avatar → title → 4 accordion items (bullet header + story panel, single-active) → inline CTA
  *
  * Mobile accordion: bullets[i] pairs 1:1 with story[i] via index alignment in landing.ts.
@@ -145,7 +145,7 @@ export function About({ content }: AboutProps) {
         </motion.h2>
 
         {/* ─────────────────────────────────────────────────────────────
-            MOBILE (< md): 4 accordion items — bullet header + story panel
+            MOBILE (< md): 4 accordion items - bullet header + story panel
             Each bullet has its own "dropdown nổi bật" expanding to story[i]
             ───────────────────────────────────────────────────────────── */}
         <motion.ul

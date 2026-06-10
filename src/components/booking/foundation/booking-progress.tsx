@@ -1,5 +1,5 @@
 /**
- * BookingProgress — stepper with current step indicator.
+ * BookingProgress - stepper with current step indicator.
  * Used by all variants to show "Bước X/Y".
  */
 

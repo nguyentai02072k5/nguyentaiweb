@@ -90,13 +90,13 @@ export function DesktopTicket() {
       className="ticket-card relative rounded-[1.75rem] border-[1.5px] border-border-strong bg-white"
       style={TICKET_STYLE}
     >
-      {/* 4 corner brackets — L-shape, top/bottom × left/right */}
+      {/* 4 corner brackets - L-shape, top/bottom × left/right */}
       <CornerBracket pos="tl" />
       <CornerBracket pos="tr" />
       <CornerBracket pos="bl" />
       <CornerBracket pos="br" />
 
-      {/* Header strip — deep midnight-cyan gradient (cool tech booklet binding).
+      {/* Header strip - deep midnight-cyan gradient (cool tech booklet binding).
           Subtle scanline overlay + cyan-tinted binding dots. */}
       <header
         className="relative flex items-center justify-between px-7 pt-5 pb-4 text-white overflow-hidden"
@@ -115,7 +115,7 @@ export function DesktopTicket() {
           }}
         />
 
-        {/* Binding-hole dots (perforation rows) — top + bottom */}
+        {/* Binding-hole dots (perforation rows) - top + bottom */}
         <BindingDots position="top" />
         <BindingDots position="bottom" />
 
@@ -155,7 +155,7 @@ export function DesktopTicket() {
       <div className="grid grid-cols-[58%_42%]">
         {/* ============ LEFT: SCHEDULE ============ */}
         <div className="relative p-7 pr-9">
-          {/* 24px grid backdrop — full LEFT column, kéo dài tới perforation
+          {/* 24px grid backdrop - full LEFT column, kéo dài tới perforation
               (right edge của column @ 58%). Không fade-out. */}
           <div
             aria-hidden
@@ -503,7 +503,7 @@ function Field({
   );
 }
 
-// Section card (C2 style) — numbered step + icon + title + subtitle.
+// Section card (C2 style) - numbered step + icon + title + subtitle.
 // Uses a tiny "step badge" chip on the left of header for tech vibe.
 function Section({
   step,
@@ -539,7 +539,7 @@ function Section({
   );
 }
 
-// Binding-hole dots — row of small circles giả lò xo / perforation
+// Binding-hole dots - row of small circles giả lò xo / perforation
 // của cuốn lịch (gáy lịch treo tường).
 function BindingDots({ position }: { position: 'top' | 'bottom' }) {
   return (

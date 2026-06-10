@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * process-journey.tsx — Process Journey section (S5).
+ * process-journey.tsx - Process Journey section (S5).
  *
  * Desktop (md+): 2-col alternating grid with centered animated SVG spine.
  *   Odd steps (index 0,2,4) → left column; even steps (index 1,3,5) → right column.
@@ -39,14 +39,14 @@ export function ProcessJourney({ content }: ProcessJourneyProps) {
       aria-labelledby="process-title"
       className="relative scroll-mt-24 overflow-hidden bg-surface-base py-10 sm:py-12 lg:py-14"
     >
-      {/* Aurora background — boosted to make glass cards pop */}
+      {/* Aurora background - boosted to make glass cards pop */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_60%_0%,rgba(168,85,247,0.22),transparent_55%),radial-gradient(ellipse_at_15%_50%,rgba(99,102,241,0.18),transparent_50%),radial-gradient(ellipse_at_85%_85%,rgba(236,72,153,0.14),transparent_55%)]"
       />
 
       <div className="relative mx-auto max-w-5xl px-5 sm:px-6 lg:px-8">
-        {/* Section header — compact */}
+        {/* Section header - compact */}
         <div className="mb-7 text-center lg:mb-9">
           <h2
             id="process-title"
@@ -68,7 +68,7 @@ export function ProcessJourney({ content }: ProcessJourneyProps) {
             viewport={{ once: true, margin: '-80px' }}
             className="relative grid grid-cols-2 gap-x-10 gap-y-5"
           >
-            {/* Animated spine — anchored to grid height, centered between columns */}
+            {/* Animated spine - anchored to grid height, centered between columns */}
             <TimelineSpine sectionRef={sectionRef} />
 
             {content.steps.map((step, index) => {
@@ -92,7 +92,7 @@ export function ProcessJourney({ content }: ProcessJourneyProps) {
             Gutter pl-14 (56px) gives badge room; spine at left-7 (center x≈29px).
             Badge size-10 (40px) centered: -left-12 from step wrapper (which starts at x=56). */}
         <div className="relative md:hidden">
-          {/* Vertical accent line — aurora gradient strip */}
+          {/* Vertical accent line - aurora gradient strip */}
           <div
             aria-hidden="true"
             className="bg-aurora pointer-events-none absolute left-7 top-3 bottom-3 w-0.5 opacity-50"

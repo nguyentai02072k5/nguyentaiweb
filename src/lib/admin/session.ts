@@ -1,5 +1,5 @@
 /**
- * admin/session.ts — Session token cho admin dashboard.
+ * admin/session.ts - Session token cho admin dashboard.
  *
  * Cơ chế đơn giản nhưng đủ an toàn cho v1:
  * - Token = `<expiresAt>.<HMAC-SHA256(expiresAt, secret)>`

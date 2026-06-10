@@ -1,16 +1,16 @@
 /**
- * hero-variants.ts — Framer Motion animation variants for Hero section.
+ * hero-variants.ts - Framer Motion animation variants for Hero section.
  *
- * Timeline (owner-tuned 2026-05-12 — title phase shortened 2s → 1.2s):
+ * Timeline (owner-tuned 2026-05-12 - title phase shortened 2s → 1.2s):
  *   t=0.00s    → Eyebrow fade-in (0.3s)
  *   t=0.30s    → Title 4 lines start
  *   t=0.30s    → Line 1
  *   t=0.55s    → Line 2  (each line stagger 0.25s, duration 0.45s)
  *   t=0.80s    → Line 3
- *   t=1.05s    → Line 4 (ends ≈ t=1.50s — total title phase ≈ 1.2s)
+ *   t=1.05s    → Line 4 (ends ≈ t=1.50s - total title phase ≈ 1.2s)
  *   t=1.50s    → Sketch underline pathLength animate (1.2s)
  *   t=2.70s    → Post-sketch items: body → USP → CTAs → trust bullets → mobile pills
- *                 (each spaced 0.15s, duration 0.55s — "tốc độ cũ")
+ *                 (each spaced 0.15s, duration 0.55s - "tốc độ cũ")
  *
  * Reduced-motion: components call useReducedMotion(), pass initial="visible"
  * to mount at final state instantly (no transforms).
@@ -21,7 +21,7 @@ import type { Variants } from 'framer-motion';
 const EASE_OUT: [number, number, number, number] = [0.2, 0, 0, 1];
 
 // ---------------------------------------------------------------------------
-// Phase 1 — Eyebrow (t=0 → 0.3s)
+// Phase 1 - Eyebrow (t=0 → 0.3s)
 // ---------------------------------------------------------------------------
 
 export const heroEyebrowVariants: Variants = {
@@ -34,7 +34,7 @@ export const heroEyebrowVariants: Variants = {
 };
 
 // ---------------------------------------------------------------------------
-// Phase 2 — Title 4 lines (t=0.3 → 2.0s)
+// Phase 2 - Title 4 lines (t=0.3 → 2.0s)
 // ---------------------------------------------------------------------------
 
 /** Title container: stagger 4 lines starting at t=0.3 (after eyebrow). */
@@ -45,7 +45,7 @@ export const headlineWordContainerVariants: Variants = {
   },
 };
 
-/** Each title line: fade-up + blur clear (0.45s) — tightened cadence. */
+/** Each title line: fade-up + blur clear (0.45s) - tightened cadence. */
 export const headlineWordItemVariants: Variants = {
   hidden: { opacity: 0, y: 24, filter: 'blur(8px)' },
   visible: {
@@ -57,7 +57,7 @@ export const headlineWordItemVariants: Variants = {
 };
 
 // ---------------------------------------------------------------------------
-// Phase 4 — Post-sketch items (t=3.2s onward) — fade-in tốc độ cũ
+// Phase 4 - Post-sketch items (t=3.2s onward) - fade-in tốc độ cũ
 // (Phase 3 = sketch underline animates inside SketchUnderline component
 //  at delay=2.0s for 1.2s duration → completes ≈ t=3.2s.)
 // ---------------------------------------------------------------------------
@@ -104,7 +104,7 @@ export const heroCtaVariants: Variants = {
   },
 };
 
-/** Trust bullets container — stagger bullets after CTAs visible */
+/** Trust bullets container - stagger bullets after CTAs visible */
 export const heroTrustContainerVariants: Variants = {
   hidden: {},
   visible: {
@@ -133,13 +133,13 @@ export const heroPillsVariants: Variants = {
 // Shared utilities
 // ---------------------------------------------------------------------------
 
-/** Parent shell — propagates animate state, no orchestration of its own. */
+/** Parent shell - propagates animate state, no orchestration of its own. */
 export const heroContainerVariants: Variants = {
   hidden: {},
   visible: {},
 };
 
-/** Photo panel — keep opacity:1 always for LCP correctness, animate scale only.
+/** Photo panel - keep opacity:1 always for LCP correctness, animate scale only.
     Removing opacity:0 initial prevents Next.js LCP "loading=eager missing" warning
     (photo paints immediately, scale subtly settles in 0.65s). */
 export const heroPhotoVariants: Variants = {
@@ -152,7 +152,7 @@ export const heroPhotoVariants: Variants = {
 };
 
 
-/** D7 viewport stagger item — used by trust bullets + about bullets. */
+/** D7 viewport stagger item - used by trust bullets + about bullets. */
 export const staggerItemVariants: Variants = {
   hidden: { opacity: 0, y: 12 },
   visible: {
@@ -162,7 +162,7 @@ export const staggerItemVariants: Variants = {
   },
 };
 
-/** Legacy alias — kept for `heroContentVariants` callers (About section etc.) */
+/** Legacy alias - kept for `heroContentVariants` callers (About section etc.) */
 export const heroContentVariants: Variants = {
   hidden: { opacity: 0, y: 24 },
   visible: {
@@ -172,7 +172,7 @@ export const heroContentVariants: Variants = {
   },
 };
 
-/** Instant variant — useReducedMotion path, mount at final state. */
+/** Instant variant - useReducedMotion path, mount at final state. */
 export const instantVariants: Variants = {
   hidden: { opacity: 1, y: 0, scale: 1 },
   visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0 } },

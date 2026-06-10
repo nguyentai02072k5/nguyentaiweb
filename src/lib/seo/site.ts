@@ -1,5 +1,5 @@
 /**
- * site.ts — Single source of truth cho site URL + danh tính.
+ * site.ts - Single source of truth cho site URL + danh tính.
  * Dùng chung: metadataBase (layout), sitemap, robots, JSON-LD, OG.
  */
 

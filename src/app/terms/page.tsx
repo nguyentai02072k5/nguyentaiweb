@@ -1,5 +1,5 @@
 /**
- * /terms — Điều Khoản Dịch Vụ.
+ * /terms - Điều Khoản Dịch Vụ.
  *
  * Source of truth content lives in
  * `plans/260509-1059-tai-ai-automation-landing-page/legal/terms-of-service.md`.

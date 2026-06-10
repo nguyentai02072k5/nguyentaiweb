@@ -1,7 +1,7 @@
 /**
- * queries.ts — Truy vấn content layer (Velite output qua alias #site/content).
+ * queries.ts - Truy vấn content layer (Velite output qua alias #site/content).
  *
- * Mọi truy cập template từ UI đi qua đây (sort/filter/relate) — DRY, 1 nguồn.
+ * Mọi truy cập template từ UI đi qua đây (sort/filter/relate) - DRY, 1 nguồn.
  *
  * Listing/grid/related trả `TemplateSummary` (BỎ `body`): card + filter không cần
  * MDX body, tránh serialize toàn bộ body compiled vào HTML trang kho (phình to khi
@@ -11,9 +11,9 @@
 import { templates, posts, type Template, type Post } from '#site/content';
 import { INDUSTRIES } from './taxonomy';
 
-/** Template không kèm body — đủ cho card/listing/filter. */
+/** Template không kèm body - đủ cho card/listing/filter. */
 export type TemplateSummary = Omit<Template, 'body'>;
-/** Post không kèm body — đủ cho card/listing. */
+/** Post không kèm body - đủ cho card/listing. */
 export type PostSummary = Omit<Post, 'body'>;
 
 function toSummary(t: Template): TemplateSummary {
@@ -45,14 +45,14 @@ export function getTemplateBySlug(slug: string): Template | undefined {
   return templates.find((t) => t.slug === slug);
 }
 
-/** Template của 1 ngành (pSEO route) — summary cho grid. */
+/** Template của 1 ngành (pSEO route) - summary cho grid. */
 export function getTemplatesByIndustry(industry: string): TemplateSummary[] {
   return sortTemplates(templates.filter((t) => t.industry === industry)).map(
     toSummary,
   );
 }
 
-/** Các ngành ĐÃ có ≥1 template — dùng cho generateStaticParams pSEO (chống thin content). */
+/** Các ngành ĐÃ có ≥1 template - dùng cho generateStaticParams pSEO (chống thin content). */
 export function getIndustriesWithTemplates() {
   const used = new Set(templates.map((t) => t.industry));
   return INDUSTRIES.filter((i) => used.has(i.slug));
@@ -60,7 +60,7 @@ export function getIndustriesWithTemplates() {
 
 /**
  * Related: cùng industry → bù cùng businessModel → bù featured. Loại bản thân, tối đa `limit`.
- * Nhận current dạng summary (đủ field cần) — trả summary cho card.
+ * Nhận current dạng summary (đủ field cần) - trả summary cho card.
  */
 export function getRelatedTemplates(
   current: TemplateSummary,

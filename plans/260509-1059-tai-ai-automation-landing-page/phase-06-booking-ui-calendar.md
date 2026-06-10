@@ -233,10 +233,10 @@ type BookingForm = {
 
 ### Mount point (LOCKED 2026-05-14)
 - **Inline section** trên main `/` page, anchor `id="dat-lich"`
-- **KHÔNG** tạo route `/booking` — nav + sticky CTA scroll smooth tới `#dat-lich`
+- **KHÔNG** tạo route `/booking` - nav + sticky CTA scroll smooth tới `#dat-lich`
 - Submit success → `router.push('/thank-you')` (full-page, không state-based step 5)
 
-### Step 5 = trang `/thank-you` (full route — LOCKED 2026-05-14)
+### Step 5 = trang `/thank-you` (full route - LOCKED 2026-05-14)
 **File:** `src/app/thank-you/page.tsx`
 **URL:** `/thank-you?booking_id=...&phone_mask=...`
 **Layout (full-width card centered):**
@@ -252,7 +252,7 @@ type BookingForm = {
      vào số 0xxx xxx xxx
      trong vòng 24 giờ.
 
-     (v1.5 sẽ auto Zalo Notify — hiện owner check Supabase Studio)
+     (v1.5 sẽ auto Zalo Notify - hiện owner check Supabase Studio)
 
   [Quay về trang chủ]   [Lưu vào lịch (.ics)]
 ```
@@ -289,7 +289,7 @@ type BookingForm = {
   </AnimatePresence>
 </BookingSection>
 
-// src/app/thank-you/page.tsx — separate route, full-page
+// src/app/thank-you/page.tsx - separate route, full-page
 <ThankYouPage />
 ```
 

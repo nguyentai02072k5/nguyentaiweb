@@ -11,7 +11,7 @@
 **Recommendation: Use Velite's Programmatic API (Next.js Config Approach) + Fallback to next-mdx-remote/rsc if complexity escalates.**
 
 - ✅ **Velite + Next 16 + Turbopack:** Fully compatible via programmatic API (`velite.build()` in next.config.ts), NOT via webpack plugin.
-- ✅ **Zod compatibility:** No conflict—Velite re-exports Zod internally; your project's zod^4.4.3 coexists safely.
+- ✅ **Zod compatibility:** No conflict-Velite re-exports Zod internally; your project's zod^4.4.3 coexists safely.
 - ✅ **RSC rendering:** Velite outputs compiled MDX function bodies; render via `useMDXComponent()` helper in Server Components.
 - ⚠️ **Critical caveat:** Turbopack does NOT support webpack plugins; webpack plugin pattern fails entirely.
 - 🔄 **Fallback path:** next-mdx-remote/rsc (v5.0+) is production-ready, simpler for dynamic content, less build-time magic.
@@ -51,7 +51,7 @@ export default {
 - Velite runs as standalone CLI during Next.js initialization.
 - Generates .velite/ output before Turbopack sees bundling.
 - HMR file watching works in dev (velite --watch mode).
-- No webpack/Turbopack plugin coupling—orthogonal processes.
+- No webpack/Turbopack plugin coupling-orthogonal processes.
 
 **Type annotation note:** If using .ts file, Node.js 22.18.0+ auto-infers ESM. For Node <22.10, use `next.config.mts` explicitly or set `NODE_OPTIONS=--experimental-transform-types`.
 
@@ -72,7 +72,7 @@ export default {
 
 **Zod Conflict Resolution:**
 - Velite imports zod internally but re-exports it as `import { z } from 'velite'`.
-- Your project's zod^4.4.3 in package.json does not conflict—npm deduplicates transitive deps.
+- Your project's zod^4.4.3 in package.json does not conflict-npm deduplicates transitive deps.
 - Risk scenario: if Velite pinned zod@3.x as peer, you'd see type incompatibility in validation. Check Velite's package.json to confirm zod version.
 - **Action:** Run `npm ls zod` after install to verify single version tree. If duplicates appear, align all deps to zod@4.
 
@@ -172,7 +172,7 @@ export default async function TemplatePage({ params }: Props) {
 
 **Why this works:**
 - `useMDXComponent()` executes Velite's pre-compiled function body at render time.
-- No tree-shaking of unused components—all components bundled at render site, not build time.
+- No tree-shaking of unused components-all components bundled at render site, not build time.
 - Server Component directly calls `useMDXComponent()` without client boundary.
 
 ---
@@ -341,7 +341,7 @@ Velite watches content/ automatically when isDev=true in config.
 
 ### Issue #2: .velite/ Not Generated on Vercel
 
-**Problem:** Build succeeds locally, fails on Vercel—`.velite/` missing from build output.
+**Problem:** Build succeeds locally, fails on Vercel-`.velite/` missing from build output.
 
 **Root cause:** Vercel caches node_modules but may skip custom build scripts if not in `next build` command.
 
@@ -562,7 +562,7 @@ export default async function TemplatePage({
 ### Phase 5: Deployment (Vercel)
 
 - [ ] Commit `velite.config.ts`, `.gitignore` (not `.velite/`).
-- [ ] No changes to Vercel settings needed—`next build` triggers Velite automatically.
+- [ ] No changes to Vercel settings needed-`next build` triggers Velite automatically.
 - [ ] Test preview deployment.
 
 ---
@@ -602,7 +602,7 @@ Build Flow:
 
 ## 11. Unresolved Questions
 
-1. **Velite package.json zod version:** Confirmed compatibility in matrix above, but verify with `npm ls zod` post-install—no current indicator of Velite pinning zod@3 as blocker.
+1. **Velite package.json zod version:** Confirmed compatibility in matrix above, but verify with `npm ls zod` post-install-no current indicator of Velite pinning zod@3 as blocker.
 
 2. **HMR reliability on Windows:** Velite file-watcher behavior on Windows 11 (this project's OS) may differ from Unix. File-system event queuing could lag on high-frequency edits.
 

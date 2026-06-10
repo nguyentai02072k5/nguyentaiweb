@@ -7,7 +7,7 @@ import {
 } from '@/lib/content/queries';
 
 /**
- * sitemap.xml — route tĩnh + pSEO ngành (có template) + chi tiết template.
+ * sitemap.xml - route tĩnh + pSEO ngành (có template) + chi tiết template.
  * Filtered view client của /templates không có URL nên không liệt kê.
  */
 export default function sitemap(): MetadataRoute.Sitemap {

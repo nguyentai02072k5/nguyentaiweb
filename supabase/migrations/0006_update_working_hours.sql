@@ -1,6 +1,6 @@
 -- Migration 0006: Update existing booking_config singleton with working hours
 -- Original seed (0003) used '{}' (24/7); this migration narrows to owner's window.
--- Idempotent — re-running is a no-op if values already match.
+-- Idempotent - re-running is a no-op if values already match.
 --
 -- Working hours: 9:00-11:30 + 14:00-19:30 HCM time
 -- Skip = hours OUTSIDE working window

@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { formatDateLong } from '@/lib/format/date-vn';
 
 /**
- * post-detail-header.tsx — Breadcrumb + tags + tiêu đề + tác giả/ngày/thời gian đọc.
+ * post-detail-header.tsx - Breadcrumb + tags + tiêu đề + tác giả/ngày/thời gian đọc.
  */
 export function PostDetailHeader({ post }: { post: PostSummary }) {
   return (

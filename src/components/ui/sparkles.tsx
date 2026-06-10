@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * sparkles.tsx — tsparticles wrapper for ambient sparkle backdrop.
+ * sparkles.tsx - tsparticles wrapper for ambient sparkle backdrop.
  *
  * Adapted from https://lunarui.dev/components/react/feature-blocks/sparkles.
  * Engine loaded once per page lifecycle (guarded by a module-level promise) so

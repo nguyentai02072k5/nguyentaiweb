@@ -1,5 +1,5 @@
 /**
- * legal-bullets.tsx — Aurora-styled bullet list for /privacy & /terms.
+ * legal-bullets.tsx - Aurora-styled bullet list for /privacy & /terms.
  *
  * Default marker: ✦ (Aurora violet, matches About + ProcessJourney bullets).
  * Optional `marker` prop accepts any string (e.g. ❌, ✅) for negative/positive

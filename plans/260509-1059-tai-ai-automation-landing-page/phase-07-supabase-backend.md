@@ -33,14 +33,14 @@ Build database schema + API endpoints để booking UI consume. Implement **2h f
 - **v1 notify:** không trigger external - chỉ insert DB. Owner xem bookings qua Supabase Studio.
 - **Schema includes** `expectations text[]` array (multi-select) + `expectation_other text` (Khác content)
 
-## Architecture (LOCKED 2026-05-14 — KISS rewrite)
+## Architecture (LOCKED 2026-05-14 - KISS rewrite)
 
 ### Scope (v1)
 Supabase chỉ làm 4 việc:
-1. **DB lưu booking** — 1 bảng `bookings` + `booking_config` singleton + `blocked_periods`
-2. **RLS bảo vệ dữ liệu** — zero public policy, server-only qua service_role
-3. **Constraint chống double booking** — exclusion `bookings_active_2h_no_overlap` enforce ở DB level
-4. **Studio để owner xem booking** — không cần custom dashboard v1
+1. **DB lưu booking** - 1 bảng `bookings` + `booking_config` singleton + `blocked_periods`
+2. **RLS bảo vệ dữ liệu** - zero public policy, server-only qua service_role
+3. **Constraint chống double booking** - exclusion `bookings_active_2h_no_overlap` enforce ở DB level
+4. **Studio để owner xem booking** - không cần custom dashboard v1
 
 ### Flow
 ```
@@ -64,19 +64,19 @@ User submit form
 - ❌ Outbox queue / event log
 - ❌ Background worker / cron / pg_cron
 - ❌ Retry với backoff
-- ❌ HMAC signing webhook (chỉ cần khi receiver verify — Discord/Slack không yêu cầu)
+- ❌ HMAC signing webhook (chỉ cần khi receiver verify - Discord/Slack không yêu cầu)
 - ❌ Rule engine / automation rules
 - ❌ Zalo OA / ZNS
 - ❌ `.ics` calendar invite
 
 Lý do defer: 90% case owner sẽ thấy booking trong Studio + Discord ping. Webhook fail thì miss 1 ping nhưng booking vẫn lưu (DB là nguồn sự thật). Khi nào có nhu cầu rõ ràng (vd: tích hợp Zalo, có ≥3 automation rule) mới build outbox.
 
-### Migration files (v1 final — 5 file)
+### Migration files (v1 final - 5 file)
 - `0001_init_bookings.sql` ✅ applied
 - `0002_init_config.sql` ✅ applied
 - `0003_seed_config.sql` ✅ applied
 - `0004_rls_policies.sql` ✅ applied
-- `0005_rpc_create_booking.sql` ⏳ draft — atomic insert RPC
+- `0005_rpc_create_booking.sql` ⏳ draft - atomic insert RPC
 
 ---
 
@@ -267,7 +267,7 @@ Returns suggested 3-5 slots cho ngày đó. `full=true` để show all 48 slots 
 Frontend default render `curated_picks`, có button "Xem thêm giờ khác" expand show all `slots`.
 
 ### `POST /api/book`
-Create booking + outbox event atomically. **v1 (LOCKED 2026-05-14):** Transactional Outbox — booking và event lưu chung 1 transaction, worker dispatch webhook async sau.
+Create booking + outbox event atomically. **v1 (LOCKED 2026-05-14):** Transactional Outbox - booking và event lưu chung 1 transaction, worker dispatch webhook async sau.
 
 **Body:**
 ```json
@@ -292,7 +292,7 @@ Create booking + outbox event atomically. **v1 (LOCKED 2026-05-14):** Transactio
 2. Phone normalize (strip spaces, +84 → 0)
 3. Hash IP for `ip_hash` field (sha256 + salt)
 4. Call RPC `create_booking_with_event(phone, start, email, name, expectations[], other, ua, ip)`:
-   - DB exclusion constraint enforces 2h block (atomic — no TOCTOU)
+   - DB exclusion constraint enforces 2h block (atomic - no TOCTOU)
    - Booking + outbox event inserted in SAME transaction
    - If 23P01 (slot taken) → catch, return 409 with alternative slots
    - If 23514 (check) → catch, return 400 validation error
@@ -474,14 +474,14 @@ CRON_SECRET=random-secret-for-cron-endpoint
 
 ## Files to Create
 
-### v1 (current scope — UPDATED 2026-05-14 KISS rewrite)
+### v1 (current scope - UPDATED 2026-05-14 KISS rewrite)
 
-**SQL (`supabase/migrations/`) — 5 file:**
+**SQL (`supabase/migrations/`) - 5 file:**
 - `0001_init_bookings.sql` ✅ applied
 - `0002_init_config.sql` ✅ applied
 - `0003_seed_config.sql` ✅ applied
 - `0004_rls_policies.sql` ✅ applied
-- `0005_rpc_create_booking.sql` ⏳ draft — atomic insert RPC
+- `0005_rpc_create_booking.sql` ⏳ draft - atomic insert RPC
 
 **TypeScript:**
 - `src/lib/supabase/server-client.ts` ✅ created
@@ -489,10 +489,10 @@ CRON_SECRET=random-secret-for-cron-endpoint
 - `src/lib/supabase/database-types.ts` ✅ generated (regen sau apply 0005)
 - `src/app/api/availability/days/route.ts` ⏳
 - `src/app/api/availability/slots/route.ts` ⏳
-- `src/app/api/book/route.ts` ⏳ — RPC `create_booking` + optional inline webhook
+- `src/app/api/book/route.ts` ⏳ - RPC `create_booking` + optional inline webhook
 - `src/lib/booking/availability-engine.ts` ⏳
 - `src/lib/booking/slot-curator.ts` ⏳
-- `src/lib/booking/types.ts` ⏳ — domain types
+- `src/lib/booking/types.ts` ⏳ - domain types
 - `src/lib/validators/booking-schema.ts` ⏳
 - `src/lib/format/date-vn.ts` ⏳
 - `src/lib/format/phone-vn.ts` ⏳
@@ -534,7 +534,7 @@ CRON_SECRET=random-secret-for-cron-endpoint
 
 ### Done ✅
 - [x] Supabase project created (ref `hiocvsfjssqozovdmfas`, Singapore)
-- [x] 0001-0004 applied — bookings + config + RLS + seed
+- [x] 0001-0004 applied - bookings + config + RLS + seed
 - [x] DB exclusion constraint `bookings_active_2h_no_overlap` smoke-tested
 - [x] TS types generated (`src/lib/supabase/database-types.ts`)
 - [x] `server-client.ts` + `anon-client.ts`
@@ -546,15 +546,15 @@ CRON_SECRET=random-secret-for-cron-endpoint
 - [ ] Regenerate TS types
 
 ### API + UI
-- [ ] `src/lib/validators/booking-schema.ts` — Zod
+- [ ] `src/lib/validators/booking-schema.ts` - Zod
 - [ ] `src/lib/format/phone-vn.ts`
 - [ ] `src/lib/security/ip-hash.ts`
-- [ ] `src/lib/booking/types.ts` — domain types
+- [ ] `src/lib/booking/types.ts` - domain types
 - [ ] `src/lib/booking/availability-engine.ts`
 - [ ] `src/lib/booking/slot-curator.ts`
 - [ ] `/api/availability/days`
 - [ ] `/api/availability/slots`
-- [ ] `/api/book` — RPC + optional inline webhook (fire-and-forget)
+- [ ] `/api/book` - RPC + optional inline webhook (fire-and-forget)
 - [ ] Edge tests: double-book → 409, validation → 400, webhook fail → still success
 
 ### Deferred to v1.5+

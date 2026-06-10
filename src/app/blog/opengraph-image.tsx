@@ -4,7 +4,7 @@ import { OG_CONTENT_TYPE, OG_SIZE, OgCard } from '@/lib/seo/og-card';
 
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
-export const alt = 'Blog — Tài AI Automation';
+export const alt = 'Blog - Tài AI Automation';
 
 export default async function Image() {
   const fonts = await loadOgFonts();

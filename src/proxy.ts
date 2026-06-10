@@ -1,12 +1,12 @@
 /**
- * proxy.ts — Routing + auth gate cho subdomain admin (Next.js 16 convention).
+ * proxy.ts - Routing + auth gate cho subdomain admin (Next.js 16 convention).
  *
  * 1. Host `admin.nguyenvantai.com` (hoặc `admin.localhost`) → rewrite vào `/admin/*`
  *    để main site (`/`, `/booking`, ...) không lộ qua subdomain.
  * 2. Tất cả route `/admin/*` (trừ `/admin/login` và Server Action POST của nó)
- *    yêu cầu cookie session hợp lệ — nếu không thì redirect về `/admin/login`.
+ *    yêu cầu cookie session hợp lệ - nếu không thì redirect về `/admin/login`.
  *
- * Lưu ý: dùng Web Crypto (SubtleCrypto) — Node `crypto` không có trong Edge runtime.
+ * Lưu ý: dùng Web Crypto (SubtleCrypto) - Node `crypto` không có trong Edge runtime.
  */
 
 import { NextResponse, type NextRequest } from 'next/server';

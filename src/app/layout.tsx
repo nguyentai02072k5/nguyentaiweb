@@ -11,8 +11,8 @@ import { ScrollToTopButton } from "@/components/ui/scroll-to-top-button";
 import { SITE_URL } from "@/lib/seo/site";
 import "./globals.css";
 
-/* FOUC prevention — reads stored theme & toggles `.dark` on <html> before paint.
- * Runs outside React tree via next/script beforeInteractive — avoids React 19
+/* FOUC prevention - reads stored theme & toggles `.dark` on <html> before paint.
+ * Runs outside React tree via next/script beforeInteractive - avoids React 19
  * warning about inline <script> tags rendered inside components. */
 const themeInitScript = `try{var t=localStorage.getItem("theme");if(t==="dark")document.documentElement.classList.add("dark");}catch(e){}`;
 

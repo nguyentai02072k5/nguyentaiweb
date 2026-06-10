@@ -1,5 +1,5 @@
 /**
- * og-card.tsx — Layout OG card dùng chung cho 3 route opengraph-image (DRY).
+ * og-card.tsx - Layout OG card dùng chung cho 3 route opengraph-image (DRY).
  * Inline style (Satori-compatible): nền gradient Aurora, eyebrow + title + brand.
  */
 

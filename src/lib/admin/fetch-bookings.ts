@@ -1,5 +1,5 @@
 /**
- * admin/fetch-bookings.ts — Query bookings cho dashboard admin.
+ * admin/fetch-bookings.ts - Query bookings cho dashboard admin.
  *
  * Tách helper riêng để page admin chỉ lo render + filter UI.
  * Dùng service_role qua supabaseAdmin → bỏ qua RLS (owner-only access).

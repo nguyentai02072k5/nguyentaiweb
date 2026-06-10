@@ -1,5 +1,5 @@
 /**
- * Ripple — concentric expanding circles for a soft sonar/ripple effect.
+ * Ripple - concentric expanding circles for a soft sonar/ripple effect.
  * Adapted from Magic UI. Positions itself absolutely; parent must be relative.
  */
 
