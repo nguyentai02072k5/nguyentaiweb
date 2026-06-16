@@ -3,8 +3,9 @@
 /**
  * scroll-to-top-button.tsx - Floating "back to top" pill.
  *
- * Appears after the user scrolls past 600px. Mobile position sits above the
- * StickyCtaBar (56px) so the two never overlap. Smooth scrolls to page top.
+ * Appears after the user scrolls past 600px. Sits above the Chatwoot launcher
+ * bubble (bottom-right, ~84px tall) so the two never overlap; on mobile it also
+ * clears the StickyCtaBar (56px). Smooth scrolls to page top.
  * Respects prefers-reduced-motion (instant jump, no fade/scale).
  */
 
@@ -42,8 +43,8 @@ export function ScrollToTopButton() {
       transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
       className="
         fixed z-40
-        right-4 bottom-24
-        md:right-6 md:bottom-6
+        right-4 bottom-[104px]
+        md:right-6 md:bottom-[104px]
         inline-flex items-center justify-center
         size-11 md:size-12
         rounded-full
