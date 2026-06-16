@@ -5,6 +5,10 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { MetaPixel } from "@/components/analytics/meta-pixel";
+import {
+  GoogleTagManager,
+  GoogleTagManagerNoScript,
+} from "@/components/analytics/google-tag-manager";
 import { ChatwootWidget } from "@/components/chat/chatwoot-widget";
 import { NavBar } from "@/components/layout/nav-bar";
 import { SiteFooter } from "@/components/layout/site-footer";
@@ -95,6 +99,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="font-body min-h-full flex flex-col bg-surface-base text-text-primary">
+        <GoogleTagManagerNoScript />
         <Script
           id="theme-init"
           strategy="beforeInteractive"
@@ -108,6 +113,7 @@ export default function RootLayout({
           <ScrollToTopButton />
         </ThemeProvider>
         <MetaPixel />
+        <GoogleTagManager />
         <ChatwootWidget />
         <Analytics />
         <SpeedInsights />
