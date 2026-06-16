@@ -19,6 +19,7 @@ import { Calendar, CheckCircle2, Sparkles, RefreshCw } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useDays, useSlots } from '@/lib/booking/use-availability';
 import { trackMetaCustomEvent, trackMetaStandardEvent } from '@/lib/analytics/meta-pixel';
+import { pushToDataLayer } from '@/lib/analytics/gtm';
 import { BookingFormWired, type SelectedSlotInfo, type FormSuccessData } from '@/components/booking/booking-form-wired';
 import { useRouter } from 'next/navigation';
 
@@ -78,6 +79,14 @@ export function DesktopTicketWired() {
         booking_time: data.timeRange,
       }, {
         eventID: `${data.bookingId}:schedule`,
+      });
+      // Conversion cho GA4 (qua GTM) - bắn đúng 1 lần khi đặt lịch thành công.
+      pushToDataLayer({
+        event: 'booking_success',
+        booking_id: data.bookingId,
+        layout: 'desktop',
+        booking_date: data.dateLabel,
+        booking_time: data.timeRange,
       });
       const params = new URLSearchParams({
         booking_id: data.bookingId,
