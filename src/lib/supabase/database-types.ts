@@ -148,6 +148,57 @@ export type Database = {
         }
         Relationships: []
       }
+      leads: {
+        Row: {
+          created_at: string
+          full_name: string | null
+          id: string
+          ip_hash: string | null
+          note: string | null
+          open_count: number
+          opened_at: string
+          payload: Json
+          phone: string
+          source: string | null
+          status: string
+          submitted_at: string | null
+          updated_at: string
+          user_agent: string | null
+        }
+        Insert: {
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          ip_hash?: string | null
+          note?: string | null
+          open_count?: number
+          opened_at?: string
+          payload?: Json
+          phone: string
+          source?: string | null
+          status?: string
+          submitted_at?: string | null
+          updated_at?: string
+          user_agent?: string | null
+        }
+        Update: {
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          ip_hash?: string | null
+          note?: string | null
+          open_count?: number
+          opened_at?: string
+          payload?: Json
+          phone?: string
+          source?: string | null
+          status?: string
+          submitted_at?: string | null
+          updated_at?: string
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -170,6 +221,35 @@ export type Database = {
           id: string
           meeting_end: string
           meeting_start: string
+        }[]
+      }
+      record_lead_open: {
+        Args: {
+          p_phone: string
+          p_user_agent?: string
+          p_ip_hash?: string
+          p_source?: string
+        }
+        Returns: {
+          id: string
+          status: string
+          full_name: string | null
+          payload: Json
+        }[]
+      }
+      submit_lead: {
+        Args: {
+          p_phone: string
+          p_full_name?: string
+          p_payload?: Json
+          p_user_agent?: string
+          p_ip_hash?: string
+          p_source?: string
+        }
+        Returns: {
+          id: string
+          status: string
+          submitted_at: string
         }[]
       }
     }

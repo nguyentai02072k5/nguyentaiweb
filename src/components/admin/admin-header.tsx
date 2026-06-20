@@ -1,4 +1,5 @@
-import { LogOut, Sparkles } from 'lucide-react';
+import Link from 'next/link';
+import { LogOut, Sparkles, CalendarClock, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { adminLogoutAction } from '@/app/admin/login/actions';
 
@@ -28,17 +29,36 @@ export function AdminHeader() {
           </div>
         </div>
 
-        <form action={adminLogoutAction}>
-          <Button
-            type="submit"
-            variant="outline"
-            size="sm"
-            className="rounded-lg border-border-default bg-white/80 hover:bg-white"
-          >
-            <LogOut className="h-4 w-4" aria-hidden />
-            Đăng xuất
-          </Button>
-        </form>
+        <div className="flex items-center gap-2">
+          <nav className="flex items-center gap-1 rounded-lg border border-border-default bg-white/70 p-1">
+            <Link
+              href="/admin"
+              className="text-text-secondary hover:text-text-primary flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium hover:bg-white"
+            >
+              <CalendarClock className="h-4 w-4" aria-hidden />
+              Booking
+            </Link>
+            <Link
+              href="/admin/leads"
+              className="text-text-secondary hover:text-text-primary flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium hover:bg-white"
+            >
+              <Users className="h-4 w-4" aria-hidden />
+              Leads
+            </Link>
+          </nav>
+
+          <form action={adminLogoutAction}>
+            <Button
+              type="submit"
+              variant="outline"
+              size="sm"
+              className="rounded-lg border-border-default bg-white/80 hover:bg-white"
+            >
+              <LogOut className="h-4 w-4" aria-hidden />
+              Đăng xuất
+            </Button>
+          </form>
+        </div>
       </div>
     </header>
   );

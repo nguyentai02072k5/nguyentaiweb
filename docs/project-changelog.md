@@ -1,5 +1,36 @@
 # Project Changelog
 
+## 2026-06-20
+
+### Added
+- Trang cảm ơn `infor.nguyenvantai.com/thanks` (`src/app/infor/thanks/page.tsx`) — port từ `thanks.html` sang React: card glass full-screen takeover, confetti + particle canvas, countdown 15' (sessionStorage), nút Zalo ripple, quà tặng chatbot AI. Style ở `infor-thanks.module.css`, hiệu ứng tách `use-thanks-effects.ts`. noindex.
+- Nền aurora động dùng chung `infor-aurora-background.tsx` (blob trôi `animate-blob-*` + mesh) cho `/infor` và `/infor/[phone]`, thay lớp radial-gradient tĩnh.
+- Website mới `form.nguyenvantai.com` (subdomain) — form khai thác thông tin Bot Mooly: 1 trang, contact (Tên + SĐT/Zalo) + 6 trường nội dung (Tên shop·ngành, Link web/fanpage, Sản phẩm·giá/catalog, Quy trình bán hàng, Chính sách, FAQs). Mỗi trường có tooltip (?) giải thích + placeholder mẫu, hoạt động trên mobile & desktop.
+- UX: thanh tiến độ hoàn thành (Zeigarnik), tick "đã điền" từng ô, nền Aurora mesh + glass card, CTA gradient shine, trust signals (3–5 phút · bảo mật · có hướng dẫn), trạng thái success.
+- Route `/form` (`src/app/form/page.tsx`) + components `src/components/form/mooly-form.tsx`, `mooly-field.tsx`; config `src/lib/leads/mooly-field-config.ts`; schema `mooly-schema.ts`.
+- API `POST /api/form/submit` tái dùng RPC `submit_lead` (bảng `leads`, `source='mooly-form'`) + webhook Discord/n8n; admin CMS `/admin/leads` render thêm trường Mooly.
+
+### Changed
+- Landing `/infor`: capture form cơ bản thành công → điều hướng thẳng sang `/thanks` (bỏ wizard cấu hình + toast inline tại landing; wizard vẫn giữ ở route `/infor/[phone]`). Form cơ bản bọc trong BOX frame gradient aurora động cho nổi bật. Gỡ `infor-transition-toast.tsx` (dead code).
+- `proxy.ts`: thêm rewrite host `form.*` → `/form` (public, không auth), cùng pattern với `infor.*`/`admin.*`.
+- Form Mooly: FAQ chuyển từ textarea → **repeater cột Câu hỏi – Câu trả lời** (mỗi dòng 1 cặp, nút +/− thêm-xoá, placeholder xoay theo dòng, dễ điền & tracking). Lưu payload dạng mảng `{q,a}`.
+- Trường "Quy trình bán hàng" thêm **note nhắc thu Leads**: với sản phẩm/dịch vụ, ghi rõ điều kiện để bot xin SĐT/Zalo của khách.
+- Thanh progress tách thành component `mooly-progress.tsx`, hiển thị `x/total mục · %`, đổi sang trạng thái emerald + tick khi đạt 100% (chỉ đếm mục bắt buộc).
+- Admin CMS + webhook dùng chung `formatLeadValue` cho field Mooly (FAQ repeater render thành các dòng `• Q — A`).
+
+## 2026-06-19
+
+### Added
+- Bản HTML/CSS/JS thuần của landing `/infor` tại `public/infor-static/`, gồm hero, video demo, features, flow đăng ký cơ bản → modal → form cấu hình chi tiết.
+- JS thuần render form config-driven, repeater, validation client-side, tracking `dataLayer`/Meta fallback, và giữ API payload tương thích `/api/infor/capture` + `/api/infor/submit`.
+- File single-page export `infor.html` ở root project, self-contained với CSS/JS inline và form native tương thích GHL external tracking.
+
+### Changed
+- Chuyển form liên hệ trong `public/infor-static/` sang native HTML form theo chuẩn GHL external tracking: không bind submit bằng JS, có `input type="email"`, dùng `input type="submit"`, bỏ icon nằm trong input, và thêm script `external-tracking.js` với tracking id.
+- Khôi phục `infor.html` về nền light Aurora cũ, thay background dark/Cloudinary bằng canvas hạt tím-hồng nhẹ phía sau nội dung; giữ form GHL native không bị JS can thiệp submit/click.
+- Giảm độ đậm lớp nền tím-hồng và làm chậm tốc độ hạt background trong `infor.html` để hiệu ứng nền nhẹ hơn, ít cạnh tranh với nội dung.
+- Gỡ lớp grid `linear-gradient` 1px trong background `infor.html` vì tạo vạch ngang full-frame; thay bằng radial tint mềm không có đường thẳng.
+
 ## 2026-06-10
 
 ### Added

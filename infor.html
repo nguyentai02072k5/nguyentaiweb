@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Chatbot AI tự tư vấn, chốt đơn & thu lead · Nguyễn Văn Tài</title>
+    <meta
+      name="description"
+      content="Đăng ký nhận chatbot AI tự tư vấn tự nhiên, chốt đơn, thu lead, ẩn bình luận, thương lượng giá và follow-up tự động — cấu hình riêng cho doanh nghiệp của bạn."
+    />
+
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap&subset=vietnamese');
+
+      :root {
+        --brand-indigo: #6366f1;
+        --brand-violet: #a855f7;
+        --brand-pink: #ec4899;
+        --surface-base: #faf7ff;
+        --surface-subtle: #f2edfa;
+        --text-primary: #1a1a2e;
+        --text-secondary: #52527a;
+        --text-tertiary: #9ca0c0;
+        --border-default: #ebe7f2;
+        --font-display: 'Space Grotesk', system-ui, sans-serif;
+        --font-body: 'Be Vietnam Pro', system-ui, sans-serif;
+        --aurora: linear-gradient(90deg, var(--brand-indigo), var(--brand-violet), var(--brand-pink));
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+      body {
+        margin: 0;
+        background: var(--surface-base);
+        color: var(--text-primary);
+        font-family: var(--font-body);
+        font-size: 16px;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+      button, input, textarea, select { font: inherit; }
+      button { cursor: pointer; }
+      svg { display: block; }
+
+      .page-shell {
+        position: relative;
+        min-height: 100dvh;
+        width: 100%;
+        overflow: hidden;
+        padding-bottom: 3rem;
+      }
+      .page-bg {
+        pointer-events: none;
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        overflow: hidden;
+        background:
+          radial-gradient(800px 320px at 0% 0%, rgba(99, 102, 241, .055), transparent 60%),
+          radial-gradient(720px 300px at 100% 6%, rgba(236, 72, 153, .045), transparent 60%),
+          linear-gradient(180deg, #fffaff 0%, #faf7ff 46%, #f8f5ff 100%);
+      }
+      .page-bg::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background:
+          radial-gradient(560px 260px at 16% 18%, rgba(168, 85, 247, .075), transparent 66%),
+          radial-gradient(520px 240px at 86% 14%, rgba(236, 72, 153, .065), transparent 64%),
+          radial-gradient(760px 340px at 50% 100%, rgba(99, 102, 241, .055), transparent 68%);
+        opacity: .86;
+      }
+      .page-bg::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background:
+          radial-gradient(circle at 28% 34%, rgba(168, 85, 247, .026), transparent 24%),
+          radial-gradient(circle at 72% 28%, rgba(236, 72, 153, .022), transparent 22%),
+          radial-gradient(circle at 52% 72%, rgba(99, 102, 241, .020), transparent 30%);
+        opacity: .8;
+      }
+      .sparkle-field {
+        position: fixed;
+        inset: 0;
+        opacity: .66;
+      }
+      .sparkle-field::before {
+        content: '';
+        position: absolute;
+        inset: auto -12% 0;
+        height: 42%;
+        background: radial-gradient(circle at bottom center, rgba(236, 72, 153, .075), transparent 72%);
+      }
+      .sparkle-canvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .hero-section {
+        max-width: 48rem;
+        margin: 0 auto;
+        padding: 3rem 1rem 2rem;
+        text-align: center;
+      }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: .375rem;
+        border: 1px solid rgba(168, 85, 247, .3);
+        border-radius: 999px;
+        background: rgba(168, 85, 247, .05);
+        padding: .25rem .75rem;
+        color: var(--brand-violet);
+        font-size: .75rem;
+        font-weight: 700;
+      }
+      .hero-section h1 {
+        margin: 1.25rem 0 0;
+        color: var(--text-primary);
+        font-family: var(--font-display);
+        font-size: 1.875rem;
+        font-weight: 800;
+        letter-spacing: 0;
+        line-height: 1.25;
+      }
+      .gradient-text {
+        background: var(--aurora);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .hero-copy {
+        max-width: 42rem;
+        margin: 1rem auto 0;
+        color: var(--text-secondary);
+        font-size: 1rem;
+        line-height: 1.7;
+      }
+      .hero-actions {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: .75rem;
+        margin-top: 1.75rem;
+      }
+      .primary-cta, .submit-button {
+        display: inline-flex;
+        height: 3rem;
+        align-items: center;
+        justify-content: center;
+        gap: .5rem;
+        border: 0;
+        border-radius: 1rem;
+        background: var(--aurora);
+        color: #fff;
+        box-shadow: 0 10px 22px rgba(168, 85, 247, .3);
+        font-family: var(--font-display);
+        font-size: .875rem;
+        font-weight: 800;
+        text-decoration: none;
+        transition: transform .2s ease;
+      }
+      .primary-cta { padding: 0 1.75rem; }
+      .primary-cta:hover, .submit-button:hover { transform: scale(1.02); }
+      .primary-cta:active, .submit-button:active { transform: scale(.99); }
+      .hero-actions p, .privacy-note {
+        margin: 0;
+        color: var(--text-tertiary);
+        font-size: .75rem;
+      }
+
+      .video-section, .features-section, .signup-section {
+        width: 100%;
+        margin: 0 auto;
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      .video-section {
+        max-width: 48rem;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+      }
+      .features-section {
+        max-width: 56rem;
+        padding-top: 2.5rem;
+        padding-bottom: 2.5rem;
+      }
+      .signup-section {
+        max-width: 36rem;
+        scroll-margin-top: 1.5rem;
+        padding-top: 2.5rem;
+        padding-bottom: 2.5rem;
+      }
+      .section-header {
+        margin-bottom: 1.5rem;
+        text-align: center;
+      }
+      .section-header.compact { margin-bottom: 1rem; }
+      .section-header h2 {
+        margin: 0;
+        color: var(--text-primary);
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        font-weight: 800;
+        letter-spacing: 0;
+        line-height: 1.25;
+      }
+      .section-header.compact h2 { font-size: 1.25rem; }
+      .section-header p {
+        max-width: 36rem;
+        margin: .5rem auto 0;
+        color: var(--text-secondary);
+        font-size: .875rem;
+        line-height: 1.65;
+      }
+      .signup-header { margin-bottom: 1.25rem; }
+      .video-frame {
+        position: relative;
+        aspect-ratio: 16 / 9;
+        width: 100%;
+        overflow: hidden;
+        border: 1px solid rgba(235, 231, 242, .8);
+        border-radius: 1rem;
+        background: #000;
+        box-shadow: 0 10px 24px rgba(26, 26, 46, .12);
+      }
+      .video-frame iframe {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: .75rem;
+      }
+      .feature-card {
+        display: flex;
+        gap: .875rem;
+        border: 1px solid rgba(235, 231, 242, .8);
+        border-radius: 1rem;
+        background: rgba(255, 255, 255, .85);
+        padding: 1rem;
+        box-shadow: 0 1px 4px rgba(99, 102, 241, .05);
+        backdrop-filter: blur(4px);
+        transition: border-color .2s ease;
+      }
+      .feature-card:hover { border-color: rgba(168, 85, 247, .4); }
+      .feature-icon {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: .75rem;
+        background: linear-gradient(135deg, var(--brand-indigo), var(--brand-violet));
+        color: #fff;
+        box-shadow: 0 1px 4px rgba(99, 102, 241, .12);
+      }
+      .feature-card h3 {
+        margin: 0;
+        color: var(--text-primary);
+        font-family: var(--font-display);
+        font-size: .9375rem;
+        font-weight: 800;
+        line-height: 1.35;
+      }
+      .feature-card p {
+        margin: .25rem 0 0;
+        color: var(--text-secondary);
+        font-size: .8125rem;
+        line-height: 1.45;
+      }
+
+      .basic-form-card {
+        border: 1px solid var(--border-default);
+        border-radius: 1.5rem;
+        background: rgba(255, 255, 255, .85);
+        padding: 1.25rem;
+        box-shadow: 0 1px 5px rgba(99, 102, 241, .05);
+        backdrop-filter: blur(8px);
+      }
+      .form-stack {
+        display: flex;
+        flex-direction: column;
+        gap: .875rem;
+      }
+      .field-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: .75rem 1rem;
+      }
+      .field-shell.wide { grid-column: 1 / -1; }
+      .field-shell label {
+        display: block;
+        margin-bottom: .375rem;
+        color: var(--text-primary);
+        font-size: .78125rem;
+        font-weight: 700;
+        line-height: 1.35;
+      }
+      .field-shell label span { color: var(--brand-pink); }
+      input, textarea, select {
+        width: 100%;
+        border: 1.5px solid var(--border-default);
+        border-radius: .75rem;
+        background: #fff;
+        color: var(--text-primary);
+        font-size: .875rem;
+        outline: none;
+        transition: border-color .2s ease, box-shadow .2s ease;
+      }
+      input, select {
+        height: 2.75rem;
+        padding: 0 .75rem;
+      }
+      input::placeholder { color: rgba(156, 160, 192, .6); }
+      input:focus, textarea:focus, select:focus {
+        border-color: var(--brand-violet);
+        box-shadow: 0 0 0 4px rgba(168, 85, 247, .10);
+      }
+      .submit-button {
+        width: 100%;
+        cursor: pointer;
+      }
+      .privacy-note {
+        margin-top: 1.5rem;
+        text-align: center;
+        font-size: .6875rem;
+      }
+
+      @media (min-width: 640px) {
+        .hero-section { padding-top: 4rem; }
+        .hero-section h1 {
+          font-size: 3rem;
+          line-height: 1.12;
+        }
+        .hero-copy { font-size: 1.125rem; }
+        .section-header h2 { font-size: 1.875rem; }
+        .section-header.compact h2 { font-size: 1.5rem; }
+        .features-grid, .field-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .basic-form-card { padding: 1.5rem; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .sparkle-field { display: none; }
+        *, *::before, *::after {
+          scroll-behavior: auto !important;
+          transition-duration: .01ms !important;
+          animation-duration: .01ms !important;
+          animation-iteration-count: 1 !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page-shell">
+      <div class="page-bg" aria-hidden="true">
+        <div class="sparkle-field">
+          <canvas class="sparkle-canvas" id="sparkle-canvas"></canvas>
+        </div>
+      </div>
+
+      <section class="hero-section">
+        <span class="eyebrow">
+          <span data-icon="sparkles" data-size="14"></span>
+          Chatbot AI cho doanh nghiệp Việt
+        </span>
+
+        <h1>
+          Chatbot tự
+          <span class="gradient-text">tư vấn, chốt đơn & thu lead</span>
+          thay bạn 24/7
+        </h1>
+
+        <p class="hero-copy">
+          Trả lời khách tự nhiên như người thật, ẩn bình luận lộ giá, nhắn Messenger,
+          thương lượng, gắn nhãn và follow-up tự động. Để lại thông tin để nhận bản
+          chatbot riêng cho doanh nghiệp của bạn.
+        </p>
+
+        <div class="hero-actions">
+          <a class="primary-cta" href="#dang-ky">
+            Nhận chatbot cho doanh nghiệp
+            <span data-icon="arrow-down" data-size="16"></span>
+          </a>
+          <p>Miễn phí tư vấn · Cấu hình theo đúng ngành của bạn</p>
+        </div>
+      </section>
+
+      <section class="video-section">
+        <header class="section-header compact">
+          <h2>Xem chatbot hoạt động thực tế</h2>
+          <p>Demo nhanh cách bot tư vấn và chốt đơn với khách.</p>
+        </header>
+
+        <div class="video-frame">
+          <iframe
+            src="https://www.youtube.com/embed/9FsvnGIgDNQ?si=Fgh5YBPvrBvadYdO"
+            title="Demo chatbot AI tư vấn & chốt đơn"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </section>
+
+      <section class="features-section">
+        <header class="section-header">
+          <h2>Một con bot, làm thay cả đội sale</h2>
+          <p>
+            Phù hợp mọi loại hình doanh nghiệp — bán hàng, dịch vụ, spa, bất động sản…
+            mỗi tính năng đi kèm một lợi ích rõ ràng.
+          </p>
+        </header>
+
+        <div class="features-grid" id="features-grid"></div>
+      </section>
+
+      <section id="dang-ky" class="signup-section">
+        <header class="section-header signup-header">
+          <h2>Đăng ký nhận chatbot</h2>
+          <p>Để lại thông tin cơ bản, chúng tôi liên hệ và cấu hình bot cho bạn.</p>
+        </header>
+
+        <div class="basic-form-card" id="basic-form-card">
+          <form id="basic-form" class="form-stack" action="#dang-ky" method="get">
+            <div class="field-grid">
+              <div class="field-shell">
+                <label for="basic-full-name">Họ và tên <span>*</span></label>
+                <input id="basic-full-name" name="full_name" type="text" placeholder="Nguyễn Văn A" autocomplete="name" minlength="2" required aria-label="Họ và tên" />
+              </div>
+
+              <div class="field-shell">
+                <label for="basic-phone">Số điện thoại <span>*</span></label>
+                <input id="basic-phone" name="phone" type="tel" inputmode="tel" placeholder="0901 234 567" autocomplete="tel" minlength="9" pattern="[0-9\s+\-().]+" required aria-label="Số điện thoại" />
+              </div>
+            </div>
+
+            <div class="field-shell wide">
+              <label for="basic-email">Email <span>*</span></label>
+              <input id="basic-email" name="email" type="email" inputmode="email" placeholder="email@cuaban.com" autocomplete="email" required aria-label="Email" />
+            </div>
+
+            <input class="submit-button" type="submit" value="Xác Nhận Thông Tin" />
+          </form>
+        </div>
+
+        <p class="privacy-note">
+          Thông tin của anh/chị được bảo mật và chỉ dùng để liên hệ hỗ trợ.
+        </p>
+      </section>
+    </main>
+
+    <script
+      src="https://api.funnel.aivnlab.com/js/external-tracking.js"
+      data-tracking-id="tk_a094450ef2454b7383fd03149f3326c8"
+    ></script>
+
+    <script>
+      const icons = {
+        sparkles: '<path d="M9.9 2.4 8.7 5.6 5.5 6.8l3.2 1.2 1.2 3.2 1.2-3.2 3.2-1.2-3.2-1.2-1.2-3.2Z"/><path d="M18 10.5 17.2 13l-2.5.8 2.5.8.8 2.5.8-2.5 2.5-.8-2.5-.8-.8-2.5Z"/><path d="M4.5 14 4 15.5 2.5 16l1.5.5.5 1.5.5-1.5 1.5-.5-1.5-.5-.5-1.5Z"/>',
+        'arrow-down': '<path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>',
+        heart: '<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
+        cart: '<circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57L21.8 8H5.12"/>',
+        'user-plus': '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/>',
+        'eye-off': '<path d="m15 18-.72-3.25"/><path d="M2 2l20 20"/><path d="M10.58 10.58A2 2 0 0 0 13.42 13.42"/><path d="M9.88 4.24A9.12 9.12 0 0 1 12 4c5 0 9 5 10 8a13.24 13.24 0 0 1-1.67 3.03"/><path d="M6.61 6.61A13.5 13.5 0 0 0 2 12c1 3 5 8 10 8a9.76 9.76 0 0 0 5.39-1.61"/>',
+        ticket: '<path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/>',
+        handshake: '<path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2"/><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/><path d="M3 4h8"/>',
+        tags: '<path d="M12.6 2.6a2 2 0 0 0-2.83 0L2.6 9.77a2 2 0 0 0 0 2.83l8.8 8.8a2 2 0 0 0 2.83 0l7.17-7.17a2 2 0 0 0 0-2.83Z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/>',
+        repeat: '<path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/>'
+      };
+
+      const landingFeatures = [
+        ['heart', 'Tư vấn tự nhiên như người thật', 'Trả lời mượt, đúng ngữ cảnh, khách khó nhận ra đang chat với bot.'],
+        ['cart', 'Chốt đơn & lên đơn tự động', 'Dẫn khách từ hỏi giá đến đặt hàng, không bỏ sót khách nào.'],
+        ['user-plus', 'Thu lead tập trung', 'Tự xin tên, SĐT, nhu cầu và gom data khách về một mối.'],
+        ['eye-off', 'Auto rep + ẩn bình luận + inbox', 'Tự trả lời bình luận, ẩn comment lộ giá rồi nhắn Messenger riêng.'],
+        ['ticket', 'Tự tạo mã khuyến mãi', 'Bot phát mã giảm giá đúng thời điểm để kích khách chốt nhanh.'],
+        ['handshake', 'Thương lượng giá có chiến thuật', 'Mặc cả tự nhiên, giữ biên lợi nhuận mà khách vẫn vui vẻ.'],
+        ['tags', 'Tự động gắn nhãn bằng AI', 'AI đọc hội thoại, phân loại khách: tiềm năng, ngại giá, VIP…'],
+        ['repeat', 'Follow-up theo từng nhãn', 'Mỗi nhãn một kịch bản bám đuổi, chăm sóc đúng người đúng lúc.']
+      ];
+
+      function icon(name, size = 20) {
+        return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[name] || ''}</svg>`;
+      }
+
+      function hydrateIcons() {
+        document.querySelectorAll('[data-icon]').forEach((node) => {
+          node.outerHTML = icon(node.dataset.icon, node.dataset.size || 20);
+        });
+      }
+
+      function renderFeatures() {
+        const grid = document.getElementById('features-grid');
+        if (!grid) return;
+        grid.innerHTML = landingFeatures.map(([ic, title, benefit]) => `
+          <article class="feature-card">
+            <span class="feature-icon">${icon(ic, 20)}</span>
+            <div><h3>${title}</h3><p>${benefit}</p></div>
+          </article>
+        `).join('');
+      }
+
+      function initSparkleBackground() {
+        const canvas = document.getElementById('sparkle-canvas');
+        if (!canvas || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        const context = canvas.getContext('2d');
+        const particles = [];
+        const particleColors = [
+          [168, 85, 247],
+          [236, 72, 153],
+          [192, 132, 252],
+          [244, 114, 182]
+        ];
+        let width = 0;
+        let height = 0;
+        let animationFrame = 0;
+        let lastTime = 0;
+
+        function resize() {
+          const ratio = Math.min(window.devicePixelRatio || 1, 2);
+          const rect = canvas.getBoundingClientRect();
+          width = Math.max(1, Math.floor(rect.width));
+          height = Math.max(1, Math.floor(rect.height));
+          canvas.width = Math.floor(width * ratio);
+          canvas.height = Math.floor(height * ratio);
+          context.setTransform(ratio, 0, 0, ratio, 0, 0);
+
+          const targetCount = Math.min(320, Math.max(130, Math.floor((width * height) / 5600)));
+          particles.length = 0;
+          for (let index = 0; index < targetCount; index += 1) {
+            particles.push(createParticle(true));
+          }
+        }
+
+        function createParticle(randomY) {
+          const depth = Math.random();
+          const color = particleColors[Math.floor(Math.random() * particleColors.length)];
+          return {
+            x: Math.random() * width,
+            y: randomY ? Math.random() * height : height + Math.random() * 40,
+            radius: .42 + depth * 1.35,
+            alpha: .075 + depth * .30,
+            speed: .07 + depth * .25,
+            drift: (Math.random() - .5) * .20,
+            phase: Math.random() * Math.PI * 2,
+            color
+          };
+        }
+
+        function draw(timestamp) {
+          const delta = Math.min(32, timestamp - (lastTime || timestamp));
+          lastTime = timestamp;
+          context.clearRect(0, 0, width, height);
+
+          const gradient = context.createRadialGradient(width / 2, height, 0, width / 2, height, Math.max(width, height) * .70);
+          gradient.addColorStop(0, 'rgba(236, 72, 153, .065)');
+          gradient.addColorStop(.42, 'rgba(168, 85, 247, .04)');
+          gradient.addColorStop(1, 'rgba(168, 85, 247, 0)');
+          context.fillStyle = gradient;
+          context.fillRect(0, 0, width, height);
+
+          for (const particle of particles) {
+            particle.phase += delta * .0018;
+            particle.y -= particle.speed * delta * .038;
+            particle.x += Math.sin(particle.phase) * particle.drift * delta;
+
+            if (particle.y < -16 || particle.x < -24 || particle.x > width + 24) {
+              Object.assign(particle, createParticle(false));
+            }
+
+            const twinkle = .62 + Math.sin(particle.phase * 1.8) * .26;
+            const [red, green, blue] = particle.color;
+            context.beginPath();
+            context.fillStyle = `rgba(${red}, ${green}, ${blue}, ${particle.alpha * twinkle})`;
+            context.shadowColor = `rgba(${red}, ${green}, ${blue}, .34)`;
+            context.shadowBlur = particle.radius * 5;
+            context.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+            context.fill();
+            context.shadowBlur = 0;
+          }
+
+          animationFrame = requestAnimationFrame(draw);
+        }
+
+        resize();
+        window.addEventListener('resize', resize, { passive: true });
+        animationFrame = requestAnimationFrame(draw);
+
+        window.addEventListener('pagehide', () => cancelAnimationFrame(animationFrame), { once: true });
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        renderFeatures();
+        hydrateIcons();
+        initSparkleBackground();
+
+        document.getElementById('basic-form').addEventListener('submit', function (e) {
+          e.preventDefault();
+          window.location.href = 'https://infor.nguyenvantai.com/thanks';
+        });
+      });
+    </script>
+  </body>
+</html>

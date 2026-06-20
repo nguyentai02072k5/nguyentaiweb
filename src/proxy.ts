@@ -13,6 +13,8 @@ import { NextResponse, type NextRequest } from 'next/server';
 
 const ADMIN_COOKIE_NAME = 'admin_session';
 const ADMIN_HOST_PREFIX = 'admin.';
+const INFOR_HOST_PREFIX = 'infor.';
+const FORM_HOST_PREFIX = 'form.';
 
 export const config = {
   matcher: [
@@ -25,6 +27,23 @@ export async function proxy(request: NextRequest) {
   const host = (request.headers.get('host') ?? '').toLowerCase();
   const url = request.nextUrl.clone();
   const isAdminHost = host.startsWith(ADMIN_HOST_PREFIX);
+  const isInforHost = host.startsWith(INFOR_HOST_PREFIX);
+  const isFormHost = host.startsWith(FORM_HOST_PREFIX);
+
+  // ---- 0. Subdomain rewrite: infor.* → /infor/* (PUBLIC, không auth) ----
+  // `infor.nguyenvantai.com/0901234567` → `/infor/0901234567` (giữ URL hiển thị).
+  // Trang thu thập thông tin khách, ai có link cũng mở được.
+  if (isInforHost && !url.pathname.startsWith('/infor') && !url.pathname.startsWith('/api')) {
+    url.pathname = url.pathname === '/' ? '/infor' : `/infor${url.pathname}`;
+    return NextResponse.rewrite(url);
+  }
+
+  // ---- 0b. Subdomain rewrite: form.* → /form/* (PUBLIC, không auth) ----
+  // `form.nguyenvantai.com` → `/form` (form khai thác thông tin Bot Mooly).
+  if (isFormHost && !url.pathname.startsWith('/form') && !url.pathname.startsWith('/api')) {
+    url.pathname = url.pathname === '/' ? '/form' : `/form${url.pathname}`;
+    return NextResponse.rewrite(url);
+  }
 
   // ---- 1. Subdomain rewrite: admin.* → /admin/* ----
   // Nếu user gõ `admin.nguyenvantai.com/...` mà path chưa bắt đầu bằng /admin,

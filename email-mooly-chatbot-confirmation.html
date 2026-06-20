@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="color-scheme" content="light dark">
+  <meta name="supported-color-schemes" content="light dark">
+  <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
+  <!--
+    SUBJECT (dán vào trường Subject của ESP, KHÔNG để trong body):
+    [Mooly] Xác nhận yêu cầu tư vấn Chatbot - Bước tiếp theo dành cho {{ten_khach_hang}}
+
+    Gợi ý A/B test subject (chọn 1 để test):
+    A. {{ten_khach_hang}} ơi, yêu cầu tư vấn Chatbot của mình đã được tiếp nhận ✅
+    B. [Mooly] Bước tiếp theo để kích hoạt Chatbot cho {{ten_shop}}
+    C. {{ten_khach_hang}} ơi - còn 1 bước nữa là Chatbot của mình sẵn sàng
+  -->
+  <title>Xác nhận yêu cầu tư vấn Chatbot - Mooly</title>
+
+  <!--[if mso]>
+  <noscript>
+    <xml>
+      <o:OfficeDocumentSettings>
+        <o:PixelsPerInch>96</o:PixelsPerInch>
+      </o:OfficeDocumentSettings>
+    </xml>
+  </noscript>
+  <![endif]-->
+
+  <style>
+    /* Reset cơ bản - chỉ dùng cho client hỗ trợ <style>; mọi style quan trọng đều inline */
+    html, body { margin: 0 !important; padding: 0 !important; height: 100% !important; width: 100% !important; }
+    * { -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; }
+    table, td { mso-table-lspace: 0pt !important; mso-table-rspace: 0pt !important; }
+    table { border-spacing: 0 !important; border-collapse: collapse !important; table-layout: fixed !important; margin: 0 auto !important; }
+    img { -ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }
+    a { text-decoration: none; }
+    a[x-apple-data-detectors] { color: inherit !important; text-decoration: none !important; font-size: inherit !important; font-family: inherit !important; font-weight: inherit !important; line-height: inherit !important; }
+
+    /* Responsive cho mobile */
+    @media screen and (max-width: 600px) {
+      .email-container { width: 100% !important; margin: 0 auto !important; }
+      .px-mobile { padding-left: 24px !important; padding-right: 24px !important; }
+      .btn-mobile a { display: block !important; width: 100% !important; box-sizing: border-box !important; }
+      .h1-mobile { font-size: 22px !important; line-height: 30px !important; }
+    }
+
+    /* Dark mode nhẹ - giữ chữ đọc được */
+    @media (prefers-color-scheme: dark) {
+      .bg-body { background-color: #0f1115 !important; }
+      .bg-card { background-color: #1a1d23 !important; }
+      .text-dark { color: #e8e8e8 !important; }
+      .text-muted { color: #b6b6b6 !important; }
+    }
+  </style>
+</head>
+
+<body class="bg-body" style="margin:0; padding:0; background-color:#eef1f6; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;">
+
+  <!-- PREHEADER: dòng xem trước trong hộp thư, tăng tỉ lệ mở. Ẩn nhưng vẫn được index -->
+  <div style="display:none; font-size:1px; line-height:1px; max-height:0; max-width:0; opacity:0; overflow:hidden; mso-hide:all; font-family:sans-serif;">
+    Yêu cầu của Anh/Chị đã được tiếp nhận. Còn 1 bước ngắn (3-5 phút) để Mooly cấu hình Chatbot sát với doanh nghiệp của mình.
+    &#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;
+  </div>
+
+  <!-- Wrapper ngoài cùng -->
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" class="bg-body" style="background-color:#eef1f6;">
+    <tr>
+      <td align="center" style="padding:24px 12px;">
+
+        <!-- Container chính 600px -->
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" class="email-container" style="width:600px; max-width:600px;">
+
+          <!-- Logo / thương hiệu (text-based, không phụ thuộc ảnh -> tốt cho deliverability) -->
+          <tr>
+            <td align="center" style="padding:8px 0 20px 0;">
+              <span style="font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:24px; font-weight:700; letter-spacing:-0.5px; color:#4f46e5;">Mooly</span>
+              <span style="font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:13px; color:#8b90a0; padding-left:6px;">AI Platform</span>
+            </td>
+          </tr>
+
+          <!-- Thẻ nội dung -->
+          <tr>
+            <td class="bg-card" style="background-color:#ffffff; border-radius:14px; box-shadow:0 1px 3px rgba(16,24,40,0.06);">
+
+              <!-- Dải màu đầu thẻ -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td style="height:6px; background-color:#4f46e5; border-radius:14px 14px 0 0; font-size:0; line-height:0;">&nbsp;</td>
+                </tr>
+              </table>
+
+              <!-- Badge xác nhận -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td class="px-mobile" style="padding:32px 40px 0 40px;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td style="background-color:#ecfdf3; border-radius:20px; padding:6px 14px; font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:13px; font-weight:600; color:#067647;">
+                          &#10003;&nbsp; Đã tiếp nhận yêu cầu tư vấn
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Tiêu đề chính -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td class="px-mobile h1-mobile text-dark" style="padding:18px 40px 0 40px; font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:26px; line-height:34px; font-weight:700; color:#101828;">
+                    Chào Anh/Chị {{ten_khach_hang}},
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Nội dung mở đầu -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td class="px-mobile text-muted" style="padding:16px 40px 0 40px; font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:16px; line-height:26px; color:#475467;">
+                    Cảm ơn Anh/Chị đã quan tâm và để lại thông tin đăng ký tư vấn cấu hình Chatbot tự động từ Mooly.
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-mobile text-muted" style="padding:14px 40px 0 40px; font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:16px; line-height:26px; color:#475467;">
+                    Tôi là <strong style="color:#101828;">Ngọc Dung</strong>, chuyên viên tư vấn từ đội ngũ Mooly, người sẽ trực tiếp đồng hành và hỗ trợ Anh/Chị xây dựng hệ thống chatbot tự động hoá tối ưu nhất cho doanh nghiệp của mình.
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-mobile text-muted" style="padding:14px 40px 0 40px; font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:16px; line-height:26px; color:#475467;">
+                    Để Mooly thiết kế được một kịch bản chatbot thông minh, phản hồi tự nhiên và chốt đơn sát với thực tế doanh nghiệp của Anh/Chị nhất, tôi cần hiểu rõ hơn về mô hình và cách thức kinh doanh hiện tại của mình.
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-mobile text-dark" style="padding:14px 40px 0 40px; font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:16px; line-height:26px; color:#101828; font-weight:600;">
+                    Anh/Chị vui lòng dành khoảng 3-5 phút để điền các thông tin chi tiết vào biểu mẫu dưới đây:
+                  </td>
+                </tr>
+              </table>
+
+              <!-- CTA Button (bulletproof, có VML cho Outlook) -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td class="px-mobile btn-mobile" align="center" style="padding:28px 40px 8px 40px;">
+                    <!--[if mso]>
+                    <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://form.nguyenvantai.com" style="height:52px;v-text-anchor:middle;width:420px;" arcsize="16%" stroke="f" fillcolor="#4f46e5">
+                      <w:anchorlock/>
+                      <center style="color:#ffffff;font-family:'Segoe UI',Helvetica,Arial,sans-serif;font-size:16px;font-weight:700;">ĐIỀN HỒ SƠ DOANH NGHIỆP &#8594;</center>
+                    </v:roundrect>
+                    <![endif]-->
+                    <!--[if !mso]><!-- -->
+                    <a href="https://form.nguyenvantai.com" target="_blank" style="background-color:#4f46e5; border-radius:10px; color:#ffffff; display:inline-block; font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:16px; font-weight:700; line-height:52px; text-align:center; text-decoration:none; width:420px; max-width:100%; -webkit-text-size-adjust:none;">
+                      ĐIỀN HỒ SƠ DOANH NGHIỆP &#8594;
+                    </a>
+                    <!--<![endif]-->
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" class="text-muted" style="padding:0 40px 8px 40px; font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:13px; line-height:20px; color:#98a2b3;">
+                    Chỉ mất 3-5 phút &bull; Thông tin được bảo mật
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Danh sách thông tin cần cung cấp -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td class="px-mobile" style="padding:18px 40px 0 40px;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color:#f9fafb; border-radius:12px;">
+                      <tr>
+                        <td style="padding:20px 24px;">
+                          <p style="margin:0 0 12px 0; font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:14px; font-weight:700; color:#101828;">Trong hồ sơ, tôi sẽ cần Anh/Chị cung cấp:</p>
+
+                          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                            <tr>
+                              <td valign="top" width="24" style="font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:15px; line-height:24px; color:#4f46e5;">&#9679;</td>
+                              <td style="font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:15px; line-height:24px; color:#344054; padding-bottom:8px;">Tên Shop / Thương hiệu</td>
+                            </tr>
+                            <tr>
+                              <td valign="top" width="24" style="font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:15px; line-height:24px; color:#4f46e5;">&#9679;</td>
+                              <td style="font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:15px; line-height:24px; color:#344054; padding-bottom:8px;">Ngành hàng &amp; Sản phẩm chủ lực</td>
+                            </tr>
+                            <tr>
+                              <td valign="top" width="24" style="font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:15px; line-height:24px; color:#4f46e5;">&#9679;</td>
+                              <td style="font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:15px; line-height:24px; color:#344054; padding-bottom:8px;">Quy trình bán hàng hiện tại</td>
+                            </tr>
+                            <tr>
+                              <td valign="top" width="24" style="font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:15px; line-height:24px; color:#4f46e5;">&#9679;</td>
+                              <td style="font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:15px; line-height:24px; color:#344054;">Các chính sách (giao hàng, đổi trả, bảo hành...)</td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Vì sao quan trọng -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td class="px-mobile text-dark" style="padding:24px 40px 0 40px; font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:18px; line-height:26px; font-weight:700; color:#101828;">
+                    Tại sao bước này lại quan trọng?
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-mobile text-muted" style="padding:10px 40px 0 40px; font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:16px; line-height:26px; color:#475467;">
+                    Thông tin càng chi tiết và chính xác, kịch bản bot Mooly cấu hình ra sẽ càng &ldquo;giống người thật&rdquo;, tư vấn đúng trọng tâm và giúp tăng tỉ lệ chuyển đổi nhanh chóng.
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-mobile text-muted" style="padding:14px 40px 0 40px; font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:16px; line-height:26px; color:#475467;">
+                    Ngay sau khi nhận được hồ sơ, tôi sẽ phân tích và trực tiếp liên hệ lại qua số điện thoại <strong style="color:#101828;">{{so_dien_thoai_khach}}</strong> để trao đổi phương án cấu hình bot phù hợp nhất.
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-mobile text-muted" style="padding:14px 40px 0 40px; font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:16px; line-height:26px; color:#475467;">
+                    Nếu có bất kỳ thắc mắc nào trong quá trình điền form, Anh/Chị có thể phản hồi trực tiếp lại email này để được tôi hỗ trợ ngay.
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-mobile text-muted" style="padding:14px 40px 0 40px; font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:16px; line-height:26px; color:#475467;">
+                    Chúc Anh/Chị một ngày làm việc hiệu quả và nhiều đơn hàng!
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Đường kẻ -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td class="px-mobile" style="padding:28px 40px 0 40px;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                      <tr><td style="border-top:1px solid #eaecf0; font-size:0; line-height:0;">&nbsp;</td></tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Chữ ký -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td class="px-mobile" style="padding:20px 40px 36px 40px;">
+                    <p style="margin:0 0 2px 0; font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:15px; line-height:22px; color:#475467;">Trân trọng,</p>
+                    <p style="margin:8px 0 2px 0; font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:17px; line-height:24px; font-weight:700; color:#101828;">Tài &mdash; AI Automation</p>
+                    <p style="margin:0 0 2px 0; font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:14px; line-height:22px; color:#667085;">Chuyên viên Tư vấn Giải pháp &bull; Mooly AI Platform</p>
+                    <p style="margin:10px 0 0 0; font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:14px; line-height:22px; color:#667085;">
+                      &#128241; Điện thoại / Zalo:
+                      <a href="tel:{{so_dien_thoai_tu_van}}" style="color:#4f46e5; text-decoration:none;">{{so_dien_thoai_tu_van}}</a>
+                    </p>
+                    <p style="margin:2px 0 0 0; font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:14px; line-height:22px; color:#667085;">
+                      &#127760; Website:
+                      <a href="https://mooly.vn" style="color:#4f46e5; text-decoration:none;">mooly.vn</a>
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+
+          <!-- Footer / compliance (bắt buộc cho deliverability tốt) -->
+          <tr>
+            <td style="padding:24px 24px 8px 24px;">
+              <p style="margin:0 0 6px 0; text-align:center; font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:12px; line-height:18px; color:#98a2b3;">
+                Bạn nhận được email này vì đã đăng ký tư vấn Chatbot tại Mooly.
+              </p>
+              <p style="margin:0 0 6px 0; text-align:center; font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:12px; line-height:18px; color:#98a2b3;">
+                Mooly AI Platform &bull; {{dia_chi_cong_ty}}
+              </p>
+              <p style="margin:0; text-align:center; font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:12px; line-height:18px; color:#98a2b3;">
+                <a href="{{link_huy_dang_ky}}" style="color:#98a2b3; text-decoration:underline;">Huỷ nhận email</a>
+                &nbsp;&bull;&nbsp;
+                <a href="{{link_cap_nhat_thong_tin}}" style="color:#98a2b3; text-decoration:underline;">Cập nhật thông tin nhận tin</a>
+              </p>
+            </td>
+          </tr>
+
+        </table>
+        <!-- /Container -->
+
+      </td>
+    </tr>
+  </table>
+  <!-- /Wrapper -->
+
+</body>
+</html>
