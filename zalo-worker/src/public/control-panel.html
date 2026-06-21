@@ -179,8 +179,11 @@ Em chờ phản hồi của sếp nhé! 😊`;
             }),
           });
           const d = await r.json();
+          const friendInfo = d.friendRequestSent
+            ? "đã gửi lời mời"
+            : "KHÔNG gửi" + (d.friendError ? ` — lý do: ${d.friendError}` : "");
           $("sendLog").textContent = d.ok
-            ? `✅ Đã gửi tới ${d.displayName || d.uid}. Kết bạn: ${d.friendRequestSent ? "đã gửi lời mời" : "không/đã là bạn"}.`
+            ? `✅ Đã gửi tin tới ${d.displayName || d.uid}. Kết bạn: ${friendInfo}.`
             : "❌ Lỗi: " + d.error;
         } catch (e) {
           $("sendLog").textContent = "❌ Lỗi mạng: " + e.message;

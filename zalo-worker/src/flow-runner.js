@@ -80,7 +80,8 @@ async function executeFrom(flow, run, idx) {
           await sendMessageToUid(await ensureUid(context), applyVars(msg, context));
         }
       } else if (step.type === "send_friend_request") {
-        await sendFriendRequestToUid(await ensureUid(context), applyVars(step.config?.message, context));
+        const fr = await sendFriendRequestToUid(await ensureUid(context), applyVars(step.config?.message, context));
+        if (!fr.ok) context.friend_error = fr.error; // lưu lý do vào run để debug
       } else if (step.type === "send_message") {
         await sendMessageToUid(await ensureUid(context), applyVars(step.config?.message, context));
       } else {

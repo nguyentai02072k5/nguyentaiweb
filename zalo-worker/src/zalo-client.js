@@ -133,15 +133,17 @@ export async function sendMessageToUid(uid, message) {
   return api.sendMessage({ msg: text, styles, urgency: Urgency.Default }, uid, ThreadType.User);
 }
 
-// Gửi lời mời kết bạn tới uid. Trả false nếu đã là bạn / lỗi (không chặn flow).
+// Gửi lời mời kết bạn tới uid. KHÔNG nuốt lỗi: trả { ok, error } để surface lý do.
+// Các mã zca-js hay gặp: 225 đã là bạn, 215 bị chặn, 222 người kia đã gửi lời mời trước.
 export async function sendFriendRequestToUid(uid, message) {
   const api = await ensureApi();
   try {
     await api.sendFriendRequest(message?.trim() || "Xin chào, kết bạn nhé!", uid);
-    return true;
+    return { ok: true };
   } catch (e) {
-    console.warn("[zalo] sendFriendRequest:", e?.message);
-    return false;
+    const error = e?.message || String(e);
+    console.warn("[zalo] sendFriendRequest:", error);
+    return { ok: false, error };
   }
 }
 
@@ -151,12 +153,18 @@ export async function sendFriendRequestToUid(uid, message) {
 export async function sendMessageByPhone({ phone, message, addFriend, friendMessage }) {
   const { uid, user } = await findUidByPhone(phone);
   let friendRequestSent = false;
-  if (addFriend) friendRequestSent = await sendFriendRequestToUid(uid, friendMessage);
+  let friendError = null;
+  if (addFriend) {
+    const fr = await sendFriendRequestToUid(uid, friendMessage);
+    friendRequestSent = fr.ok;
+    friendError = fr.error ?? null;
+  }
   const result = await sendMessageToUid(uid, message);
   return {
     uid,
     displayName: user?.display_name ?? user?.zalo_name ?? null,
     friendRequestSent,
+    friendError,
     result,
   };
 }
@@ -164,8 +172,8 @@ export async function sendMessageByPhone({ phone, message, addFriend, friendMess
 // Gửi riêng lời mời kết bạn theo SĐT.
 export async function sendFriendRequestByPhone(phone, message) {
   const { uid } = await findUidByPhone(phone);
-  const ok = await sendFriendRequestToUid(uid, message);
-  return { uid, friendRequestSent: ok };
+  const fr = await sendFriendRequestToUid(uid, message);
+  return { uid, friendRequestSent: fr.ok, friendError: fr.error ?? null };
 }
 
 export async function logout() {
