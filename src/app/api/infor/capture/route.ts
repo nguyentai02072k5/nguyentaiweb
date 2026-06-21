@@ -18,6 +18,7 @@ import { supabaseAdmin } from '@/lib/supabase/server-client';
 import { leadCaptureSchema } from '@/lib/leads/capture-schema';
 import { normalizeVnPhone, maskVnPhone } from '@/lib/format/phone-vn';
 import { hashIp, getClientIp } from '@/lib/security/ip-hash';
+import { triggerLeadAutomation } from '@/lib/automation/trigger-lead-automation';
 import type { Json } from '@/lib/supabase/database-types';
 
 export const dynamic = 'force-dynamic';
@@ -79,6 +80,9 @@ export async function POST(request: Request) {
       sendCaptureWebhook(webhookUrl, { phone, full_name: data.full_name, email: data.email }),
     );
   }
+
+  // ---- 5b. Auto-trigger flow automation Zalo (fire-and-forget) ----
+  after(() => triggerLeadAutomation({ phone, name: data.full_name, source: 'infor' }));
 
   // ---- 6. Success ----
   return NextResponse.json(

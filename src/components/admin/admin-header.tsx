@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { LogOut, Sparkles, CalendarClock, Users } from 'lucide-react';
+import { LogOut, Sparkles, CalendarClock, Users, Workflow } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { adminLogoutAction } from '@/app/admin/login/actions';
 
@@ -44,6 +44,13 @@ export function AdminHeader() {
             >
               <Users className="h-4 w-4" aria-hidden />
               Leads
+            </Link>
+            <Link
+              href="/admin/automation"
+              className="text-text-secondary hover:text-text-primary flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium hover:bg-white"
+            >
+              <Workflow className="h-4 w-4" aria-hidden />
+              Automation
             </Link>
           </nav>
 

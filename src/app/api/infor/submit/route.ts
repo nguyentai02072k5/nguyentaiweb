@@ -17,6 +17,7 @@ import { leadSubmitSchema } from '@/lib/leads/lead-schema';
 import { normalizeVnPhone, maskVnPhone } from '@/lib/format/phone-vn';
 import { hashIp, getClientIp } from '@/lib/security/ip-hash';
 import { LEAD_FIELD_BY_KEY, LEAD_FIELD_LABELS, formatLeadValue } from '@/lib/leads/lead-field-config';
+import { triggerLeadAutomation } from '@/lib/automation/trigger-lead-automation';
 import type { Json } from '@/lib/supabase/database-types';
 
 export const dynamic = 'force-dynamic';
@@ -77,6 +78,9 @@ export async function POST(request: Request) {
   if (webhookUrl) {
     after(() => sendWebhook(webhookUrl, { phone, full_name: data.full_name, payload: data.payload }));
   }
+
+  // ---- 5b. Auto-trigger flow automation Zalo (fire-and-forget) ----
+  after(() => triggerLeadAutomation({ phone, name: data.full_name, source: 'infor' }));
 
   // ---- 6. Success ----
   return NextResponse.json(

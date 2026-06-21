@@ -160,6 +160,7 @@ export type Database = {
           payload: Json
           phone: string
           source: string | null
+          source_group: string
           status: string
           submitted_at: string | null
           updated_at: string
@@ -196,6 +197,72 @@ export type Database = {
           submitted_at?: string | null
           updated_at?: string
           user_agent?: string | null
+        }
+        Relationships: []
+      }
+      automation_flows: {
+        Row: {
+          id: string
+          name: string
+          enabled: boolean
+          trigger_source: string | null
+          steps: Json
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          enabled?: boolean
+          trigger_source?: string | null
+          steps?: Json
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          enabled?: boolean
+          trigger_source?: string | null
+          steps?: Json
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      automation_runs: {
+        Row: {
+          id: string
+          flow_id: string
+          status: string
+          context: Json
+          current_step: number
+          resume_token: string | null
+          last_error: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          flow_id: string
+          status?: string
+          context?: Json
+          current_step?: number
+          resume_token?: string | null
+          last_error?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          flow_id?: string
+          status?: string
+          context?: Json
+          current_step?: number
+          resume_token?: string | null
+          last_error?: string | null
+          created_at?: string
+          updated_at?: string
         }
         Relationships: []
       }

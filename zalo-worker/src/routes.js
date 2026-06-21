@@ -5,6 +5,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { config } from "./config.js";
 import * as zalo from "./zalo-client.js";
+import { startFlow, resumeFlow } from "./flow-runner.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export const router = express.Router();
@@ -68,6 +69,35 @@ router.post("/api/send", requireToken, async (req, res) => {
     res.json({ ok: true, ...result });
   } catch (e) {
     res.status(500).json({ ok: false, error: e?.message || "Gửi thất bại" });
+  }
+});
+
+// Kích hoạt flow automation cho 1 liên hệ (gọi từ admin test hoặc lead pipeline).
+// body: { flowId?, source?, phone, name?, vars? }
+router.post("/api/flow/trigger", requireToken, async (req, res) => {
+  try {
+    const { flowId, source, phone, name, vars } = req.body || {};
+    if (!phone) return res.status(400).json({ ok: false, error: "Thiếu 'phone'." });
+    const cleanPhone = String(phone).trim();
+    const context = { phone: cleanPhone, sdt: cleanPhone, ten: name ?? "", ...(vars || {}) };
+    const result = await startFlow({ flowId, source, context });
+    res.json({ ok: true, ...result });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e?.message });
+  }
+});
+
+// n8n callback sau khi hết thời gian chờ. Dùng resume_token (không cần api token).
+// query: ?runId=&token=  | body (tùy chọn): { vars: { link_meet: "..." } }
+router.post("/api/flow/resume", async (req, res) => {
+  try {
+    const runId = req.query.runId || req.body?.runId;
+    const token = req.query.token || req.body?.token;
+    if (!runId || !token) return res.status(400).json({ ok: false, error: "Thiếu runId/token." });
+    const result = await resumeFlow({ runId, token, vars: req.body?.vars });
+    res.json({ ok: true, ...result });
+  } catch (e) {
+    res.status(400).json({ ok: false, error: e?.message });
   }
 });
 

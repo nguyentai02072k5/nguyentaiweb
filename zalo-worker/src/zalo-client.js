@@ -152,6 +152,21 @@ export async function sendMessageByPhone({ phone, message, addFriend, friendMess
   };
 }
 
+// Gửi riêng lời mời kết bạn theo SĐT (dùng cho step automation).
+export async function sendFriendRequestByPhone(phone, message) {
+  const api = await ensureApi();
+  const user = await api.findUser(String(phone).trim());
+  const uid = user?.uid ?? user?.userId;
+  if (!uid) throw new Error("Không tìm thấy tài khoản Zalo với số điện thoại này.");
+  try {
+    await api.sendFriendRequest(message?.trim() || "Xin chào, kết bạn nhé!", uid);
+    return { uid, friendRequestSent: true };
+  } catch (e) {
+    // Đã là bạn / đã gửi trước đó — không coi là lỗi chặn flow.
+    return { uid, friendRequestSent: false, note: e?.message };
+  }
+}
+
 export async function logout() {
   state.api = null;
   state.userInfo = null;

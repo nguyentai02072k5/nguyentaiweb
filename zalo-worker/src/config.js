@@ -20,6 +20,10 @@ export const config = {
   // Định danh credential trong bảng (cho phép nhiều tài khoản sau này).
   credId: process.env.ZALO_CRED_ID || "default",
 
+  // URL public của chính worker (để dựng resumeUrl gửi cho n8n callback).
+  // VD: https://nguyentaiweb.onrender.com — KHÔNG có dấu / cuối.
+  publicBaseUrl: (process.env.PUBLIC_BASE_URL || "").replace(/\/+$/, ""),
+
   // User-Agent dùng khi login QR (nên cố định để session ổn định).
   userAgent:
     process.env.ZALO_USER_AGENT ||
