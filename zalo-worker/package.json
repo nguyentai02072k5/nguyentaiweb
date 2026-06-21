@@ -1,0 +1,19 @@
+{
+  "name": "zalo-worker",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Worker Node độc lập chạy zca-js: QR login, lưu state Supabase, gửi tin nhắn Zalo cho webhook.nguyenvantai.com",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.105.4",
+    "express": "^4.21.2",
+    "zca-js": "^2.0.0"
+  }
+}

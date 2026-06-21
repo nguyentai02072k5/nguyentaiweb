@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Zalo Worker — Bảng điều khiển</title>
+    <style>
+      :root { color-scheme: light dark; }
+      * { box-sizing: border-box; }
+      body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; margin: 0; background: #0b1220; color: #e6edf6; }
+      .wrap { max-width: 880px; margin: 0 auto; padding: 24px 16px 64px; }
+      h1 { font-size: 20px; margin: 8px 0 4px; }
+      .sub { color: #9fb0c9; font-size: 13px; margin-bottom: 20px; }
+      .card { background: #131c2e; border: 1px solid #233048; border-radius: 14px; padding: 18px; margin-bottom: 18px; }
+      .card h2 { font-size: 15px; margin: 0 0 12px; display: flex; align-items: center; gap: 8px; }
+      label { display: block; font-size: 13px; color: #b9c6dd; margin: 10px 0 4px; }
+      input, textarea { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid #2c3a55; background: #0e1626; color: #e6edf6; font-size: 14px; font-family: inherit; }
+      textarea { min-height: 220px; resize: vertical; line-height: 1.5; }
+      .row { display: flex; gap: 12px; flex-wrap: wrap; }
+      .row > div { flex: 1; min-width: 200px; }
+      button { cursor: pointer; border: 0; border-radius: 10px; padding: 11px 18px; font-size: 14px; font-weight: 600; background: #2563eb; color: #fff; }
+      button.ghost { background: #233048; }
+      button:disabled { opacity: .5; cursor: not-allowed; }
+      .pill { font-size: 12px; padding: 3px 10px; border-radius: 999px; background: #233048; color: #9fb0c9; }
+      .pill.ok { background: #14532d; color: #86efac; }
+      .pill.warn { background: #713f12; color: #fde68a; }
+      #qrBox { display: flex; flex-direction: column; align-items: center; gap: 10px; min-height: 60px; }
+      #qrBox img { width: 240px; height: 240px; background: #fff; border-radius: 12px; padding: 8px; }
+      .check { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+      .check input { width: auto; }
+      .log { font-size: 12px; color: #9fb0c9; white-space: pre-wrap; margin-top: 10px; }
+      .hint { font-size: 12px; color: #6b7a93; margin-top: 6px; }
+      a { color: #60a5fa; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>🤖 Zalo Worker — Bảng điều khiển</h1>
+      <div class="sub">Đăng nhập QR · lưu state · gửi tin nhắn theo số điện thoại (zca-js)</div>
+
+      <div class="card">
+        <h2>🔑 Token</h2>
+        <label>Worker API Token (để trống nếu chạy local không đặt token)</label>
+        <input id="token" placeholder="x-api-token..." />
+        <div class="hint">Lưu trong trình duyệt này. Phải khớp <code>WORKER_API_TOKEN</code> của worker.</div>
+      </div>
+
+      <div class="card">
+        <h2>📲 Đăng nhập Zalo <span id="status" class="pill">đang kiểm tra…</span></h2>
+        <div id="qrBox">
+          <button id="btnQR">Quét QR đăng nhập</button>
+        </div>
+        <div class="log" id="qrLog"></div>
+        <div style="margin-top:12px"><button class="ghost" id="btnLogout">Đăng xuất & xóa state</button></div>
+        <div class="hint">Mở Zalo trên điện thoại → Cài đặt → Quét mã QR. Quét trong ~5s khi mã hiện ra. Sau khi đăng nhập, state được lưu mã hóa lên Supabase — lần sau tự đăng nhập, không cần QR.</div>
+      </div>
+
+      <div class="card">
+        <h2>✉️ Gửi tin nhắn</h2>
+        <div class="row">
+          <div>
+            <label>Số điện thoại Zalo người nhận</label>
+            <input id="phone" placeholder="09xxxxxxxx" />
+          </div>
+        </div>
+        <div class="check">
+          <input type="checkbox" id="addFriend" checked />
+          <label for="addFriend" style="margin:0">Gửi lời mời kết bạn trước (nếu chưa là bạn)</label>
+        </div>
+        <label>Nội dung lời mời kết bạn</label>
+        <input id="friendMessage" value="Xin chào sếp, em là trợ lý lịch hẹn bên mình, kết bạn để em gửi link Meet nhé!" />
+        <label>Nội dung tin nhắn (hỗ trợ format: &lt;b&gt; &lt;i&gt; &lt;u&gt; &lt;red&gt; &lt;orange&gt; &lt;yellow&gt; &lt;green&gt; &lt;big&gt; &lt;small&gt;)</label>
+        <textarea id="message"></textarea>
+        <div style="margin-top:12px"><button id="btnSend">Gửi tin nhắn</button></div>
+        <div class="log" id="sendLog"></div>
+      </div>
+    </div>
+
+    <script>
+      const $ = (id) => document.getElementById(id);
+      const tokenInput = $("token");
+      tokenInput.value = localStorage.getItem("zaloWorkerToken") || "";
+      tokenInput.addEventListener("change", () => localStorage.setItem("zaloWorkerToken", tokenInput.value.trim()));
+
+      const token = () => tokenInput.value.trim();
+      const qs = () => (token() ? `?token=${encodeURIComponent(token())}` : "");
+      const headers = () => {
+        const h = { "content-type": "application/json" };
+        if (token()) h["x-api-token"] = token();
+        return h;
+      };
+
+      // Template tin nhắn mẫu (đúng format người dùng yêu cầu).
+      $("message").value =
+`<b><red>📨 À, em vừa gửi sếp lời mời kết bạn Zalo</red></b> — sếp <u><i>bấm accept</i></u> giúp em với nha. Để lúc gần tới giờ hẹn, hệ thống bên em sẽ <b><orange>tự động bắn link Meet</orange></b> qua Zalo cho sếp join thẳng luôn🔗
+
+🎯<b> <green>Để cho buổi Meet hiệu quả nhất,</green></b> sếp cho em hỏi xíu là — bên mình đang <b><orange>kinh doanh trong mảng nào</orange></b> vậy ạ?
+
+Em hỏi vậy để chuẩn bị <i>bot demo phù hợp với ngành của sếp</i>, lúc demo sếp dễ hình dung, dễ thấy bot có thể giúp gì cụ thể cho business của mình 💡
+
+Em chờ phản hồi của sếp nhé! 😊`;
+
+      function setStatus(s) {
+        const el = $("status");
+        const map = {
+          logged_in: ["Đã đăng nhập", "ok"],
+          awaiting_qr: ["Chờ quét QR", "warn"],
+          scanned: ["Đã quét, đang xác nhận", "warn"],
+          logged_out: ["Chưa đăng nhập", ""],
+        };
+        const [t, cls] = map[s] || [s, ""];
+        el.textContent = t;
+        el.className = "pill " + cls;
+      }
+
+      async function refreshStatus() {
+        try {
+          const r = await fetch("/api/status" + qs(), { headers: headers() });
+          if (!r.ok) { setStatus("logged_out"); return; }
+          const d = await r.json();
+          setStatus(d.status);
+          if (d.userInfo?.name) $("qrLog").textContent = "Tài khoản: " + d.userInfo.name;
+        } catch { setStatus("logged_out"); }
+      }
+
+      $("btnQR").addEventListener("click", () => {
+        const box = $("qrBox");
+        box.innerHTML = '<div class="log">Đang tạo mã QR…</div>';
+        $("qrLog").textContent = "";
+        const es = new EventSource("/api/login/qr" + qs());
+        es.onmessage = (e) => {
+          let d; try { d = JSON.parse(e.data); } catch { return; }
+          if (d.type === "qr") {
+            const src = d.image?.startsWith("data:") ? d.image : "data:image/png;base64," + d.image;
+            box.innerHTML = '<img alt="QR" src="' + src + '"/><div class="log">Mở Zalo → quét ngay (~5s)</div>';
+            setStatus("awaiting_qr");
+          } else if (d.type === "scanned") {
+            setStatus("scanned");
+            $("qrLog").textContent = "Đã quét bởi: " + (d.data?.display_name || "?") + " — xác nhận trên điện thoại.";
+          } else if (d.type === "expired") {
+            $("qrLog").textContent = "Mã QR hết hạn, bấm 'Quét QR' lại.";
+          } else if (d.type === "declined") {
+            $("qrLog").textContent = "Đã từ chối đăng nhập.";
+          } else if (d.type === "success") {
+            setStatus("logged_in");
+            box.innerHTML = '<div class="pill ok">✅ Đăng nhập thành công</div>';
+            $("qrLog").textContent = "Tài khoản: " + (d.userInfo?.name || "(đã lưu state)");
+            es.close();
+          } else if (d.type === "error") {
+            $("qrLog").textContent = "Lỗi: " + d.message;
+            es.close();
+          } else if (d.type === "end") {
+            es.close();
+          }
+        };
+        es.onerror = () => { $("qrLog").textContent = "Mất kết nối SSE."; es.close(); };
+      });
+
+      $("btnLogout").addEventListener("click", async () => {
+        await fetch("/api/logout" + qs(), { method: "POST", headers: headers() });
+        setStatus("logged_out");
+        $("qrBox").innerHTML = '<button id="btnQR2">Quét QR đăng nhập</button>';
+        document.getElementById("btnQR2").addEventListener("click", () => location.reload());
+      });
+
+      $("btnSend").addEventListener("click", async () => {
+        const btn = $("btnSend");
+        btn.disabled = true;
+        $("sendLog").textContent = "Đang gửi…";
+        try {
+          const r = await fetch("/api/send" + qs(), {
+            method: "POST",
+            headers: headers(),
+            body: JSON.stringify({
+              phone: $("phone").value.trim(),
+              message: $("message").value,
+              addFriend: $("addFriend").checked,
+              friendMessage: $("friendMessage").value,
+            }),
+          });
+          const d = await r.json();
+          $("sendLog").textContent = d.ok
+            ? `✅ Đã gửi tới ${d.displayName || d.uid}. Kết bạn: ${d.friendRequestSent ? "đã gửi lời mời" : "không/đã là bạn"}.`
+            : "❌ Lỗi: " + d.error;
+        } catch (e) {
+          $("sendLog").textContent = "❌ Lỗi mạng: " + e.message;
+        } finally {
+          btn.disabled = false;
+        }
+      });
+
+      refreshStatus();
+    </script>
+  </body>
+</html>

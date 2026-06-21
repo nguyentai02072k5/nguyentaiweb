@@ -1,0 +1,26 @@
+# Cấu hình deploy Render.com (Free tier). Đặt secret trong dashboard (sync:false).
+# Lưu ý Free tier: service NGỦ sau ~15' không có request; lần gọi đầu sau khi ngủ
+# mất ~30-50s khởi động lại (worker tự auto-login từ Supabase nên không cần quét QR lại).
+# KHÔNG set PORT — Render tự inject; app đọc process.env.PORT.
+services:
+  - type: web
+    name: zalo-worker
+    runtime: node
+    rootDir: zalo-worker
+    plan: free
+    buildCommand: npm install
+    startCommand: node src/index.js
+    healthCheckPath: /healthz
+    envVars:
+      - key: WORKER_API_TOKEN
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: ZALO_ENC_KEY
+        sync: false
+      - key: ZALO_CRED_ID
+        value: default
+      - key: ZALO_USER_AGENT
+        sync: false

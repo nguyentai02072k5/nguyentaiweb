@@ -15,6 +15,7 @@ const ADMIN_COOKIE_NAME = 'admin_session';
 const ADMIN_HOST_PREFIX = 'admin.';
 const INFOR_HOST_PREFIX = 'infor.';
 const FORM_HOST_PREFIX = 'form.';
+const WEBHOOK_HOST_PREFIX = 'webhook.';
 
 export const config = {
   matcher: [
@@ -29,6 +30,7 @@ export async function proxy(request: NextRequest) {
   const isAdminHost = host.startsWith(ADMIN_HOST_PREFIX);
   const isInforHost = host.startsWith(INFOR_HOST_PREFIX);
   const isFormHost = host.startsWith(FORM_HOST_PREFIX);
+  const isWebhookHost = host.startsWith(WEBHOOK_HOST_PREFIX);
 
   // ---- 0. Subdomain rewrite: infor.* → /infor/* (PUBLIC, không auth) ----
   // `infor.nguyenvantai.com/0901234567` → `/infor/0901234567` (giữ URL hiển thị).
@@ -42,6 +44,13 @@ export async function proxy(request: NextRequest) {
   // `form.nguyenvantai.com` → `/form` (form khai thác thông tin Bot Mooly).
   if (isFormHost && !url.pathname.startsWith('/form') && !url.pathname.startsWith('/api')) {
     url.pathname = url.pathname === '/' ? '/form' : `/form${url.pathname}`;
+    return NextResponse.rewrite(url);
+  }
+
+  // ---- 0c. Subdomain rewrite: webhook.* → /webhook/* (PUBLIC, không auth) ----
+  // `webhook.nguyenvantai.com` → `/webhook` (bảng điều khiển Zalo worker).
+  if (isWebhookHost && !url.pathname.startsWith('/webhook') && !url.pathname.startsWith('/api')) {
+    url.pathname = url.pathname === '/' ? '/webhook' : `/webhook${url.pathname}`;
     return NextResponse.rewrite(url);
   }
 
