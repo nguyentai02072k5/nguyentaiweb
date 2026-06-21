@@ -133,17 +133,21 @@ export async function sendMessageToUid(uid, message) {
   return api.sendMessage({ msg: text, styles, urgency: Urgency.Default }, uid, ThreadType.User);
 }
 
-// Gửi lời mời kết bạn tới uid. KHÔNG nuốt lỗi: trả { ok, error } để surface lý do.
-// Các mã zca-js hay gặp: 225 đã là bạn, 215 bị chặn, 222 người kia đã gửi lời mời trước.
+// Gửi lời mời kết bạn tới uid. KHÔNG nuốt lỗi: trả { ok, error, code }.
+// Lời mời kết bạn là TEXT thuần → strip tag format (Zalo không hỗ trợ; tag thừa
+// có thể khiến request fail). Mã hay gặp: 225 đã là bạn, 215 bị chặn,
+// 222 người kia đã gửi lời mời trước, 31 quá 30 lời mời/24h hoặc đầy danh bạ.
 export async function sendFriendRequestToUid(uid, message) {
   const api = await ensureApi();
+  const plain = htmlToStyles(message?.trim() || "Xin chào, kết bạn nhé!").text;
   try {
-    await api.sendFriendRequest(message?.trim() || "Xin chào, kết bạn nhé!", uid);
+    await api.sendFriendRequest(plain, uid);
     return { ok: true };
   } catch (e) {
-    const error = e?.message || String(e);
-    console.warn("[zalo] sendFriendRequest:", error);
-    return { ok: false, error };
+    const code = e?.code ?? null;
+    const error = code ? `${e?.message} (code ${code})` : e?.message || String(e);
+    console.error("[zalo] sendFriendRequest FAILED:", { code, message: e?.message, uid });
+    return { ok: false, error, code };
   }
 }
 
