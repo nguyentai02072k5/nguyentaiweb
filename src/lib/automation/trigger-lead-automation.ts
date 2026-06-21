@@ -20,7 +20,8 @@ export async function triggerLeadAutomation(input: {
       method: 'POST',
       headers: { 'content-type': 'application/json', ...(token ? { 'x-api-token': token } : {}) },
       body: JSON.stringify({ source: input.source, phone: input.phone, name: input.name ?? '' }),
-      signal: AbortSignal.timeout(20000),
+      // Worker ACK ngay (xử lý nền) → fetch nhanh; để 30s đệm cho cold-start Render Free.
+      signal: AbortSignal.timeout(30000),
     });
     if (!res.ok) {
       console.error('[automation] trigger HTTP', res.status, await res.text().catch(() => ''));

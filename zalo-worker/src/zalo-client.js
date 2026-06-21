@@ -115,35 +115,44 @@ async function ensureApi() {
   return state.api;
 }
 
-// Gửi tin nhắn theo SĐT: findUser → (tùy chọn) kết bạn → sendMessage (có format).
-export async function sendMessageByPhone({ phone, message, addFriend, friendMessage }) {
-  const api = await ensureApi();
+// --- Low-level theo uid (tái dùng, tránh gọi findUser lặp trong 1 flow) ---
 
+// Tìm uid Zalo theo SĐT.
+export async function findUidByPhone(phone) {
+  const api = await ensureApi();
   const user = await api.findUser(String(phone).trim());
   const uid = user?.uid ?? user?.userId;
   if (!uid) throw new Error("Không tìm thấy tài khoản Zalo với số điện thoại này.");
+  return { uid, user };
+}
 
-  let friendRequestSent = false;
-  if (addFriend) {
-    try {
-      await api.sendFriendRequest(
-        friendMessage?.trim() || "Xin chào, kết bạn với mình nhé!",
-        uid,
-      );
-      friendRequestSent = true;
-    } catch (e) {
-      // Có thể đã là bạn hoặc đã gửi trước đó — không chặn việc gửi tin nhắn.
-      console.warn("[zalo] sendFriendRequest:", e?.message);
-    }
-  }
-
+// Gửi tin nhắn (có format) tới uid.
+export async function sendMessageToUid(uid, message) {
+  const api = await ensureApi();
   const { text, styles } = htmlToStyles(message);
-  const result = await api.sendMessage(
-    { msg: text, styles, urgency: Urgency.Default },
-    uid,
-    ThreadType.User,
-  );
+  return api.sendMessage({ msg: text, styles, urgency: Urgency.Default }, uid, ThreadType.User);
+}
 
+// Gửi lời mời kết bạn tới uid. Trả false nếu đã là bạn / lỗi (không chặn flow).
+export async function sendFriendRequestToUid(uid, message) {
+  const api = await ensureApi();
+  try {
+    await api.sendFriendRequest(message?.trim() || "Xin chào, kết bạn nhé!", uid);
+    return true;
+  } catch (e) {
+    console.warn("[zalo] sendFriendRequest:", e?.message);
+    return false;
+  }
+}
+
+// --- High-level theo SĐT (dùng cho /api/send thủ công) ---
+
+// findUser → (tùy chọn) kết bạn → sendMessage (có format).
+export async function sendMessageByPhone({ phone, message, addFriend, friendMessage }) {
+  const { uid, user } = await findUidByPhone(phone);
+  let friendRequestSent = false;
+  if (addFriend) friendRequestSent = await sendFriendRequestToUid(uid, friendMessage);
+  const result = await sendMessageToUid(uid, message);
   return {
     uid,
     displayName: user?.display_name ?? user?.zalo_name ?? null,
@@ -152,19 +161,11 @@ export async function sendMessageByPhone({ phone, message, addFriend, friendMess
   };
 }
 
-// Gửi riêng lời mời kết bạn theo SĐT (dùng cho step automation).
+// Gửi riêng lời mời kết bạn theo SĐT.
 export async function sendFriendRequestByPhone(phone, message) {
-  const api = await ensureApi();
-  const user = await api.findUser(String(phone).trim());
-  const uid = user?.uid ?? user?.userId;
-  if (!uid) throw new Error("Không tìm thấy tài khoản Zalo với số điện thoại này.");
-  try {
-    await api.sendFriendRequest(message?.trim() || "Xin chào, kết bạn nhé!", uid);
-    return { uid, friendRequestSent: true };
-  } catch (e) {
-    // Đã là bạn / đã gửi trước đó — không coi là lỗi chặn flow.
-    return { uid, friendRequestSent: false, note: e?.message };
-  }
+  const { uid } = await findUidByPhone(phone);
+  const ok = await sendFriendRequestToUid(uid, message);
+  return { uid, friendRequestSent: ok };
 }
 
 export async function logout() {

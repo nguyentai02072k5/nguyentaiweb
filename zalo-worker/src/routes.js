@@ -80,8 +80,11 @@ router.post("/api/flow/trigger", requireToken, async (req, res) => {
     if (!phone) return res.status(400).json({ ok: false, error: "Thiếu 'phone'." });
     const cleanPhone = String(phone).trim();
     const context = { phone: cleanPhone, sdt: cleanPhone, ten: name ?? "", ...(vars || {}) };
-    const result = await startFlow({ flowId, source, context });
-    res.json({ ok: true, ...result });
+    // ACK ngay, chạy flow ở background (gửi Zalo có thể lâu > timeout phía gọi).
+    startFlow({ flowId, source, context })
+      .then((r) => console.log("[flow] trigger:", r?.status, r?.runId ?? r?.reason ?? ""))
+      .catch((e) => console.error("[flow] trigger error:", e?.message));
+    res.status(202).json({ ok: true, accepted: true });
   } catch (e) {
     res.status(500).json({ ok: false, error: e?.message });
   }
@@ -94,8 +97,11 @@ router.post("/api/flow/resume", async (req, res) => {
     const runId = req.query.runId || req.body?.runId;
     const token = req.query.token || req.body?.token;
     if (!runId || !token) return res.status(400).json({ ok: false, error: "Thiếu runId/token." });
-    const result = await resumeFlow({ runId, token, vars: req.body?.vars });
-    res.json({ ok: true, ...result });
+    // ACK ngay cho n8n, tiếp tục flow ở background.
+    resumeFlow({ runId, token, vars: req.body?.vars })
+      .then((r) => console.log("[flow] resume:", r?.status, r?.runId ?? ""))
+      .catch((e) => console.error("[flow] resume error:", e?.message));
+    res.status(202).json({ ok: true, accepted: true });
   } catch (e) {
     res.status(400).json({ ok: false, error: e?.message });
   }

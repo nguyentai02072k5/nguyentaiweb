@@ -4,7 +4,15 @@
 import crypto from "node:crypto";
 import { config } from "./config.js";
 import { getActiveFlow, getFlowById, createRun, getRun, updateRun, getLeadByPhone, hasRecentRun } from "./flow-store.js";
-import { sendMessageByPhone, sendFriendRequestByPhone } from "./zalo-client.js";
+import { findUidByPhone, sendMessageToUid, sendFriendRequestToUid } from "./zalo-client.js";
+
+// Resolve uid 1 lần/run rồi cache vào context (persist qua resume) — tránh findUser lặp.
+async function ensureUid(context) {
+  if (context.uid) return context.uid;
+  const { uid } = await findUidByPhone(context.phone);
+  context.uid = uid;
+  return uid;
+}
 
 // Thay biến {{key}} bằng context[key] (rỗng nếu thiếu).
 function applyVars(text, context) {
@@ -69,15 +77,12 @@ async function executeFrom(flow, run, idx) {
 
         const msg = filled ? step.config?.messageFilled : step.config?.messageNotFilled;
         if (msg && msg.trim()) {
-          const r = await sendMessageByPhone({ phone: context.phone, message: applyVars(msg, context) });
-          if (r.uid) context.uid = r.uid;
+          await sendMessageToUid(await ensureUid(context), applyVars(msg, context));
         }
       } else if (step.type === "send_friend_request") {
-        const r = await sendFriendRequestByPhone(context.phone, applyVars(step.config?.message, context));
-        if (r.uid) context.uid = r.uid;
+        await sendFriendRequestToUid(await ensureUid(context), applyVars(step.config?.message, context));
       } else if (step.type === "send_message") {
-        const r = await sendMessageByPhone({ phone: context.phone, message: applyVars(step.config?.message, context) });
-        if (r.uid) context.uid = r.uid;
+        await sendMessageToUid(await ensureUid(context), applyVars(step.config?.message, context));
       } else {
         // type lạ → bỏ qua (không chặn flow).
       }
