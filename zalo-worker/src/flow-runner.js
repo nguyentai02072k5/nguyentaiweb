@@ -81,7 +81,16 @@ async function executeFrom(flow, run, idx) {
         }
       } else if (step.type === "send_friend_request") {
         const fr = await sendFriendRequestToUid(await ensureUid(context), applyVars(step.config?.message, context));
-        if (!fr.ok) context.friend_error = fr.error; // lưu lý do vào run để debug
+        if (!fr.ok) {
+          // Lưu lý do vào run để admin debug; KHÔNG chặn flow (vẫn gửi tin nhắn tiếp).
+          // benign (đã là bạn / đã gửi) → bình thường; còn lại (vd 311) là lỗi thật cần xem log worker.
+          context.friend_error = fr.error;
+          context.friend_error_code = fr.code ?? null;
+          context.friend_state = fr.state ?? null; // trạng thái thật từ Zalo để debug
+          console.warn(
+            `[flow] friend request ${fr.benign ? "bỏ qua (không cần gửi lại)" : "THẤT BẠI"}: ${fr.error}`
+          );
+        }
       } else if (step.type === "send_message") {
         await sendMessageToUid(await ensureUid(context), applyVars(step.config?.message, context));
       } else {

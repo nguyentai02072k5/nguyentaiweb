@@ -133,10 +133,35 @@ export async function sendMessageToUid(uid, message) {
   return api.sendMessage({ msg: text, styles, urgency: Urgency.Default }, uid, ThreadType.User);
 }
 
-// Gửi lời mời kết bạn tới uid. KHÔNG nuốt lỗi: trả { ok, error, code }.
+// Khi gửi lời mời lỗi, hỏi Zalo trạng thái thật của uid để biết lý do chính xác
+// (đã là bạn / đã có lời mời đang chờ / bị chặn...). Không bao giờ throw — chỉ log.
+async function probeFriendState(api, uid) {
+  const out = {};
+  try {
+    out.requestStatus = await api.getFriendRequestStatus(uid);
+  } catch (e) {
+    out.requestStatus = `err: ${e?.code ?? ""} ${e?.message ?? e}`;
+  }
+  try {
+    const sent = await api.getSentFriendRequest();
+    // Có thể là mảng hoặc object map; chỉ cần biết uid này có nằm trong danh sách đã gửi.
+    const flat = JSON.stringify(sent ?? "");
+    out.alreadySent = flat.includes(String(uid));
+  } catch (e) {
+    out.alreadySent = `err: ${e?.code ?? ""} ${e?.message ?? e}`;
+  }
+  return out;
+}
+
+// Codes coi là "không cần gửi lại" (không phải lỗi thật sự cần chặn flow):
+// 225 đã là bạn, 222 người kia đã gửi lời mời (request tự thành accept).
+const BENIGN_FRIEND_CODES = new Set([225, 222]);
+
+// Gửi lời mời kết bạn tới uid. KHÔNG nuốt lỗi: trả { ok, error, code, benign }.
 // Lời mời kết bạn là TEXT thuần → strip tag format (Zalo không hỗ trợ; tag thừa
 // có thể khiến request fail). Mã hay gặp: 225 đã là bạn, 215 bị chặn,
-// 222 người kia đã gửi lời mời trước, 31 quá 30 lời mời/24h hoặc đầy danh bạ.
+// 222 người kia đã gửi lời mời trước, 31 quá 30 lời mời/24h hoặc đầy danh bạ,
+// 311 Zalo từ chối (thường do trùng phiên đăng nhập / anti-spam / quyền riêng tư).
 export async function sendFriendRequestToUid(uid, message) {
   const api = await ensureApi();
   const plain = htmlToStyles(message?.trim() || "Xin chào, kết bạn nhé!").text;
@@ -146,8 +171,10 @@ export async function sendFriendRequestToUid(uid, message) {
   } catch (e) {
     const code = e?.code ?? null;
     const error = code ? `${e?.message} (code ${code})` : e?.message || String(e);
-    console.error("[zalo] sendFriendRequest FAILED:", { code, message: e?.message, uid });
-    return { ok: false, error, code };
+    // Probe trạng thái thật để debug (in log + trả về để lưu vào run).
+    const state = await probeFriendState(api, uid);
+    console.error("[zalo] sendFriendRequest FAILED:", { code, message: e?.message, uid, state });
+    return { ok: false, error, code, benign: code != null && BENIGN_FRIEND_CODES.has(code), state };
   }
 }
 

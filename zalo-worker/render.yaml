@@ -24,3 +24,6 @@ services:
         value: default
       - key: ZALO_USER_AGENT
         sync: false
+      # URL public của chính worker (dựng resumeUrl cho n8n callback ở bước delay_webhook).
+      - key: PUBLIC_BASE_URL
+        value: https://nguyentaiweb.onrender.com
