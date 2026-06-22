@@ -20,7 +20,7 @@ import {
   type UseFieldArrayReturn,
   type Path,
 } from 'react-hook-form';
-import { CheckCircle2, User, BadgeCheck } from 'lucide-react';
+import { CheckCircle2, User, BadgeCheck, UploadCloud, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { pushToDataLayer } from '@/lib/analytics/gtm';
 import { trackMetaCustomEvent, trackMetaStandardEvent } from '@/lib/analytics/meta-pixel';
@@ -40,6 +40,7 @@ import {
   Banner,
 } from './infor-field';
 import { WizardProgress, WizardNav } from './infor-wizard-nav';
+import { InforDocUpload } from './infor-doc-upload';
 
 type Props = {
   phone: string;
@@ -68,6 +69,7 @@ export function InforLeadForm({
   const [serverError, setServerError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
   const [step, setStep] = useState<WizardStep>(1);
+  const [mode, setMode] = useState<'manual' | 'upload'>('manual');
   const started = useRef(false);
   const topRef = useRef<HTMLDivElement>(null);
 
@@ -108,6 +110,12 @@ export function InforLeadForm({
     setValue('payload.business_model', m, { shouldValidate: true });
     pushToDataLayer({ event: 'infor_model_select', model: m });
     trackMetaCustomEvent('InforModelSelect', { model: m });
+  };
+
+  const switchToUpload = () => {
+    setMode('upload');
+    pushToDataLayer({ event: 'infor_mode_upload' });
+    trackMetaCustomEvent('InforModeUpload');
   };
 
   const scrollTop = () =>
@@ -168,6 +176,17 @@ export function InforLeadForm({
     setServerError(json?.message ?? 'Có lỗi xảy ra, vui lòng thử lại.');
   });
 
+  if (mode === 'upload') {
+    return (
+      <InforDocUpload
+        phone={phone}
+        defaultFullName={defaultFullName}
+        lockedContact={lockedContact}
+        onBack={() => setMode('manual')}
+      />
+    );
+  }
+
   if (done) {
     return (
       <div className="flex flex-col items-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50/80 px-6 py-12 text-center">
@@ -189,6 +208,28 @@ export function InforLeadForm({
       )}
 
       <WizardProgress step={step} />
+
+      {/* Lối tắt: đã có sẵn tài liệu → bỏ qua wizard, chuyển sang upload (chỉ ở Bước 1). */}
+      {step === 1 && (
+        <button
+          type="button"
+          onClick={switchToUpload}
+          className="group border-brand-violet/30 from-brand-indigo/5 to-brand-pink/5 hover:border-brand-violet/50 flex w-full items-center gap-3 rounded-2xl border-[1.5px] border-dashed bg-gradient-to-r px-4 py-3 text-left transition"
+        >
+          <span className="from-brand-indigo to-brand-violet flex size-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br text-white shadow-sm">
+            <UploadCloud className="size-5" />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="text-text-primary block text-[13.5px] font-bold leading-snug">
+              Đã có sẵn File mô tả doanh nghiệp &amp; quy trình bán hàng?
+            </span>
+            <span className="text-text-secondary block text-[12px] leading-snug">
+              Bấm vào đây để upload — khỏi điền tay từng câu.
+            </span>
+          </span>
+          <ArrowRight className="text-brand-violet size-4 shrink-0 transition-transform group-hover:translate-x-0.5" />
+        </button>
+      )}
 
       {/* Hidden inputs giữ SĐT/Tên khi ẩn ô liên hệ (landing). */}
       {lockedContact && (

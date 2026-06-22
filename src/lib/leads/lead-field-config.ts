@@ -423,8 +423,21 @@ export const LEAD_SECTIONS: LeadSection[] = [
   },
 ];
 
+/**
+ * Field tài liệu upload (chế độ "đã có sẵn file") - KHÔNG nằm trong LEAD_SECTIONS
+ * nên không render trong wizard, nhưng vẫn cần có label + format để hiển thị ở
+ * CMS và webhook khi khách gửi qua đường upload.
+ */
+export const LEAD_DOC_FIELDS: LeadField[] = [
+  { key: 'business_doc_name', label: 'File mô tả DN & quy trình', type: 'text' },
+  { key: 'business_doc_url', label: 'Link file đã upload', type: 'text' },
+];
+
 /** Phẳng hoá field (key cuối thắng nếu trùng) - tiện tra cứu. */
-export const LEAD_FIELDS: LeadField[] = LEAD_SECTIONS.flatMap((s) => s.fields);
+export const LEAD_FIELDS: LeadField[] = [
+  ...LEAD_SECTIONS.flatMap((s) => s.fields),
+  ...LEAD_DOC_FIELDS,
+];
 
 export const LEAD_FIELD_LABELS: Record<string, string> = {
   // Trường liên hệ thu ở bước cơ bản (không nằm trong section config)

@@ -13,13 +13,14 @@
 
 import { useMemo, useRef, useState } from 'react';
 import { useForm, useFieldArray, useWatch } from 'react-hook-form';
-import { CheckCircle2, User, Phone, Send, Loader2, ShieldCheck } from 'lucide-react';
+import { CheckCircle2, User, Phone, Send, Loader2, ShieldCheck, UploadCloud, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { pushToDataLayer } from '@/lib/analytics/gtm';
 import { MOOLY_FIELDS } from '@/lib/leads/mooly-field-config';
 import type { MoolySubmitInput } from '@/lib/leads/mooly-schema';
 import { MoolyFieldRow } from './mooly-field';
 import { MoolyProgress } from './mooly-progress';
+import { MoolyDocUpload } from './mooly-doc-upload';
 
 const inputCls = cn(
   'w-full rounded-xl border-[1.5px] border-border-default bg-white px-3.5 text-[15px] text-text-primary',
@@ -41,9 +42,19 @@ function seedPayload(): Record<string, unknown> {
   return { [FAQ_FIELD.key]: rows };
 }
 
-export function MoolyForm() {
+type MoolyFormProps = {
+  /** Link form.nguyenvantai.com/<sđt>: SĐT điền sẵn từ URL. */
+  phone?: string;
+  /** Tên đã có trên hệ thống (nếu lead từng được thu) → prefill, trống thì điền sau. */
+  defaultFullName?: string | null;
+  /** Lead này từng submit trước đó → hiện nhắc nhẹ. */
+  alreadySubmitted?: boolean;
+};
+
+export function MoolyForm({ phone, defaultFullName, alreadySubmitted }: MoolyFormProps = {}) {
   const [serverError, setServerError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
+  const [mode, setMode] = useState<'manual' | 'upload'>('manual');
   const started = useRef(false);
 
   const {
@@ -52,7 +63,7 @@ export function MoolyForm() {
     control,
     formState: { errors, isSubmitting },
   } = useForm<MoolySubmitInput>({
-    defaultValues: { phone: '', full_name: '', payload: seedPayload() },
+    defaultValues: { phone: phone ?? '', full_name: defaultFullName ?? '', payload: seedPayload() },
   });
 
   const faqArray = useFieldArray({ control, name: 'payload.faqs' as never });
@@ -104,6 +115,16 @@ export function MoolyForm() {
     setServerError(json?.message ?? 'Có lỗi xảy ra, vui lòng thử lại.');
   });
 
+  if (mode === 'upload') {
+    return (
+      <MoolyDocUpload
+        phone={phone}
+        defaultFullName={defaultFullName}
+        onBack={() => setMode('manual')}
+      />
+    );
+  }
+
   if (done) {
     return (
       <div className="flex flex-col items-center gap-3 rounded-3xl border border-emerald-200 bg-emerald-50/80 px-6 py-14 text-center shadow-sm">
@@ -120,6 +141,35 @@ export function MoolyForm() {
   return (
     <form onSubmit={onSubmit} onFocusCapture={fireStart} noValidate>
       <MoolyProgress filled={filledRequired} total={TOTAL_REQUIRED} />
+
+      {alreadySubmitted && (
+        <div className="mb-4 rounded-xl border border-amber-300 bg-amber-50 px-3.5 py-2.5 text-[13px] text-amber-800">
+          Anh/chị đã gửi thông tin trước đó. Gửi lại sẽ cập nhật thông tin mới nhất.
+        </div>
+      )}
+
+      {/* Lối tắt: đã có sẵn tài liệu → bỏ qua điền tay, chuyển sang upload file. */}
+      <button
+        type="button"
+        onClick={() => {
+          setMode('upload');
+          pushToDataLayer({ event: 'mooly_mode_upload' });
+        }}
+        className="group border-brand-violet/30 from-brand-indigo/5 to-brand-pink/5 hover:border-brand-violet/50 mb-5 flex w-full items-center gap-3 rounded-2xl border-[1.5px] border-dashed bg-gradient-to-r px-4 py-3.5 text-left transition"
+      >
+        <span className="from-brand-indigo to-brand-violet flex size-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br text-white shadow-sm">
+          <UploadCloud className="size-5" />
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block text-[14px] font-bold leading-snug text-text-primary">
+            Đã có sẵn File mô tả shop &amp; quy trình bán hàng?
+          </span>
+          <span className="block text-[12.5px] leading-snug text-text-secondary">
+            Bấm vào đây để upload — khỏi điền tay từng mục.
+          </span>
+        </span>
+        <ArrowRight className="size-4 shrink-0 text-brand-violet transition-transform group-hover:translate-x-0.5" />
+      </button>
 
       <div className="space-y-6">
         {/* ---- Khối liên hệ ---- */}
@@ -179,9 +229,11 @@ export function MoolyForm() {
                   pattern: { value: /^[\d\s+\-().]+$/, message: 'SĐT không hợp lệ' },
                 })}
               />
-              {errors.phone && (
+              {errors.phone ? (
                 <p className="mt-1 text-[12px] font-medium text-rose-500">{errors.phone.message}</p>
-              )}
+              ) : phone ? (
+                <p className="text-text-tertiary mt-1 text-[11px]">↳ Đã điền sẵn từ link — sửa nếu chưa đúng</p>
+              ) : null}
             </div>
           </div>
         </section>
