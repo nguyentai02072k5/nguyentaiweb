@@ -12,6 +12,7 @@
 
 import { ChevronDown, Trash2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { STATUS_LABELS } from '@/components/admin/leads/leads-explorer-types';
 import type { LeadView, LeadAnswer } from '@/lib/admin/lead-view-model';
 
 type LeadItemProps = {
@@ -39,7 +40,7 @@ export function StatusBadge({ status }: { status: string }) {
       'inline-block shrink-0 rounded-full border px-2 py-0.5 text-xs font-medium',
       STATUS_STYLE[status] ?? STATUS_STYLE.archived,
     )}>
-      {status}
+      {STATUS_LABELS[status] ?? status}
     </span>
   );
 }

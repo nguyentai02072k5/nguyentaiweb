@@ -34,7 +34,7 @@ export default async function AdminLeadsPage() {
       <section className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
         <StatCard label="Tổng lead" value={stats.total} icon={Users} accent="indigo" />
         <StatCard label="Đã mở link" value={stats.opened} hint="Chưa gửi form" icon={Eye} accent="violet" />
-        <StatCard label="Đã gửi form" value={stats.submitted} icon={Send} accent="cyan" />
+        <StatCard label="Done" value={stats.submitted} hint="Khách đã điền xong" icon={Send} accent="cyan" />
         <StatCard label="Đã liên hệ" value={stats.contacted} icon={PhoneCall} accent="pink" />
       </section>
 

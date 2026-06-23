@@ -433,10 +433,20 @@ export const LEAD_DOC_FIELDS: LeadField[] = [
   { key: 'business_doc_url', label: 'Link file đã upload', type: 'text' },
 ];
 
+/**
+ * Field riêng cho landing marketing Mooly (landing.* — source 'infor-mooly-lp').
+ * KHÔNG thuộc wizard; chỉ để CMS + webhook render `message_volume`.
+ * `industry` đã có sẵn ở section overview → landing tái dùng, không khai lại.
+ */
+export const LANDING_FIELDS: LeadField[] = [
+  { key: 'message_volume', label: 'Lượng tin nhắn/ngày', type: 'text' },
+];
+
 /** Phẳng hoá field (key cuối thắng nếu trùng) - tiện tra cứu. */
 export const LEAD_FIELDS: LeadField[] = [
   ...LEAD_SECTIONS.flatMap((s) => s.fields),
   ...LEAD_DOC_FIELDS,
+  ...LANDING_FIELDS,
 ];
 
 export const LEAD_FIELD_LABELS: Record<string, string> = {

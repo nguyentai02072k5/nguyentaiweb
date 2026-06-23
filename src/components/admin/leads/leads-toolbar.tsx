@@ -14,8 +14,9 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import type {
-  StatusFilter, TimeRange, SortOrder, ViewMode, SourceGroup,
+import {
+  STATUS_LABELS,
+  type StatusFilter, type TimeRange, type SortOrder, type ViewMode, type SourceGroup,
 } from '@/components/admin/leads/leads-explorer-types';
 
 const SOURCE_TABS: { value: SourceGroup; label: string }[] = [
@@ -25,12 +26,12 @@ const SOURCE_TABS: { value: SourceGroup; label: string }[] = [
 
 const STATUS_CHIPS: { value: StatusFilter; label: string }[] = [
   { value: 'all', label: 'Tất cả' },
-  { value: 'opened', label: 'Đã mở' },
-  { value: 'submitted', label: 'Đã gửi' },
-  { value: 'contacted', label: 'Đã liên hệ' },
-  { value: 'converted', label: 'Đã chốt' },
-  { value: 'spam', label: 'Spam' },
-  { value: 'archived', label: 'Lưu trữ' },
+  { value: 'opened', label: STATUS_LABELS.opened },
+  { value: 'submitted', label: STATUS_LABELS.submitted },
+  { value: 'contacted', label: STATUS_LABELS.contacted },
+  { value: 'converted', label: STATUS_LABELS.converted },
+  { value: 'spam', label: STATUS_LABELS.spam },
+  { value: 'archived', label: STATUS_LABELS.archived },
 ];
 
 const TIME_OPTIONS: { value: TimeRange; label: string }[] = [

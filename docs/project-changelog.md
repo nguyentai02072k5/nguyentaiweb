@@ -1,5 +1,43 @@
 # Project Changelog
 
+## 2026-06-23
+
+### Added
+- **Landing marketing Mooly** — subdomain mới `landing.nguyenvantai.com` (route nội bộ `/landing`, pixel-match từ `mooly-landing.html`). `proxy.ts` thêm nhánh `landing.*` → `/landing` + guard 404 khi host khác gõ `/landing` (chống trùng nội dung). Page standalone: `src/app/landing/{page,layout,landing-interactions}.tsx` — CSS + markup giữ **verbatim** (auto-gen `landing-styles.ts`/`landing-markup.ts`, scope `#mooly-lp`, inject qua `dangerouslySetInnerHTML`) để fidelity 100%; toàn bộ JS (8 khối: marquee, nav-scroll, mobile-menu, reveal, chat auto-scroll, 2 canvas sparks, FAQ, form) port sang 1 client component có cleanup + guard StrictMode. Font giữ `<link>` Google Fonts gốc (tên literal + weight 300). OG/twitter dùng logo Mooly.
+- **API `POST /api/landing/lead`** — form landing (Họ tên + SĐT/Zalo + Ngành hàng + Lượng tin/ngày) ghi lead vào hệ thống infor: tái dùng RPC `submit_lead` + webhook + `triggerLeadAutomation`, source `'infor-mooly-lp'` (không prefix `mooly` → `source_group='infor'`). Payload thêm `industry` (reuse field infor có sẵn) + `message_volume` (`LANDING_FIELDS` mới trong `lead-field-config.ts`). Schema `landing-lead-schema.ts` (không email). GA4 `generate_lead` + Meta `Lead` khi submit thành công.
+
+### Changed
+- `src/app/layout.tsx` root layout host-conditional: subdomain `landing.*` render shell tối giản (bỏ NavBar/SiteFooter/ScrollToTop/Chatwoot/ThemeProvider, giữ GTM/Pixel/Analytics). Đánh đổi: dùng `headers()` nên trang khác chuyển render động (chấp nhận — ưu tiên không-conflict, SEO không trọng yếu).
+
+## 2026-06-21
+
+### Added
+- **Auto-trigger flow từ lead** — nối `triggerLeadAutomation()` (helper `src/lib/automation/trigger-lead-automation.ts`, fire-and-forget qua `after()`) vào 4 điểm tạo lead: `/api/infor/capture`, `/api/infor/submit`, `/api/form/submit`, và `recordLeadOpen` (mở link). Gọi worker `POST /api/flow/trigger` với `source` ('infor'|'mooly') → worker tự tìm flow đang bật khớp nguồn và chạy. **Dedup 10 phút** ở worker (`hasRecentRun`) chống bắn trùng (open + submit). "Chạy thử" thủ công (có flowId) bỏ qua dedup.
+- **Node "Kiểm tra form" (`check_form`)** — check lead theo SĐT (form đã submit chưa) rồi gửi tin tương ứng: `messageFilled` (đã điền) / `messageNotFilled` (chưa điền). Set biến `{{trang_thai}}`, `form_filled`, `lead_status` vào context; auto lấy `ten` từ `full_name` lead. Worker `getLeadByPhone(phone, source)` query bảng `leads` (lọc `source_group`). SĐT tự khôi phục từ run state sau khi n8n callback (delay payload thêm `phone` top-level cho n8n tiện dùng). Builder render 2 ô soạn tin + chọn nguồn.
+- **Automation Flow Builder** — trang `admin.nguyenvantai.com/admin/automation`: thiết kế flow Zalo dạng **step-list kéo-thả** (HTML5 drag), không cần React Flow. Node: `send_friend_request`, `send_message` (editor format tag b/i/u/s + màu + biến `{{ten}}`/`{{sdt}}`/`{{link_meet}}` + preview), `delay_webhook`. Có nút "Nạp mẫu" (kịch bản kết bạn → chào → chờ giờ hẹn → bắn link Meet) và "Lưu & chạy thử".
+- **Engine thực thi (worker)** — `flow-runner.js` + `flow-store.js`: chạy step tuần tự, lưu run state vào Supabase (`automation_runs`) để **resume**. Node hẹn giờ = **webhook chờ n8n**: worker POST `{runId, resumeToken, resumeUrl, context}` sang n8n; n8n giữ thời gian rồi callback `POST /api/flow/resume?runId&token` → chạy tiếp (né Render ngủ vì callback đánh thức). Endpoint mới: `/api/flow/trigger` (token), `/api/flow/resume` (dùng resume_token).
+- Migration `0013_init_automation_flows.sql`: bảng `automation_flows` + `automation_runs` (RLS, service_role). Bổ sung 2 bảng vào `database-types.ts`.
+- Server actions `src/lib/automation/flow-actions.ts` (list/get/create/save/delete + testTrigger gọi worker bằng `WORKER_API_TOKEN`). Nav admin thêm tab **Automation**. Worker thêm env `PUBLIC_BASE_URL` (dựng resumeUrl).
+- **Zalo automation (MVP)** — subdomain `webhook.nguyenvantai.com` + worker Node độc lập `zalo-worker/` chạy [`zca-js`](https://github.com/RFS-ADRENO/zca-js). Vì zca-js cần process Node sống liên tục (giữ session + websocket), KHÔNG chạy được trên Vercel serverless/n8n Cloud → tách worker riêng (chạy local hoặc Railway/Render free tier, code y hệt).
+- Worker tính năng: đăng nhập **QR** (SSE stream mã QR + tiến trình, quét ~5s); **lưu state** credential `{cookie, imei, userAgent}` mã hóa AES-256-GCM vào bảng Supabase `zalo_credentials` → restart tự login lại không cần QR; **gửi tin nhắn theo SĐT** (`findUser` → `sendMessage`) kèm tùy chọn **gửi lời mời kết bạn** (`sendFriendRequest`, sửa được nội dung).
+- Parser `zalo-worker/src/html-to-styles.js`: convert format HTML-like `<b><red>…</red></b>` (b/i/u/s + màu red/orange/yellow/green + big/small, lồng nhau) → mảng `styles[]` của zca-js (zca-js không nhận tag HTML trực tiếp).
+- Migration `0012_init_zalo_credentials.sql`: bảng `zalo_credentials` (RLS bật, chỉ service_role truy cập).
+- Trang Next `src/app/webhook/page.tsx` nhúng (iframe) bảng điều khiển worker qua `NEXT_PUBLIC_ZALO_WORKER_URL`; `proxy.ts` thêm rewrite `webhook.*` → `/webhook`.
+- Deploy config worker: `Dockerfile`, `railway.json`, `render.yaml`, `.env.example`, `README.md`.
+- Cảnh báo: zca-js là API không chính thức, tài khoản Zalo có thể bị khóa — dùng tài khoản phụ, tần suất hợp lý. Phase 2 (chưa làm): hook lead-capture → auto gửi khi khách đăng ký SĐT, listener nhận reply, auto bắn link Meet gần giờ hẹn.
+- Phiếu set-up chatbot `/infor/[phone]` thêm **chế độ upload tài liệu** (thay điền tay wizard). Lối tắt ở đầu Bước 1: "Đã có sẵn File mô tả doanh nghiệp & quy trình bán hàng? Bấm để upload" → chuyển sang form upload tối giản (xác nhận SĐT/Tên + đính kèm 1 file, mọi định dạng ≤2MB). Component `src/components/infor/infor-doc-upload.tsx`, switch mode trong `infor-lead-form.tsx`.
+- API `POST /api/infor/upload` (multipart): upload file → bucket private `lead-docs`, tạo signed URL 1 năm, lưu payload `{business_doc_url, business_doc_name}` qua RPC `submit_lead` (`source='infor-upload'`) + webhook báo lead kèm link.
+- Migration `0010_init_lead_docs_storage.sql`: bucket Supabase Storage `lead-docs` (private, `file_size_limit` 2MB).
+- Display fields `business_doc_name`/`business_doc_url` (`LEAD_DOC_FIELDS`) để CMS + webhook hiển thị; admin `/admin/leads` render giá trị URL thành link "Mở file ↗".
+- Form Mooly `form.nguyenvantai.com` thêm **lối tắt "đã có sẵn file"** giống infor: nút đầu form → chuyển sang mode upload tối giản (Tên + SĐT/Zalo + 1 file ≤2MB). Component `src/components/form/mooly-doc-upload.tsx`, switch mode trong `mooly-form.tsx`, API `POST /api/form/upload` (`source='mooly-form'`).
+- Refactor DRY: tách logic upload tài liệu dùng chung `src/lib/leads/handle-lead-doc-upload.ts` (parse → upload bucket `lead-docs` → signed URL 1 năm → `submit_lead` → webhook); route infor + form chỉ còn truyền `source`.
+
+### Changed
+- **Tách lead theo nguồn ở Supabase**: migration `0011_leads_source_group_unique.sql` thêm cột sinh `source_group` ('mooly%'→'mooly', còn lại 'infor'), bỏ unique đơn trên `phone`, thay bằng unique `(phone, source_group)`; 2 RPC `record_lead_open`/`submit_lead` đổi conflict target sang `(phone, source_group)`. Trước đây cùng SĐT ở infor + form Mooly bị ghi đè chung 1 row → giờ mỗi nguồn 1 lead độc lập.
+- CMS `/admin/leads`: thêm **tab nguồn "Infor / Form Mooly"** (kèm số đếm) tách 2 list riêng; đổi tab tự bỏ chọn + thu gọn. View-model build `answers` + cột export theo đúng field của từng nguồn (`INFOR_FIELD_COLUMNS` / `MOOLY_FIELD_COLUMNS`), thêm `sourceGroup` vào `LeadView`.
+- Export CSV theo nguồn đang xem (cột & value khớp nguồn), tên file `leads-{infor|mooly}-YYYYMMDD.csv`.
+- Link riêng theo SĐT cho form Mooly: route `/form/[phone]` (`form.nguyenvantai.com/<sđt>`). Mở link → `recordLeadOpen('mooly-form')` auto tạo lead 'opened' lên DB + CMS (nhóm mooly) kể cả khi chưa có tên; prefill sẵn SĐT + Tên (nếu hệ thống đã có) vào `MoolyForm`/`MoolyDocUpload`, khách chỉ điền thêm phần còn lại. `recordLeadOpen` thêm tham số `source` (mặc định 'infor-link').
+
 ## 2026-06-20
 
 ### Added

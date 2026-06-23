@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { headers } from "next/headers";
 import { Be_Vietnam_Pro, Space_Grotesk } from "next/font/google";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
@@ -87,11 +88,17 @@ export const viewport: Viewport = {
   maximumScale: 5,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Landing marketing (subdomain landing.*) chạy standalone: KHÔNG NavBar/Footer/
+  // ScrollToTop/Chatwoot của main site (giữ GTM/Pixel/Analytics). Host-scoped nên
+  // mọi domain cũ không đổi hành vi. proxy.ts rewrite landing.* → /landing.
+  const host = (await headers()).get("host")?.toLowerCase() ?? "";
+  const isLanding = host.startsWith("landing.");
+
   return (
     <html
       lang="vi"
@@ -106,15 +113,21 @@ export default function RootLayout({
         >
           {themeInitScript}
         </Script>
-        <ThemeProvider>
-          <NavBar />
-          {children}
-          <SiteFooter />
-          <ScrollToTopButton />
-        </ThemeProvider>
+        {isLanding ? (
+          // Landing có CSS/màu riêng (scope #mooly-lp) → KHÔNG cần ThemeProvider/chrome.
+          // Shell tối giản: tải nhẹ nhất, không đụng theme context của main site.
+          children
+        ) : (
+          <ThemeProvider>
+            <NavBar />
+            {children}
+            <SiteFooter />
+            <ScrollToTopButton />
+          </ThemeProvider>
+        )}
         <MetaPixel />
         <GoogleTagManager />
-        <ChatwootWidget />
+        {!isLanding && <ChatwootWidget />}
         <Analytics />
         <SpeedInsights />
       </body>

@@ -16,6 +16,7 @@ const ADMIN_HOST_PREFIX = 'admin.';
 const INFOR_HOST_PREFIX = 'infor.';
 const FORM_HOST_PREFIX = 'form.';
 const WEBHOOK_HOST_PREFIX = 'webhook.';
+const LANDING_HOST_PREFIX = 'landing.';
 
 export const config = {
   matcher: [
@@ -31,6 +32,7 @@ export async function proxy(request: NextRequest) {
   const isInforHost = host.startsWith(INFOR_HOST_PREFIX);
   const isFormHost = host.startsWith(FORM_HOST_PREFIX);
   const isWebhookHost = host.startsWith(WEBHOOK_HOST_PREFIX);
+  const isLandingHost = host.startsWith(LANDING_HOST_PREFIX);
 
   // ---- 0. Subdomain rewrite: infor.* → /infor/* (PUBLIC, không auth) ----
   // `infor.nguyenvantai.com/0901234567` → `/infor/0901234567` (giữ URL hiển thị).
@@ -52,6 +54,20 @@ export async function proxy(request: NextRequest) {
   if (isWebhookHost && !url.pathname.startsWith('/webhook') && !url.pathname.startsWith('/api')) {
     url.pathname = url.pathname === '/' ? '/webhook' : `/webhook${url.pathname}`;
     return NextResponse.rewrite(url);
+  }
+
+  // ---- 0d. Subdomain rewrite: landing.* → /landing/* (PUBLIC, không auth) ----
+  // `landing.nguyenvantai.com` → `/landing` (marketing landing Mooly, pixel-match).
+  if (isLandingHost && !url.pathname.startsWith('/landing') && !url.pathname.startsWith('/api')) {
+    url.pathname = url.pathname === '/' ? '/landing' : `/landing${url.pathname}`;
+    return NextResponse.rewrite(url);
+  }
+
+  // ---- 0e. Chặn /landing trên domain KHÔNG phải landing.* (tránh trùng nội dung/SEO) ----
+  // Route nội bộ chỉ phục vụ qua subdomain landing → host khác gõ /landing = 404.
+  // Chặn ĐÚNG segment /landing (không dính route tương lai như /landing-page).
+  if (!isLandingHost && (url.pathname === '/landing' || url.pathname.startsWith('/landing/'))) {
+    return new NextResponse(null, { status: 404 });
   }
 
   // ---- 1. Subdomain rewrite: admin.* → /admin/* ----

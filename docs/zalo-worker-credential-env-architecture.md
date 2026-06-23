@@ -86,8 +86,8 @@ Bảng zalo_credentials
         ┌──────────────────────── Supabase (CHUNG cho tất cả) ────────────────────────┐
         │  zalo_credentials   automation_flows   automation_runs   leads               │
         └───────▲───────────────────▲────────────────▲──────────────────────────────-─┘
-                │ đọc/ghi theo        │ đọc flow        │ ghi run state
-                │ credId+encKey       │ (enabled,steps) │ (friend_error...)
+                │ đọc/ghi theo      │ đọc flow        │ ghi run state
+                │ credId+encKey     │ (enabled,steps) │ (friend_error...)
         ┌───────┴────────┐   ┌───────┴────────┐
         │ Worker LOCAL   │   │ Worker RENDER  │
         │ (A: .env)      │   │ (B: dashboard) │
