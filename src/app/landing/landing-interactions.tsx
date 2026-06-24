@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { trackClarityEvent, setClarityTag } from '@/lib/analytics/clarity';
 
 /**
  * Toàn bộ JS của mooly-landing.html (8 khối) port sang 1 client component, attach
@@ -316,6 +317,25 @@ export function LandingInteractions() {
       });
     })();
 
+    // ---- 8b. CTA click → Clarity event (mọi nút trỏ #dang-ky = ý định đăng ký) ----
+    (() => {
+      const ctas = Array.from(
+        document.querySelectorAll<HTMLAnchorElement>('#mooly-lp a[href="#dang-ky"]'),
+      );
+      const handlers: Array<[HTMLAnchorElement, () => void]> = [];
+      ctas.forEach((a) => {
+        const onClick = () => {
+          // Nhãn nút (text gọn) -> phân biệt CTA nào kéo nhiều click trong dashboard.
+          const label = (a.textContent ?? '').replace(/\s+/g, ' ').trim().slice(0, 40);
+          trackClarityEvent('cta_register_click');
+          if (label) setClarityTag('cta_label', label);
+        };
+        a.addEventListener('click', onClick);
+        handlers.push([a, onClick]);
+      });
+      cleanups.push(() => handlers.forEach(([el, fn]) => el.removeEventListener('click', fn)));
+    })();
+
     // ---- 9. Form lead → /api/landing/lead + GA4 generate_lead ----
     (() => {
       const form = document.getElementById('leadForm') as HTMLFormElement | null;
@@ -376,6 +396,10 @@ export function LandingInteractions() {
             message_volume: payload.message_volume,
           });
           window.fbq?.('track', 'Lead', { content_category: payload.industry });
+          // Clarity: đánh dấu session đã chuyển đổi -> lọc riêng nhóm chốt lead trong recordings.
+          trackClarityEvent('lead_submitted');
+          if (payload.industry) setClarityTag('industry', payload.industry);
+          if (payload.message_volume) setClarityTag('message_volume', payload.message_volume);
         } catch (err) {
           console.error('[landing lead] submit error', err);
           if (btn) {

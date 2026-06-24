@@ -10,6 +10,7 @@ import {
   GoogleTagManager,
   GoogleTagManagerNoScript,
 } from "@/components/analytics/google-tag-manager";
+import { MicrosoftClarity } from "@/components/analytics/clarity";
 import { ChatwootWidget } from "@/components/chat/chatwoot-widget";
 import { NavBar } from "@/components/layout/nav-bar";
 import { SiteFooter } from "@/components/layout/site-footer";
@@ -127,6 +128,7 @@ export default async function RootLayout({
         )}
         <MetaPixel />
         <GoogleTagManager />
+        <MicrosoftClarity />
         {!isLanding && <ChatwootWidget />}
         <Analytics />
         <SpeedInsights />
