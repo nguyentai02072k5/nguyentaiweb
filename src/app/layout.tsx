@@ -94,11 +94,15 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Landing marketing (subdomain landing.*) chạy standalone: KHÔNG NavBar/Footer/
-  // ScrollToTop/Chatwoot của main site (giữ GTM/Pixel/Analytics). Host-scoped nên
-  // mọi domain cũ không đổi hành vi. proxy.ts rewrite landing.* → /landing.
+  // Landing marketing (subdomain landing.*) + Course Academy (subdomain course.*)
+  // chạy standalone: KHÔNG NavBar/Footer/ScrollToTop/Chatwoot của main site
+  // (giữ GTM/Pixel/Clarity/Analytics). Host-scoped nên mọi domain cũ không đổi.
+  // proxy.ts rewrite landing.* → /landing, course.* → /course.
   const host = (await headers()).get("host")?.toLowerCase() ?? "";
   const isLanding = host.startsWith("landing.");
+  // isCourse: chrome-free standalone, dark-teal theme do course/layout.tsx lo,
+  // KHÔNG ThemeProvider violet — theme scope riêng không rò ra global.
+  const isCourse = host.startsWith("course.");
 
   return (
     <html
@@ -114,9 +118,10 @@ export default async function RootLayout({
         >
           {themeInitScript}
         </Script>
-        {isLanding ? (
-          // Landing có CSS/màu riêng (scope #mooly-lp) → KHÔNG cần ThemeProvider/chrome.
-          // Shell tối giản: tải nhẹ nhất, không đụng theme context của main site.
+        {isLanding || isCourse ? (
+          // Landing (scope #mooly-lp) + Course (scope .course-app) có CSS/màu riêng.
+          // Cả hai chạy chrome-free: không ThemeProvider/NavBar/Footer/Chatwoot.
+          // Theme teal của course do course/layout.tsx + course-theme.css lo (scoped).
           children
         ) : (
           <ThemeProvider>
@@ -129,7 +134,7 @@ export default async function RootLayout({
         <MetaPixel />
         <GoogleTagManager />
         <MicrosoftClarity />
-        {!isLanding && <ChatwootWidget />}
+        {!isLanding && !isCourse && <ChatwootWidget />}
         <Analytics />
         <SpeedInsights />
       </body>

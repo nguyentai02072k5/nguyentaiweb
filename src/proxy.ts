@@ -17,6 +17,7 @@ const INFOR_HOST_PREFIX = 'infor.';
 const FORM_HOST_PREFIX = 'form.';
 const WEBHOOK_HOST_PREFIX = 'webhook.';
 const LANDING_HOST_PREFIX = 'landing.';
+const COURSE_HOST_PREFIX = 'course.';
 
 export const config = {
   matcher: [
@@ -33,6 +34,7 @@ export async function proxy(request: NextRequest) {
   const isFormHost = host.startsWith(FORM_HOST_PREFIX);
   const isWebhookHost = host.startsWith(WEBHOOK_HOST_PREFIX);
   const isLandingHost = host.startsWith(LANDING_HOST_PREFIX);
+  const isCourseHost = host.startsWith(COURSE_HOST_PREFIX);
 
   // ---- 0. Subdomain rewrite: infor.* → /infor/* (PUBLIC, không auth) ----
   // `infor.nguyenvantai.com/0901234567` → `/infor/0901234567` (giữ URL hiển thị).
@@ -67,6 +69,21 @@ export async function proxy(request: NextRequest) {
   // Route nội bộ chỉ phục vụ qua subdomain landing → host khác gõ /landing = 404.
   // Chặn ĐÚNG segment /landing (không dính route tương lai như /landing-page).
   if (!isLandingHost && (url.pathname === '/landing' || url.pathname.startsWith('/landing/'))) {
+    return new NextResponse(null, { status: 404 });
+  }
+
+  // ---- 0f. Subdomain rewrite: course.* → /course/* (PUBLIC, không auth) ----
+  // `course.nguyenvantai.com/` → `/course`, `course.*/ten-bai` → `/course/ten-bai`.
+  // Mirror y hệt khối landing.*: public, skip /api, KHÔNG gate, KHÔNG đụng admin HMAC.
+  if (isCourseHost && !url.pathname.startsWith('/course') && !url.pathname.startsWith('/api')) {
+    url.pathname = url.pathname === '/' ? '/course' : `/course${url.pathname}`;
+    return NextResponse.rewrite(url);
+  }
+
+  // ---- 0g. Chặn /course trên domain KHÔNG phải course.* (chống trùng SEO) ----
+  // Route khu học tập chỉ phục vụ qua subdomain course.* → host khác gõ /course = 404.
+  // Chặn ĐÚNG segment /course (không dính route tương lai như /course-detail).
+  if (!isCourseHost && (url.pathname === '/course' || url.pathname.startsWith('/course/'))) {
     return new NextResponse(null, { status: 404 });
   }
 

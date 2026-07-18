@@ -1,0 +1,395 @@
+/**
+ * course-theme.css — Token teal-dark cho khu học tập Tài Academy.
+ *
+ * Scoped trong class `.course-app` — KHÔNG ghi đè :root global.
+ * Main site (/) giữ nguyên token violet-light.
+ * Dark-only v1 (chưa có toggle).
+ *
+ * Token màu lấy từ landing-teal-mock.html đã duyệt (đã được chủ dự án chốt hue).
+ * Bổ sung: type-scale token, spacing, shadow, pattern nền, animation utility.
+ * Teal chỉ dùng cho điểm nhấn (CTA / active / link), nền tối trung tính.
+ */
+
+.course-app {
+  /* ---- Màu nền: đen ngả xanh, hơi sáng hơn để bớt "chết" ---- */
+  --page: #05100d;
+  --surface: #0b1a16;
+  --surface-2: #11241f;
+  --surface-3: #17322b;
+
+  /* ---- Chữ: sáng, tương phản cao trên nền đen ---- */
+  --ink: #ecfff9;
+  --muted: #9ab6ab; /* sáng hơn để dễ đọc (WCAG) */
+  --ink-soft: #cfe9e0; /* body-on-dark trung gian (đồng bộ các #cfe9e0/#d5ece4/#b9d1c9 rời rạc) */
+
+  /* ---- Viền: ánh teal ---- */
+  --border: rgba(51, 225, 203, 0.18);
+  --border-strong: rgba(51, 225, 203, 0.34);
+
+  /* ---- Màu nhấn teal (chỉ CTA/active/link) ---- */
+  --primary: #33e1cb; /* teal sáng, luminous */
+  --primary-soft: #6ff0dc; /* heading-accent / hover cần bật hơn */
+  --mint: #4be3a6;
+  --lime: #c6f472;
+
+  /* ---- Gradient nhấn teal→lime (avatar/CTA/toggle) — dùng có chọn lọc ---- */
+  --grad: linear-gradient(120deg, #12b5a3, #33e1cb 55%, #bef264);
+
+  /* ---- Type-scale token (fluid, clamp) ---- *
+   * Một nguồn duy nhất cho mọi cỡ chữ → eyebrow mọi nơi cùng cỡ, h2 mọi section cùng cỡ.
+   * Bỏ mọi fontSize inline rời rạc. */
+  --fs-display: clamp(32px, 5.4vw, 56px);
+  --fs-h1: clamp(30px, 5vw, 52px);
+  --fs-h2: clamp(23px, 3vw, 33px);
+  --fs-h3: 1.25rem; /* 20px */
+  --fs-card-title: 0.9375rem; /* 15px — tiêu đề card/nav */
+  --fs-lead: clamp(1rem, 1.6vw, 1.0625rem); /* 16–17px */
+  --fs-body: 0.9375rem; /* 15px */
+  --fs-sm: 0.84375rem; /* 13.5px */
+  --fs-xs: 0.78125rem; /* 12.5px */
+  --fs-eyebrow: 0.6875rem; /* 11px */
+
+  --lh-tight: 1.04;
+  --lh-heading: 1.12;
+  --lh-body: 1.6;
+  --tracking-display: -0.03em;
+  --tracking-heading: -0.02em;
+  --tracking-eyebrow: 0.18em;
+
+  /* ---- Spacing rhythm section ---- */
+  --section-y: clamp(44px, 6vw, 68px);
+  --radius-card: 15px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+
+  /* ---- Shadow (soft, dùng cho hover lift) ---- */
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.02) inset,
+    0 18px 40px -28px rgba(0, 0, 0, 0.9);
+  --shadow-lift: 0 22px 50px -26px rgba(0, 0, 0, 0.85),
+    0 0 0 1px var(--border-strong);
+
+  /* ---- Font vars inject từ layout.tsx qua next/font ----
+   * Plus Jakarta Sans có subset 'vietnamese' → heading có dấu render đều nét.
+   * Dùng cho cả display (700/800) lẫn body (400–700) để thống nhất nhịp chữ. */
+  --font-display: var(--font-jakarta, "Plus Jakarta Sans", system-ui, sans-serif);
+  --font-body: var(--font-jakarta, "Plus Jakarta Sans", system-ui, sans-serif);
+}
+
+/* ---- Reset cơ bản trong scope ---- */
+.course-app *,
+.course-app *::before,
+.course-app *::after {
+  box-sizing: border-box;
+}
+
+.course-app {
+  font-family: var(--font-body);
+  background: var(--page);
+  color: var(--ink);
+  min-height: 100dvh;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---- FIX contrast: globals.css @layer base ép h1..h6 = navy đen ----
+ * Rule element-level đó đè lên màu thừa kế → heading đen trên nền đen.
+ * Override trong scope để chữ sáng + gán font-display + tracking đồng bộ. */
+.course-app :is(h1, h2, h3, h4, h5, h6) {
+  color: var(--ink);
+  font-family: var(--font-display);
+  letter-spacing: var(--tracking-heading);
+}
+
+/* Link mặc định trong scope = teal (component có thể override inline khi cần) */
+.course-app a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+/* =====================================================================
+ * BACKGROUND PATTERN — CSS thuần, rất nhẹ, không ảnh ngoài, không cản đọc.
+ * Lớp 1 (::before): ambient gradient teal góc phải + mesh mờ 2 điểm.
+ * Lớp 2 (::after): dot-grid mảnh phủ toàn trang (fade dần khi cuộn xuống nhờ mask).
+ * ===================================================================== */
+.course-app::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(820px circle at 78% -6%, rgba(51, 225, 203, 0.08), transparent 60%),
+    radial-gradient(680px circle at 8% 12%, rgba(198, 244, 114, 0.04), transparent 55%);
+}
+
+.course-app::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(
+    rgba(154, 182, 171, 0.09) 1px,
+    transparent 1px
+  );
+  background-size: 26px 26px;
+  /* Mờ dần: rõ ở trên (hero), tan xuống dưới để không nhiễu phần đọc dày */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0.18) 42%,
+    transparent 82%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0.18) 42%,
+    transparent 82%
+  );
+}
+
+/* Đảm bảo content nổi trên pseudo pattern */
+.course-app > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* =====================================================================
+ * TYPOGRAPHY UTILITY — thay cụm inline lặp lại, HTML nhẹ + nhất quán.
+ * ===================================================================== */
+.course-app .c-eyebrow {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: var(--fs-eyebrow);
+  font-weight: 700;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.course-app .c-h1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--fs-h1);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-display);
+}
+
+.course-app .c-h2 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--fs-h2);
+  line-height: var(--lh-heading);
+  letter-spacing: var(--tracking-heading);
+}
+
+.course-app .c-section-desc {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  max-width: 54ch;
+}
+
+/* Khối tiêu đề section: eyebrow + h2 + desc — canh khoảng cách đồng bộ */
+.course-app .c-section-head {
+  margin-bottom: 26px;
+}
+.course-app .c-section-head .c-h2 {
+  margin-top: 8px;
+}
+
+/* Section wrapper — spacing rhythm + divider tinh tế + content-visibility */
+.course-app .c-section {
+  padding: var(--section-y) 0;
+  position: relative;
+}
+.course-app .c-section--divider {
+  border-top: 1px solid var(--border);
+}
+/* Ghi chú: từng thử content-visibility:auto cho section dưới để tối ưu render,
+ * nhưng kết hợp scroll-reveal gây trống khi chưa cuộn tới → đã bỏ hẳn.
+ * Trang tĩnh cỡ này chỉ cần next/font + CSS nhẹ là đủ. */
+
+/* ---- Prose: trang văn bản dài (điều khoản, bảo mật) ---- */
+.course-app .c-prose {
+  color: var(--ink-soft);
+  font-size: var(--fs-body);
+  line-height: 1.75;
+  max-width: 68ch;
+}
+.course-app .c-prose h2 {
+  font-size: clamp(18px, 2vw, 22px);
+  font-weight: 800;
+  margin: 28px 0 10px;
+  color: var(--ink);
+}
+.course-app .c-prose p { margin: 0 0 14px; }
+.course-app .c-prose ul { margin: 0 0 14px; padding-left: 20px; }
+.course-app .c-prose li { margin: 6px 0; }
+.course-app .c-prose a { color: var(--primary); text-decoration: underline; }
+.course-app .c-prose strong { color: var(--ink); }
+
+/* =====================================================================
+ * INTERACTION — hover lift, link/arrow, CTA shimmer.
+ * ===================================================================== */
+.course-app .c-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.course-app .c-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-lift);
+}
+
+.course-app .c-btn {
+  font-family: var(--font-body);
+  font-weight: 700;
+  border: 0;
+  border-radius: 11px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease,
+    color 0.15s ease;
+}
+.course-app .c-btn-primary {
+  background: var(--primary);
+  color: #04120e;
+}
+.course-app .c-btn-primary:hover {
+  transform: translateY(-1px);
+  background: var(--primary-soft);
+}
+.course-app .c-btn-ghost {
+  background: var(--surface-2);
+  color: var(--ink);
+  border: 1px solid var(--border-strong);
+}
+.course-app .c-btn-ghost:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.course-app .c-btn-outline {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--border-strong);
+}
+.course-app .c-btn-outline:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+/* Mũi tên trong CTA nhích khi hover nút */
+.course-app .c-btn .c-arrow {
+  transition: transform 0.18s ease;
+}
+.course-app .c-btn:hover .c-arrow {
+  transform: translateX(3px);
+}
+
+.course-app nav a:hover {
+  background: var(--surface-2);
+  color: var(--primary);
+}
+
+/* Accordion (course-list + faq) — chevron xoay, ẩn marker mặc định */
+.course-app details > summary::-webkit-details-marker {
+  display: none;
+}
+.course-app .course-accordion[open] .course-chevron {
+  transform: rotate(90deg);
+  color: var(--primary);
+}
+.course-app .course-accordion:hover {
+  border-color: var(--border-strong);
+}
+.course-app .course-faq-item[open] .course-faq-plus {
+  transform: rotate(45deg);
+}
+.course-app .course-faq-item:hover {
+  border-color: var(--border-strong);
+}
+
+/* CTA chính có shimmer gradient nhẹ chạy ngang (gợi ý hành động) */
+.course-app .c-shimmer {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.course-app .c-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.22) 48%,
+    transparent 66%
+  );
+  transform: translateX(-120%);
+  animation: c-shimmer 4.5s ease-in-out infinite;
+}
+@keyframes c-shimmer {
+  0%,
+  55% {
+    transform: translateX(-120%);
+  }
+  85%,
+  100% {
+    transform: translateX(120%);
+  }
+}
+
+/* =====================================================================
+ * SCROLL-REVEAL — CSS thuần (animation-timeline: view()) khi hỗ trợ.
+ * Không cần JS. fade + slide-up nhẹ khi element vào viewport.
+ * ===================================================================== */
+@keyframes c-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Reveal fade+rise NHẸ khi TẢI TRANG — KHÔNG phụ thuộc scroll.
+ * Lý do: animation-timeline: view() + content-visibility làm section dưới
+ * kẹt opacity:0 (trống) khi chưa cuộn tới. Fade-on-load luôn kết thúc hiện rõ. */
+.course-app .c-reveal {
+  animation: c-reveal 0.5s ease-out both;
+}
+/* Stagger nhẹ theo thứ tự để có nhịp, tối đa ~0.32s (không ẩn lâu) */
+.course-app .c-reveal:nth-of-type(2) { animation-delay: 0.08s; }
+.course-app .c-reveal:nth-of-type(3) { animation-delay: 0.16s; }
+.course-app .c-reveal:nth-of-type(4) { animation-delay: 0.24s; }
+.course-app .c-reveal:nth-of-type(n + 5) { animation-delay: 0.32s; }
+
+/* =====================================================================
+ * REDUCED MOTION — tắt mọi animation/transition chuyển động.
+ * ===================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .course-app * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .course-app .c-reveal {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .course-app .c-shimmer::after {
+    display: none !important;
+  }
+}

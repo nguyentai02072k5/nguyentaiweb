@@ -7,6 +7,59 @@ import {
 } from './src/lib/content/taxonomy';
 import { BLOG_CATEGORY_VALUES } from './src/lib/content/blog-taxonomy';
 
+// ---------------------------------------------------------------------------
+// Course collection schema
+// ---------------------------------------------------------------------------
+
+const courses = defineCollection({
+  name: 'Course',
+  pattern: 'courses/**/*.mdx',
+  schema: s
+    .object({
+      title: s.string().max(120),
+      description: s.string().max(300),
+      level: s.enum(['co-ban', 'nang-cao']),
+      order: s.number(),
+      instructor: s.object({
+        name: s.string(),
+        title: s.string().optional(),
+      }),
+      featured: s.boolean().default(false),
+      durationLabel: s.string().optional(),
+      publishedAt: s.isodate(),
+      updatedAt: s.isodate().optional(),
+      modules: s.array(
+        s.object({
+          title: s.string(),
+          lessons: s.array(
+            s.object({
+              slug: s.string(),
+              title: s.string(),
+              duration: s.string().optional(),
+              // RT-8: videoKey bắt buộc min(1) — chặn placeholder rỗng lọt build.
+              videoKey: s.string().min(1),
+              free: s.boolean().default(false),
+            }),
+          ),
+        }),
+      ),
+      path: s.path(),
+      body: s.mdx(),
+    })
+    .transform((data) => {
+      const slug = data.path.replace(/^courses\//, '');
+      // Tính tổng số bài học trong mọi module
+      const lessonCount = data.modules.reduce(
+        (acc, mod) => acc + mod.lessons.length,
+        0,
+      );
+      // Lấy slug bài đầu tiên (module đầu, lesson đầu)
+      const firstLessonSlug = data.modules[0]?.lessons[0]?.slug ?? '';
+      const firstLessonHref = `/course/learn/${slug}/${firstLessonSlug}`;
+      return { ...data, slug, lessonCount, firstLessonHref };
+    }),
+});
+
 /**
  * Đếm số file .mdx nguồn trong content/<dir>.
  * Velite 0.3.1 ÂM THẦM bỏ doc sai schema và vẫn exit 0 (kể cả --strict) → một template
@@ -100,12 +153,13 @@ export default defineConfig({
     name: '[name]-[hash:6].[ext]',
     clean: true,
   },
-  collections: { templates, posts },
+  collections: { templates, posts, courses },
   // Build phải FAIL nếu bất kỳ .mdx nào bị loại do frontmatter sai (velite không tự fail).
   prepare: (data) => {
     const checks: Array<[string, number]> = [
       ['templates', data.templates.length],
       ['blog', data.posts.length],
+      ['courses', data.courses.length],
     ];
     for (const [dir, resolved] of checks) {
       const source = countSourceMdx(dir);
@@ -114,6 +168,22 @@ export default defineConfig({
           `[velite] content/${dir}: ${source} file .mdx nhưng chỉ ${resolved} hợp lệ - ` +
             `${source - resolved} file bị loại do frontmatter sai. Sửa theo content/templates/README.md.`,
         );
+      }
+    }
+
+    // RT2-15: Kiểm tra lesson.slug TRÙNG trong cùng 1 khoá (phá anchor content-model + progress map P4).
+    for (const course of data.courses) {
+      const seen = new Set<string>();
+      for (const mod of course.modules) {
+        for (const lesson of mod.lessons) {
+          if (seen.has(lesson.slug)) {
+            throw new Error(
+              `[velite] courses/${course.slug}: lesson slug "${lesson.slug}" bị trùng trong khoá "${course.title}". ` +
+                `Mỗi lesson.slug phải duy nhất trong 1 khoá (dùng cho anchor URL + progress tracking).`,
+            );
+          }
+          seen.add(lesson.slug);
+        }
       }
     }
   },
