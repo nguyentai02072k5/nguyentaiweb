@@ -1,10 +1,47 @@
 ---
 phase: 3
 title: "R2 gated player"
-status: pending
+status: done
 priority: P1
 dependencies: [1, 2]
+completedAt: "2026-07-18"
 ---
+
+> **DONE 2026-07-18 (code) — CẦN env R2 thật + e2e trước khi tính hoàn tất.**
+> Route THẬT theo pivot: `/course/learn/[khoa]/[bai]` (không phải `/course/[khoa]/hoc/[bai]`).
+> Đã implement: `r2/client.ts` (signed URL TTL 4h, lazy client), `require-course-user.ts`,
+> `rate-limit.ts` (token-bucket per-instance, residual trung thực), `ui/sheet.tsx` (drawer
+> cạnh, render inline không portal để giữ scope `.course-app`), `ui/tabs.tsx` (Radix a11y),
+> `course/layout.tsx` mount `<Toaster theme="dark">`, `learn/layout.tsx` gate force-dynamic,
+> `learn/[khoa]/[bai]/page.tsx` mint server-side + noindex, API `video-url` (requireCourseUser
+> + rate-limit + verify lesson), `classroom-shell`/`course-sidebar`/`lesson-player`/`lesson-nav`/
+> `classroom-topbar`, `next.config.ts` serverExternalPackages aws-sdk, `.env.local.example` R2 vars,
+> `docs/course-r2-video-setup.md`.
+> Verify: lint 0 error, `next build` xanh, route `ƒ /course/learn/[khoa]/[bai]` + `ƒ /api/course/video-url`
+> đều Dynamic (không prerender — RT-5 ✔). Runtime (dev, Host: course.localhost:3001):
+> GET `/learn/...` chưa auth → 307 `/dang-nhap?next=/course/learn/...` ✔; POST `/api/course/video-url`
+> chưa auth → 401 ✔.
+> **R2 provisioned + e2e ✔ (2026-07-18):** account `c7fd050…`, bucket `course`, tạo R2 S3 token
+> `course-video-signer` (Read+Write) → 4 biến `R2_*` ghi vào `.env.local`; CORS set (course.nguyenvantai.com
+> + course.localhost:3001); upload video test `test/sample.mp4` (+faststart). Presigned GET trả 206 range,
+> content-type video/mp4, accept-ranges bytes → phát + seek OK.
+> **Code review (2026-07-18, code-reviewer):** 0 Critical, 1 High + M/L. Đã FIX trong `lesson-player.tsx`:
+> H1 (debounce set MỌI lần thử refresh, không chỉ khi thành công → chống spam mint khi onError lặp),
+> M1 (listener `loadedmetadata` dùng `{once:true}` + capture element local), L2 (bỏ qua MEDIA_ERR_DECODE
+> code 3 — re-sign không cứu lỗi codec). Re-lint 0 error, re-build xanh. Report:
+> `plans/reports/code-reviewer-260718-1310-course-phase-03-r2-gated-player-report.md`.
+> Reviewer xác nhận ĐÚNG (không đảo ngược): RT-1 getUser authz, RT-5 force-dynamic, RT-6 mint trust boundary
+> đủ lớp + videoKey server-map (client không điều khiển), secret R2 không rò client, RT2-13 mint server-side,
+> gate "không kiểm lesson.free" là ĐÚNG thiết kế free=đăng-nhập-xem-hết.
+> **Loop/retry audit (2026-07-18, code-reviewer):** 0 Critical. Xác nhận KHÔNG có vòng redirect auth
+> (dang-nhap/callback là sibling ngoài gate) và proxy không tự-kích-lại (rewrite + skip /api). Phát hiện
+> H-1 flapping (video bật↔rớt → `handleRecovered` reset counter giữa chừng → cap-liên-tiếp không đạt →
+> refresh vô hạn ~1/5s) → FIX: thêm cap CỬA SỔ (6 refresh/60s, recovered KHÔNG reset) + M-1 guard timer
+> `fatal` + manual-retry xoá cửa sổ. Cũng đã: cap 3 lỗi liên tiếp, bỏ qua MediaError code 1/3,
+> `prefetch={false}` link gated (chống prefetch farm getUser+mint). Re-lint 0 error, re-build xanh.
+> Report: `plans/reports/code-reviewer-260718-1345-course-loop-retry-reload-audit-report.md`.
+> **Residual (còn lại):** e2e browser đăng nhập magic-link → phát video (cần thao tác người dùng thật);
+> `USER_CLOUDFLARE_API_TOKEN` là Global API Key (toàn quyền) — nên revoke/thay bằng token scoped sau khi xong.
 
 # Phase 3: R2 gated player
 

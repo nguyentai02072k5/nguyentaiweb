@@ -10,6 +10,7 @@
 
 import type { Metadata } from 'next';
 import { Plus_Jakarta_Sans } from 'next/font/google';
+import { Toaster } from '@/components/ui/sonner';
 import './course-theme.css';
 
 const COURSE_URL = 'https://course.nguyenvantai.com';
@@ -55,6 +56,9 @@ export default function CourseLayout({ children }: { children: React.ReactNode }
     // Font var gán ở wrapper này để CSS var(--font-jakarta) resolve đúng
     <div className={`course-app ${jakarta.variable}`}>
       {children}
+      {/* RT-10: sonner chưa mount ở đâu — mount tại đây cho toast player (refresh URL lỗi…).
+          theme="dark" cố định (course dark-only; ngoài ThemeProvider violet). */}
+      <Toaster theme="dark" position="top-center" />
     </div>
   );
 }
