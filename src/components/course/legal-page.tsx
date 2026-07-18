@@ -16,7 +16,7 @@ export function LegalPage({
 }) {
   return (
     <main style={{ maxWidth: 820, margin: '0 auto', padding: '32px 22px 64px' }}>
-      <Link href="/course" style={{ color: 'var(--primary)', fontSize: 13.5, fontWeight: 600 }}>
+      <Link href="/" style={{ color: 'var(--primary)', fontSize: 13.5, fontWeight: 600 }}>
         ← Về trang chủ
       </Link>
 

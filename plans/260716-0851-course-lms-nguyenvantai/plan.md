@@ -40,7 +40,7 @@ Thiết kế nguồn (đã duyệt): `plans/reports/brainstorm-course-lms-260716
 | Phase | Name | Status |
 |-------|------|--------|
 | 1 | [Public course library landing](./phase-01-public-course-pages.md) | Done |
-| 2 | [Supabase Auth](./phase-02-supabase-auth.md) | Pending |
+| 2 | [Supabase Auth](./phase-02-supabase-auth.md) | Done · magic-link login verified e2e (local) · Edge spike pending prod |
 | 3 | [R2 gated player](./phase-03-r2-gated-player.md) | Pending |
 | 4 | [Progress and account](./phase-04-progress-and-account.md) | Pending |
 | 5 | [Polish responsive](./phase-05-polish-responsive.md) | Pending |

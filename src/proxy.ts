@@ -10,6 +10,7 @@
  */
 
 import { NextResponse, type NextRequest } from 'next/server';
+import { createServerClient } from '@supabase/ssr';
 
 const ADMIN_COOKIE_NAME = 'admin_session';
 const ADMIN_HOST_PREFIX = 'admin.';
@@ -72,12 +73,79 @@ export async function proxy(request: NextRequest) {
     return new NextResponse(null, { status: 404 });
   }
 
-  // ---- 0f. Subdomain rewrite: course.* → /course/* (PUBLIC, không auth) ----
+  // ---- 0f. Subdomain rewrite: course.* → /course/* + cookie refresh ----
   // `course.nguyenvantai.com/` → `/course`, `course.*/ten-bai` → `/course/ten-bai`.
-  // Mirror y hệt khối landing.*: public, skip /api, KHÔNG gate, KHÔNG đụng admin HMAC.
-  if (isCourseHost && !url.pathname.startsWith('/course') && !url.pathname.startsWith('/api')) {
-    url.pathname = url.pathname === '/' ? '/course' : `/course${url.pathname}`;
-    return NextResponse.rewrite(url);
+  // PUBLIC — KHÔNG gate, KHÔNG đụng admin HMAC.
+  //
+  // 3 việc proxy làm (plan invariant RT2-10):
+  //   (1) Rewrite pathname: course.* → /course/*.
+  //   (2) Refresh Supabase session cookie bằng getSession() — exchange refresh-token.
+  //       KHÔNG dùng getUser() (HTTP round-trip đắt, để dành cho gate ở RSC).
+  //       Đây là điểm DUY NHẤT ghi cookie refresh vì RSC không ghi được cookie.
+  //   (3) Inject x-pathname để RSC đọc được path (RT-3).
+  //
+  // BỎ QUA /api hoàn toàn (RT2-10): mint API tự requireCourseUser(),
+  // double round-trip ở đây chỉ tốn TTFB.
+  if (isCourseHost) {
+    // (RT2-10) Skip /api trước khi tạo bất kỳ client nào
+    if (url.pathname.startsWith('/api')) {
+      return NextResponse.next();
+    }
+
+    // Rewrite pathname course.* → /course/*
+    if (!url.pathname.startsWith('/course')) {
+      url.pathname = url.pathname === '/' ? '/course' : `/course${url.pathname}`;
+    }
+
+    // Inject x-pathname cho RSC (RT-3)
+    const requestHeaders = new Headers(request.headers);
+    requestHeaders.set('x-pathname', url.pathname);
+
+    // Tạo response target để @supabase/ssr ghi cookie vào
+    const response = NextResponse.rewrite(url, {
+      request: { headers: requestHeaders },
+    });
+
+    // Refresh session cookie (RT-2): getSession() exchange refresh-token nếu cần.
+    // Residual RT2-11: @supabase/ssr Edge-compat chưa verify trên Vercel Edge thật.
+    // Nếu gặp lỗi runtime Edge → cân nhắc chuyển proxy sang nodejs runtime (cold-start tăng).
+    // Local next dev (Node) + Vercel Edge: spike bắt buộc trước P3 ship.
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    if (supabaseUrl && supabaseAnonKey) {
+      try {
+        const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
+          cookies: {
+            getAll() {
+              return request.cookies.getAll();
+            },
+            setAll(cookiesToSet) {
+              // Forward cookie đã set/xoay sang response (RT-2)
+              cookiesToSet.forEach(({ name, value, options }) => {
+                response.cookies.set({
+                  name,
+                  value,
+                  ...options,
+                  // Cookie flags bảo mật (RT2-7): mirror adminCookieOptions
+                  httpOnly: true,
+                  secure: process.env.NODE_ENV === 'production',
+                  sameSite: 'lax',
+                  path: '/',
+                });
+              });
+            },
+          },
+        });
+        // getSession() = local JWT decode + refresh-token exchange nếu expired.
+        // KHÔNG getUser() — không muốn HTTP round-trip mỗi navigation (RT2-10).
+        await supabase.auth.getSession();
+      } catch {
+        // Lỗi refresh (env thiếu, mạng) → tiếp tục rewrite, không crash navigation.
+      }
+    }
+
+    return response;
   }
 
   // ---- 0g. Chặn /course trên domain KHÔNG phải course.* (chống trùng SEO) ----

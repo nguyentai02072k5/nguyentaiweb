@@ -1,12 +1,30 @@
 /**
- * dang-nhap/page.tsx — Stub tĩnh trang đăng nhập magic-link /course/dang-nhap.
+ * dang-nhap/page.tsx — Trang đăng nhập magic-link /course/dang-nhap.
  *
- * P1: UI tĩnh (ô email + nút) để CTA không 404.
- * P2 sẽ wiring Supabase magic-link (signInWithOtp) + redirect sau auth.
+ * RSC: đọc searchParams để lấy `next` (deep-link sau login) và `error`
+ * (error=link-expired từ callback route khi code đã tiêu thụ/hết hạn).
+ * Truyền xuống LoginForm (Client Component) để render form tương tác.
+ *
  * Dark-teal theme kế thừa từ course/layout.tsx (scope .course-app).
  */
 
-export default function DangNhapPage() {
+import type { Metadata } from 'next';
+import { LoginForm } from '@/components/course/login-form';
+
+export const metadata: Metadata = {
+  title: 'Đăng nhập — Tài Academy',
+  robots: { index: false, follow: false },
+};
+
+interface Props {
+  searchParams: Promise<{ next?: string; error?: string }>;
+}
+
+export default async function DangNhapPage({ searchParams }: Props) {
+  const params = await searchParams;
+  const next = params.next ?? null;
+  const linkExpired = params.error === 'link-expired';
+
   return (
     <main
       style={{
@@ -63,85 +81,17 @@ export default function DangNhapPage() {
             fontWeight: 800,
             fontSize: 22,
             letterSpacing: '-0.02em',
+            marginBottom: 8,
           }}
         >
           Đăng nhập để vào học
         </h1>
-        <p style={{ color: 'var(--muted)', fontSize: 14, marginTop: 8, lineHeight: 1.55 }}>
+        <p style={{ color: 'var(--muted)', fontSize: 14, marginTop: 0, lineHeight: 1.55, marginBottom: 24 }}>
           Nhập email — hệ thống gửi link magic-link. Bấm vào link là vào học ngay,
           không cần mật khẩu.
         </p>
 
-        {/* Form — P2 sẽ wiring Supabase magic-link (signInWithOtp) */}
-        <div style={{ marginTop: 24, display: 'flex', flexDirection: 'column', gap: 12 }}>
-          <label
-            htmlFor="email"
-            style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--ink)' }}
-          >
-            Email của bạn
-          </label>
-          <input
-            id="email"
-            type="email"
-            placeholder="ten@email.com"
-            autoComplete="email"
-            disabled
-            style={{
-              width: '100%',
-              padding: '12px 14px',
-              borderRadius: 11,
-              border: '1px solid var(--border-strong)',
-              background: 'var(--surface-2)',
-              color: 'var(--ink)',
-              fontSize: 15,
-              fontFamily: 'var(--font-body)',
-              outline: 'none',
-              cursor: 'not-allowed',
-              opacity: 0.7,
-            }}
-          />
-
-          <button
-            type="button"
-            disabled
-            style={{
-              width: '100%',
-              padding: '13px',
-              borderRadius: 11,
-              border: 'none',
-              background: 'var(--primary)',
-              color: '#04120e',
-              fontFamily: 'var(--font-body)',
-              fontWeight: 700,
-              fontSize: 15,
-              cursor: 'not-allowed',
-              opacity: 0.6,
-            }}
-          >
-            Gửi link đăng nhập →
-          </button>
-        </div>
-
-        {/* Coming soon notice */}
-        <div
-          style={{
-            marginTop: 20,
-            padding: '12px 14px',
-            borderRadius: 10,
-            background: 'var(--surface-3)',
-            border: '1px solid var(--border)',
-            fontSize: 13,
-            color: 'var(--muted)',
-            lineHeight: 1.5,
-          }}
-        >
-          🔧 Tính năng đăng nhập đang được hoàn thiện.{' '}
-          <strong style={{ color: 'var(--primary)' }}>Ra mắt sớm!</strong>
-        </div>
-
-        <p style={{ marginTop: 20, fontSize: 12, color: 'var(--muted)', textAlign: 'center' }}>
-          Miễn phí 100% · Không spam · Huỷ bất cứ lúc nào
-        </p>
+        <LoginForm next={next} linkExpired={linkExpired} />
       </div>
     </main>
   );

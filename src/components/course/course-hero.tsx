@@ -74,7 +74,7 @@ export function CourseHero() {
         {/* CTA */}
         <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 26, alignItems: 'center' }}>
           <Link
-            href="/course/dang-nhap"
+            href="/dang-nhap"
             className="c-btn c-btn-primary"
             style={{ fontSize: 15, padding: '14px 24px' }}
           >

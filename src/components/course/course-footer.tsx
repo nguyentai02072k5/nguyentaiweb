@@ -33,14 +33,14 @@ const SOCIALS: { label: string; href: string; path: string }[] = [
 ];
 
 const EXPLORE = [
-  { label: 'Vì sao học', href: '/course#value' },
-  { label: 'Khoá học', href: '/course#courses' },
-  { label: 'Hỏi đáp', href: '/course#faq' },
+  { label: 'Vì sao học', href: '/#value' },
+  { label: 'Khoá học', href: '/#courses' },
+  { label: 'Hỏi đáp', href: '/#faq' },
 ];
 
 const LEGAL = [
-  { label: 'Điều khoản sử dụng', href: '/course/dieu-khoan' },
-  { label: 'Chính sách bảo mật', href: '/course/bao-mat' },
+  { label: 'Điều khoản sử dụng', href: '/dieu-khoan' },
+  { label: 'Chính sách bảo mật', href: '/bao-mat' },
 ];
 
 export function CourseFooter() {
@@ -59,7 +59,7 @@ export function CourseFooter() {
       >
         {/* Thương hiệu + social */}
         <div>
-          <Link href="/course" style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
+          <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
             <span
               aria-hidden="true"
               style={{

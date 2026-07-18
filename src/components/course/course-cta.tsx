@@ -48,7 +48,7 @@ export function CourseCta() {
           </p>
 
           <Link
-            href="/course/dang-nhap"
+            href="/dang-nhap"
             className="c-btn c-btn-primary c-shimmer"
             style={{ marginTop: 24, fontSize: 15, padding: '14px 26px' }}
           >

@@ -1,10 +1,17 @@
 ---
 phase: 2
 title: "Supabase Auth"
-status: pending
+status: done
 priority: P1
 dependencies: [1]
+completedAt: "2026-07-18"
 ---
+
+> **DONE 2026-07-18 (code) — CẦN cấu hình Supabase dashboard + e2e trước khi tính hoàn tất thật.**
+> Điều chỉnh pivot: sau login redirect `/course` (vault P3 chưa có); header auth-aware (email + Đăng xuất); Google ẩn (v1).
+> Đã implement: `@supabase/ssr` clients (browser/ssr/get-user), `safe-next-path`, `actions.ts` (sendMagicLink throttle + signOut), `login-form`, `dang-nhap`, `auth/callback`, proxy refresh `getSession()` (skip `/api`, inject `x-pathname`, cookie flags), header auth-aware.
+> Security review: 0 Critical, 1 High + 3 Medium — **đã fix**: H1 (anon fast-path bỏ round-trip getUser + sửa comment SSG), M1 (host allow-list cho emailRedirectTo, chống host-header injection), M2 (safe-next chặt `=== '/course' || startsWith('/course/')`), M3 (prune throttle Map chống phình). Không regression proxy (admin gate + P1 nguyên).
+> **Residual (chưa làm được local):** RT2-11 spike `@supabase/ssr` trên Vercel Edge THẬT (proxy try/catch fail-safe: nếu Edge lỗi thì refresh im lặng no-op, session chết sau ~1h — verify trước khi ship P3). IP throttle best-effort (per-email là lớp chính). Config Supabase dashboard = việc chủ dự án (checklist dưới).
 
 # Phase 2: Supabase Auth
 

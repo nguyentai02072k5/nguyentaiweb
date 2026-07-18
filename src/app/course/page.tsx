@@ -2,8 +2,9 @@
  * page.tsx — Landing thư viện khoá học công khai /course.
  *
  * RSC: gọi getCourses() (Velite, build-time), render các section theo mock.
- * SSG thuần — không force-dynamic, không revalidate (content = git).
- * Metadata + JSON-LD riêng cho /course.
+ * Dynamic ở request-time vì đọc cookie auth (header đổi trạng thái đăng nhập);
+ * getCurrentUser() có anon fast-path nên khách công khai KHÔNG tốn round-trip.
+ * Nội dung khoá vẫn từ Velite build-time (git). Metadata + JSON-LD riêng cho /course.
  */
 
 import type { Metadata } from 'next';
@@ -14,6 +15,7 @@ import {
 } from '@/lib/seo/course-json-ld';
 import { JsonLdScript } from '@/components/seo/json-ld-script';
 import { CourseHeader } from '@/components/course/course-header';
+import { getCurrentUser } from '@/lib/supabase/get-user';
 import { CourseHero } from '@/components/course/course-hero';
 import { ValueGrid } from '@/components/course/value-grid';
 import { CourseList } from '@/components/course/course-list';
@@ -50,6 +52,9 @@ export const metadata: Metadata = {
 
 export default async function CourseLandingPage() {
   const courses = getCourses();
+  // getCurrentUser() revalidates JWT via getUser() — không dùng getSession() (RT-1).
+  // Fail-safe: null nếu chưa login hoặc lỗi mạng.
+  const user = await getCurrentUser();
 
   return (
     <>
@@ -59,7 +64,7 @@ export default async function CourseLandingPage() {
         buildCourseBreadcrumb(),
       ]} />
 
-      <CourseHeader />
+      <CourseHeader user={user} />
 
       {/* Main content container */}
       <main>
