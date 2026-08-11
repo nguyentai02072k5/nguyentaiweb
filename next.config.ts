@@ -12,7 +12,19 @@ const nextConfig: NextConfig = {
         hostname: "pub-c5d3e1873a534ee89daedcf9e6dc380b.r2.dev",
         pathname: "/template/**",
       },
+      {
+        protocol: "https",
+        hostname: "pub-c5d3e1873a534ee89daedcf9e6dc380b.r2.dev",
+        pathname: "/blog/**",
+      },
     ],
+  },
+  async rewrites() {
+    return [
+      // Báo cáo Loma là file HTML tĩnh, tự chứa (style + script inline) nên
+      // phục vụ trực tiếp từ /public thay vì dựng lại bằng React.
+      { source: '/loma-project', destination: '/loma-project/index.html' },
+    ];
   },
 };
 
