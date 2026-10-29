@@ -99,6 +99,8 @@ export default async function RootLayout({
   // mọi domain cũ không đổi hành vi. proxy.ts rewrite landing.* → /landing.
   const host = (await headers()).get("host")?.toLowerCase() ?? "";
   const isLanding = host.startsWith("landing.");
+  // isSetup: LDP Setup Chatbot AI (setup.*), chrome-free, theme scope .setup-app.
+  const isSetup = host.startsWith("setup.");
 
   return (
     <html
@@ -114,7 +116,7 @@ export default async function RootLayout({
         >
           {themeInitScript}
         </Script>
-        {isLanding ? (
+        {isLanding || isSetup ? (
           // Landing có CSS/màu riêng (scope #mooly-lp) → KHÔNG cần ThemeProvider/chrome.
           // Shell tối giản: tải nhẹ nhất, không đụng theme context của main site.
           children
@@ -129,7 +131,7 @@ export default async function RootLayout({
         <MetaPixel />
         <GoogleTagManager />
         <MicrosoftClarity />
-        {!isLanding && <ChatwootWidget />}
+        {!isLanding && !isSetup && <ChatwootWidget />}
         <Analytics />
         <SpeedInsights />
       </body>
