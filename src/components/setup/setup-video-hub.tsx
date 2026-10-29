@@ -1,16 +1,53 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
-import { ArrowRight, Check, ExternalLink, Play } from 'lucide-react';
+import {
+  ArrowRight,
+  Check,
+  CircleHelp,
+  ExternalLink,
+  Image as ImageIcon,
+  Map as MapIcon,
+  MessagesSquare,
+  PackagePlus,
+  Rocket,
+  Ruler,
+  Send,
+  Sparkles,
+  Table2,
+  Truck,
+  UserPlus,
+  type LucideIcon,
+} from 'lucide-react';
 import {
   MOOLY_URL,
   SETUP_STAGES,
   SETUP_VIDEOS,
   ZALO_URL,
+  formatDuration,
+  minutesLeft,
+  type SetupVideoIcon,
 } from '@/lib/setup/setup-content';
+
+const ICONS: Record<SetupVideoIcon, LucideIcon> = {
+  'user-plus': UserPlus,
+  table: Table2,
+  messages: MessagesSquare,
+  sparkles: Sparkles,
+  map: MapIcon,
+  'package-plus': PackagePlus,
+  image: ImageIcon,
+  help: CircleHelp,
+  truck: Truck,
+  ruler: Ruler,
+  send: Send,
+  rocket: Rocket,
+};
 
 const WATCHED_KEY = 'setup-watched-v1';
 const WATCHED_EVENT = 'setup-watched-change';
+const RING_RADIUS = 26;
+const RING_LENGTH = 2 * Math.PI * RING_RADIUS;
 
 /** Snapshot tiến độ dạng chuỗi JSON (so sánh theo giá trị cho useSyncExternalStore). */
 function readWatchedRaw(): string {
@@ -64,7 +101,7 @@ async function requestVideoUrl(
 }
 
 /**
- * Lớp học video: player + danh sách 12 bài chia 3 chặng. Xem tự do, không đăng nhập.
+ * Lớp học video: player + lộ trình 12 bài chia 3 chặng. Xem tự do, không đăng nhập.
  * Tiến độ lưu localStorage để khách quay lại thấy mình đã tới đâu.
  * URL video ký lazily qua /api/setup/video-url khi chọn bài (key R2 không xuống client).
  */
@@ -108,8 +145,10 @@ export function SetupVideoHub() {
   const index = SETUP_VIDEOS.findIndex((v) => v.id === activeId);
   const active = SETUP_VIDEOS[index];
   const next = SETUP_VIDEOS[index + 1];
-  const done = watched.length;
+  const done = SETUP_VIDEOS.filter((v) => watched.includes(v.id)).length;
   const total = SETUP_VIDEOS.length;
+  const secondsLeft = SETUP_VIDEOS.filter((v) => !watched.includes(v.id)).reduce((s, v) => s + v.seconds, 0);
+  const ActiveIcon = ICONS[active.icon];
 
   const select = (id: string, withAutoplay: boolean) => {
     setAutoplay(withAutoplay);
@@ -146,25 +185,38 @@ export function SetupVideoHub() {
 
   return (
     <div className="sp-hub">
-      <div className="sp-hub-head">
+      <div className="sp-hub-head sp-rv">
         <div>
-          <h2 className="sp-h2">Xem và làm theo từng bước</h2>
+          <h2 className="sp-h2">12 video. Làm theo là có Bot chạy thật.</h2>
           <p className="sp-sub">
-            Mở Mooly ở tab bên cạnh, xem một video rồi làm ngay bước đó. Xong bài nào, bài đó được đánh dấu.
+            Mở Mooly ở tab bên cạnh, xem một bước rồi làm ngay một bước. Tiến độ được lưu lại cho lần sau.
           </p>
         </div>
-        <div className="sp-progress" aria-label={`Đã xem ${done} trên ${total} video`}>
-          <span className="sp-progress-num">
-            {done}/{total}
-          </span>
-          <span className="sp-progress-bar">
-            <span style={{ width: `${(done / total) * 100}%` }} />
-          </span>
+        <div className="sp-ring" role="img" aria-label={`Đã xem ${done} trên ${total} video`}>
+          <svg viewBox="0 0 64 64" width="64" height="64" aria-hidden>
+            <circle cx="32" cy="32" r={RING_RADIUS} className="sp-ring-track" />
+            <circle
+              cx="32"
+              cy="32"
+              r={RING_RADIUS}
+              className="sp-ring-fill"
+              strokeDasharray={RING_LENGTH}
+              strokeDashoffset={RING_LENGTH * (1 - done / total)}
+            />
+          </svg>
+          <div>
+            <p className="sp-ring-num">
+              {done}/{total} bài
+            </p>
+            <p className="sp-ring-note">
+              {done === total ? 'Đã xem hết' : `Còn khoảng ${minutesLeft(secondsLeft)} phút`}
+            </p>
+          </div>
         </div>
       </div>
 
       <div className="sp-hub-grid">
-        <div className="sp-player-col">
+        <div className="sp-player-col sp-rv">
           <div className="sp-player">
             {src ? (
               <video
@@ -188,26 +240,36 @@ export function SetupVideoHub() {
                     </button>
                   </>
                 ) : (
-                  <span className="sp-spinner" aria-label="Đang tải video" />
+                  <>
+                    <ActiveIcon size={30} aria-hidden />
+                    <span className="sp-spinner" aria-label="Đang tải video" />
+                  </>
                 )}
               </div>
             )}
           </div>
 
           <div className="sp-now">
-            <p className="sp-eyebrow">
-              Video {index + 1}/{total}
+            <p className="sp-kicker">
+              Bài {String(index + 1).padStart(2, '0')}/{total} · {formatDuration(active.seconds)}
             </p>
             <h3 className="sp-now-title">{active.title}</h3>
-            <p className="sp-now-outcome">Xem xong bạn sẽ: {active.outcome}</p>
+            <p className="sp-now-outcome">{active.outcome}</p>
             <div className="sp-now-actions">
               <a className="sp-btn sp-btn-primary" href={MOOLY_URL} target="_blank" rel="noopener noreferrer">
                 Mở Mooly: {active.action}
                 <ExternalLink size={16} aria-hidden />
               </a>
               {next ? (
-                <button type="button" className="sp-btn sp-btn-ghost" onClick={() => { markWatched(active.id); select(next.id, true); }}>
-                  Video tiếp theo
+                <button
+                  type="button"
+                  className="sp-btn sp-btn-ghost"
+                  onClick={() => {
+                    markWatched(active.id);
+                    select(next.id, true);
+                  }}
+                >
+                  Bài tiếp theo
                   <ArrowRight size={16} aria-hidden />
                 </button>
               ) : (
@@ -218,40 +280,74 @@ export function SetupVideoHub() {
               )}
             </div>
             <p className="sp-stuck">
-              Làm tới đây bị vướng? <a href={ZALO_URL} target="_blank" rel="noopener noreferrer">Nhắn Zalo cho mình</a>, mình chỉ trực tiếp.
+              Làm tới đây bị vướng?{' '}
+              <a href={ZALO_URL} target="_blank" rel="noopener noreferrer">
+                Nhắn Zalo cho mình
+              </a>
+              , mình chỉ trực tiếp.
             </p>
           </div>
         </div>
 
-        <nav className="sp-playlist" aria-label="Danh sách video">
-          {SETUP_STAGES.map((stage) => (
-            <div key={stage.id} className="sp-stage">
-              <p className="sp-stage-title">{stage.title}</p>
-              <p className="sp-stage-hint">{stage.hint}</p>
-              <ol>
-                {SETUP_VIDEOS.filter((v) => v.stage === stage.id).map((v) => {
-                  const n = SETUP_VIDEOS.indexOf(v) + 1;
-                  const isActive = v.id === activeId;
-                  const isDone = watched.includes(v.id);
-                  return (
-                    <li key={v.id}>
-                      <button
-                        type="button"
-                        className={`sp-item${isActive ? ' is-active' : ''}${isDone ? ' is-done' : ''}`}
-                        aria-current={isActive ? 'true' : undefined}
-                        onClick={() => select(v.id, true)}
-                      >
-                        <span className="sp-item-ico" aria-hidden>
-                          {isDone ? <Check size={14} /> : isActive ? <Play size={12} /> : n}
-                        </span>
-                        <span className="sp-item-title">{v.title}</span>
-                      </button>
-                    </li>
-                  );
-                })}
-              </ol>
-            </div>
-          ))}
+        <nav className="sp-roadmap sp-rv" aria-label="Lộ trình 12 video" style={{ '--d': '120ms' } as React.CSSProperties}>
+          {SETUP_STAGES.map((stage, stageIndex) => {
+            const videos = SETUP_VIDEOS.filter((v) => v.stage === stage.id);
+            const stageDone = videos.filter((v) => watched.includes(v.id)).length;
+            return (
+              <section key={stage.id} className={`sp-stage sp-stage-${stageIndex + 1}`}>
+                <header className="sp-stage-head">
+                  <span className="sp-stage-badge" aria-hidden>
+                    {stageIndex + 1}
+                  </span>
+                  <div className="sp-stage-text">
+                    <h3>{stage.title}</h3>
+                    <p>{stage.hint}</p>
+                  </div>
+                  <span className="sp-stage-count">
+                    {stageDone}/{videos.length}
+                  </span>
+                </header>
+                <ol>
+                  {videos.map((v) => {
+                    const n = SETUP_VIDEOS.indexOf(v) + 1;
+                    const isActive = v.id === activeId;
+                    const isDone = watched.includes(v.id);
+                    const Icon = ICONS[v.icon];
+                    return (
+                      <li key={v.id}>
+                        <button
+                          type="button"
+                          className={`sp-item${isActive ? ' is-active' : ''}${isDone ? ' is-done' : ''}`}
+                          aria-current={isActive ? 'true' : undefined}
+                          onClick={() => select(v.id, true)}
+                        >
+                          <span className="sp-tile" aria-hidden>
+                            {isDone ? <Check size={22} strokeWidth={2.5} /> : <Icon size={22} />}
+                            <span className="sp-tile-n">{String(n).padStart(2, '0')}</span>
+                          </span>
+                          <span className="sp-item-body">
+                            <span className="sp-item-title">{v.title}</span>
+                            <span className="sp-item-outcome">{v.outcome}</span>
+                          </span>
+                          <span className="sp-item-meta">
+                            {isActive ? (
+                              <span className="sp-eq" aria-label="Đang xem">
+                                <i />
+                                <i />
+                                <i />
+                              </span>
+                            ) : (
+                              <span className="sp-item-dur">{formatDuration(v.seconds)}</span>
+                            )}
+                          </span>
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ol>
+              </section>
+            );
+          })}
         </nav>
       </div>
 
