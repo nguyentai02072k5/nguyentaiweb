@@ -17,6 +17,7 @@ const INFOR_HOST_PREFIX = 'infor.';
 const FORM_HOST_PREFIX = 'form.';
 const WEBHOOK_HOST_PREFIX = 'webhook.';
 const LANDING_HOST_PREFIX = 'landing.';
+const SETUP_HOST_PREFIX = 'setup.';
 
 export const config = {
   matcher: [
@@ -33,6 +34,7 @@ export async function proxy(request: NextRequest) {
   const isFormHost = host.startsWith(FORM_HOST_PREFIX);
   const isWebhookHost = host.startsWith(WEBHOOK_HOST_PREFIX);
   const isLandingHost = host.startsWith(LANDING_HOST_PREFIX);
+  const isSetupHost = host.startsWith(SETUP_HOST_PREFIX);
 
   // ---- 0. Subdomain rewrite: infor.* → /infor/* (PUBLIC, không auth) ----
   // `infor.nguyenvantai.com/0901234567` → `/infor/0901234567` (giữ URL hiển thị).
@@ -67,6 +69,19 @@ export async function proxy(request: NextRequest) {
   // Route nội bộ chỉ phục vụ qua subdomain landing → host khác gõ /landing = 404.
   // Chặn ĐÚNG segment /landing (không dính route tương lai như /landing-page).
   if (!isLandingHost && (url.pathname === '/landing' || url.pathname.startsWith('/landing/'))) {
+    return new NextResponse(null, { status: 404 });
+  }
+
+  // ---- 0h. Subdomain rewrite: setup.* → /setup/* (PUBLIC, không auth) ----
+  // `setup.nguyenvantai.com` → `/setup` (LDP Setup Chatbot AI).
+  // /api/setup/* (ký URL video) đi thẳng, không rewrite.
+  if (isSetupHost && !url.pathname.startsWith('/setup') && !url.pathname.startsWith('/api')) {
+    url.pathname = url.pathname === '/' ? '/setup' : `/setup${url.pathname}`;
+    return NextResponse.rewrite(url);
+  }
+
+  // ---- 0i. Chặn /setup trên domain KHÔNG phải setup.* (tránh trùng nội dung/SEO) ----
+  if (!isSetupHost && (url.pathname === '/setup' || url.pathname.startsWith('/setup/'))) {
     return new NextResponse(null, { status: 404 });
   }
 
