@@ -8,6 +8,7 @@
 import type { Metadata } from 'next';
 import { SETUP_SITE_URL } from '@/lib/setup/setup-content';
 import './setup-theme.css';
+import './setup-vivid.css';
 
 const TITLE = 'Setup Chatbot AI cho shop: tự làm theo video hoặc cài cùng 1-1';
 const DESCRIPTION =

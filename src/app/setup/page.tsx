@@ -1,9 +1,11 @@
 import { SetupVideoHub } from '@/components/setup/setup-video-hub';
 import {
+  SetupClosing,
   SetupFaq,
   SetupFooter,
   SetupHeader,
   SetupHero,
+  SetupKeyFacts,
   SetupPain,
   SetupPricing,
   SetupProof,
@@ -24,6 +26,7 @@ export default function SetupPage() {
       <SetupHeader />
       <main>
         <SetupHero />
+        <SetupKeyFacts />
         <section className="sp-video" id="video">
           <div className="sp-wrap">
             <SetupVideoHub />
@@ -35,6 +38,7 @@ export default function SetupPage() {
         <SetupRoadmap />
         <SetupPricing />
         <SetupFaq />
+        <SetupClosing />
       </main>
       <SetupFooter />
       <SetupStickyBar />

@@ -1,0 +1,412 @@
+/**
+ * setup-vivid.css — lớp màu nổi, khung chia phần và chuyển động cho LDP Setup.
+ * Nạp SAU setup-theme.css (cùng scope `.setup-app`), chỉ ghi đè/ bổ sung, không đụng :root.
+ *
+ * Bảng màu: indigo/violet (thương hiệu) + hồng + cam nắng (hành động) + cyan (tin cậy).
+ * Nút chuyển đổi (.sp-btn-hot) luôn là gradient nắng → hồng: màu duy nhất như vậy trên trang
+ * nên mắt tự tìm tới nó. Các "khung" (.sp-band) là panel bo góc, nền đậm, tách nhịp đọc.
+ */
+
+.setup-app {
+  --sun: #ffb020;
+  --hot: #ff3d81;
+  --night: #130c3b;
+  --night-2: #2a1470;
+  --grad-hot: linear-gradient(120deg, #ffb020, #ff6a3d 50%, #ff3d81);
+  background: linear-gradient(180deg, #faf7ff 0%, #f3edff 45%, #fff3f8 100%);
+}
+
+/* ---------------- Nút chuyển đổi ---------------- */
+.setup-app .sp-btn-hot {
+  position: relative;
+  overflow: hidden;
+  background: var(--grad-hot);
+  background-size: 160% 100%;
+  color: #26060f;
+  font-weight: 700;
+  box-shadow: 0 10px 28px -10px rgba(255, 90, 60, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+.setup-app .sp-btn-hot:hover {
+  background-position: 100% 0;
+  transform: translateY(-2px);
+  box-shadow: 0 16px 36px -10px rgba(255, 61, 129, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+/* Vệt sáng quét qua nút định kỳ → thu hút mà không nháy. */
+.setup-app .sp-btn-hot::after {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 -60%;
+  width: 40%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  transform: skewX(-20deg);
+  animation: sp-shine 4.8s ease-in-out infinite;
+  pointer-events: none;
+}
+.setup-app .sp-btn-onnight {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+.setup-app .sp-btn-onnight:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
+.sp-down { animation: sp-bob 1.6s ease-in-out infinite; }
+.sp-btn:hover .sp-down { transform: none; }
+
+/* ---------------- Header, hero ---------------- */
+.sp-brand-mark { background: linear-gradient(135deg, #4f46e5, #db2777); }
+
+.sp-hero::before {
+  background:
+    radial-gradient(55% 55% at 88% 8%, rgba(124, 58, 237, 0.28), transparent 70%),
+    radial-gradient(40% 45% at 70% 70%, rgba(255, 61, 129, 0.2), transparent 70%),
+    radial-gradient(45% 40% at 5% 90%, rgba(6, 182, 212, 0.22), transparent 70%),
+    radial-gradient(35% 35% at 30% 10%, rgba(255, 176, 32, 0.2), transparent 70%);
+}
+.sp-hero::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  right: 4%;
+  top: 8%;
+  width: min(420px, 60%);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 61, 129, 0.35), rgba(124, 58, 237, 0.2) 50%, transparent 70%);
+  filter: blur(24px);
+  animation: sp-drift 10s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+.setup-app mark {
+  background: linear-gradient(100deg, #5b21b6, #db2777 55%, #f97316);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-decoration: none;
+}
+.sp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-color: rgba(124, 58, 237, 0.35);
+  background: linear-gradient(120deg, #fff, #f3e8ff);
+  color: #4c1d95;
+}
+.sp-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6);
+  animation: sp-pulse 2s ease-out infinite;
+}
+
+.sp-chat {
+  box-shadow: 0 30px 80px -24px rgba(219, 39, 119, 0.4), 0 18px 40px -20px rgba(79, 70, 229, 0.5);
+  animation: sp-float 7s ease-in-out infinite;
+}
+.sp-chat-avatar { background: linear-gradient(135deg, #4f46e5, #db2777); }
+.sp-bubble-out { background: linear-gradient(135deg, #4f46e5, #7c3aed 60%, #c026d3); }
+
+/* ---------------- Khung chia phần ---------------- */
+.setup-app .sp-band {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin: 20px clamp(8px, 2vw, 24px);
+  border: 0;
+  border-radius: 28px;
+}
+.setup-app .sp-band--night {
+  background:
+    radial-gradient(60% 80% at 8% 0%, rgba(255, 61, 129, 0.38), transparent 60%),
+    radial-gradient(50% 70% at 100% 100%, rgba(99, 102, 241, 0.5), transparent 60%),
+    linear-gradient(160deg, var(--night), var(--night-2));
+  color: #e9e5ff;
+  box-shadow: 0 40px 90px -50px rgba(79, 70, 229, 0.7);
+}
+.setup-app .sp-band--hot {
+  background:
+    radial-gradient(50% 70% at 100% 0%, rgba(255, 176, 32, 0.5), transparent 60%),
+    radial-gradient(60% 70% at 0% 100%, rgba(6, 182, 212, 0.35), transparent 60%),
+    linear-gradient(135deg, #4338ca, #7c3aed 55%, #db2777);
+  color: #fff;
+  box-shadow: 0 50px 110px -50px rgba(124, 58, 237, 0.85);
+}
+.sp-band::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 38%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #fff, transparent);
+  animation: sp-sweep 6s ease-in-out infinite;
+}
+.sp-band h2 { color: #fff; }
+.sp-band .sp-sub { color: #d9d3ff; }
+
+/* Nỗi đau: cột "tốt" phát sáng trên nền tối */
+.sp-band--night .sp-vs-good { box-shadow: 0 0 0 1px rgba(255, 176, 32, 0.5), 0 24px 60px -24px rgba(255, 61, 129, 0.6); }
+.sp-band--night .sp-vs-col h3 { color: var(--ink); }
+
+/* Bảng giá trên nền màu: thẻ giá trắng nổi, viền gradient chạy */
+.sp-band--hot .sp-price-card {
+  border: 2px solid transparent;
+  background:
+    linear-gradient(#fff, #fff) padding-box,
+    linear-gradient(120deg, #6366f1, #db2777, #ffb020, #06b6d4, #6366f1) border-box;
+  background-size: auto, 300% 100%;
+  animation: sp-borderflow 8s linear infinite;
+  box-shadow: 0 40px 90px -30px rgba(20, 8, 70, 0.7);
+}
+.sp-price {
+  background: linear-gradient(100deg, #4f46e5, #db2777 60%, #f97316);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.sp-price span { -webkit-text-fill-color: var(--ink-2); }
+.sp-limit { background: linear-gradient(120deg, #fff1f6, #ffe9d6); color: #b4234a; border: 1px solid rgba(219, 39, 119, 0.25); }
+.sp-band--hot .sp-table-wrap { border-color: rgba(255, 255, 255, 0.4); box-shadow: 0 30px 70px -40px rgba(20, 8, 70, 0.6); }
+.sp-band--hot .sp-table-wrap, .sp-band--hot .sp-table td { color: var(--ink-2); }
+
+/* ---------------- Video, CTA mềm ---------------- */
+.sp-video .sp-hub {
+  padding: clamp(16px, 3vw, 32px);
+  border-radius: 28px;
+  background: linear-gradient(160deg, #fff, #f1e9ff);
+  border: 1px solid var(--line-strong);
+  box-shadow: 0 30px 80px -40px rgba(99, 102, 241, 0.5);
+}
+.sp-player { box-shadow: 0 0 0 1px rgba(124, 58, 237, 0.4), 0 30px 70px -25px rgba(124, 58, 237, 0.6); }
+.sp-soft-in {
+  border: 0;
+  background:
+    linear-gradient(#fff, #fff) padding-box,
+    linear-gradient(120deg, #6366f1, #db2777, #ffb020) border-box;
+  border: 2px solid transparent;
+}
+
+/* Hàng nút dẫn xuống khối đăng ký */
+.sp-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 40px;
+  padding: 20px 24px;
+  border-radius: 20px;
+  background: linear-gradient(120deg, rgba(255, 176, 32, 0.18), rgba(255, 61, 129, 0.14));
+  border: 1px solid rgba(255, 61, 129, 0.3);
+}
+.sp-cta-row p { font: 700 1.125rem/1.35 var(--f-display); color: var(--ink); max-width: 36ch; }
+.sp-band--night .sp-cta-row { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.25); }
+.sp-band--night .sp-cta-row p { color: #fff; }
+
+/* ---------------- Bằng chứng, lộ trình ---------------- */
+.sp-cell { border-top: 4px solid var(--bar, #6366f1); }
+.sp-cell:nth-child(2) { --bar: #06b6d4; }
+.sp-cell:nth-child(3) { --bar: #ffb020; }
+.sp-cell:nth-child(4) { --bar: #ff3d81; }
+.sp-cell-hero {
+  border-top-color: #ffb020;
+  background: radial-gradient(70% 60% at 100% 0%, rgba(255, 176, 32, 0.35), transparent 60%), linear-gradient(140deg, #4f46e5, #7c3aed 55%, #db2777);
+}
+.sp-cell-value {
+  background: linear-gradient(100deg, #4f46e5, #db2777);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.sp-cell-hero .sp-cell-value { background: none; color: #fff; -webkit-text-fill-color: #fff; }
+
+.sp-track-step { border-top: 0; transition: transform 0.25s var(--ease-quart), box-shadow 0.25s; }
+.sp-track-step:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+.sp-track-step::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20px;
+  right: 20px;
+  height: 4px;
+  border-radius: 0 0 4px 4px;
+  background: var(--bar, #6366f1);
+}
+.sp-track-step:nth-child(1) { --bar: linear-gradient(90deg, #4f46e5, #7c3aed); }
+.sp-track-step:nth-child(2) { --bar: linear-gradient(90deg, #06b6d4, #22d3ee); }
+.sp-track-step:nth-child(3) { --bar: linear-gradient(90deg, #db2777, #ffb020); }
+.sp-track-step:nth-child(3) .sp-track-when { background: var(--pink-tint); color: var(--pink); }
+.sp-track-step:nth-child(3) li svg { color: var(--pink); }
+
+/* ---------------- Chốt cuối trang ---------------- */
+.sp-closing { padding: clamp(48px, 6vw, 80px) 0; text-align: center; }
+.sp-closing-in { display: grid; gap: 12px; justify-items: center; }
+.sp-closing-in p { color: #d9d3ff; font-size: 1.0625rem; }
+.sp-closing-cta { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 12px; }
+
+/* ---------------- Thanh dính đáy (mobile) ---------------- */
+.sp-sticky-in { display: grid; grid-template-columns: 1fr 1.7fr; gap: 8px; }
+.setup-app .sp-sticky a {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 48px; border-radius: var(--r-md);
+  font-weight: 700; font-size: 0.9375rem; text-align: center; text-decoration: none;
+}
+.setup-app .sp-sticky a.sp-sticky-zalo { background: #fff; color: var(--indigo); border: 1.5px solid var(--indigo); }
+.setup-app .sp-sticky a.sp-btn-hot { background: var(--grad-hot); color: #26060f; }
+
+/* ---------------- Animation ---------------- */
+@keyframes sp-shine { 0%, 55% { left: -60%; } 100% { left: 130%; } }
+@keyframes sp-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
+@keyframes sp-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes sp-drift { from { transform: translate3d(0, 0, 0) scale(1); } to { transform: translate3d(-30px, 24px, 0) scale(1.15); } }
+@keyframes sp-pulse { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.55); } 70%, 100% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); } }
+@keyframes sp-sweep { 0% { transform: translateX(-100%); opacity: 0; } 15%, 85% { opacity: 1; } 100% { transform: translateX(270%); opacity: 0; } }
+@keyframes sp-borderflow { to { background-position: 0 0, 300% 0; } }
+
+/* ---------------- Mobile ---------------- */
+@media (max-width: 640px) {
+  .setup-app .sp-band { margin: 12px 8px; border-radius: 22px; }
+  .setup-app .sp-section { padding: 44px 0; }
+  .sp-h1 { font-size: clamp(2rem, 9.4vw, 2.6rem); margin-top: 16px; }
+  .sp-lead { margin-top: 16px; }
+  .sp-hero-cta { margin-top: 24px; }
+  .sp-hero-cta .sp-btn { min-height: 54px; }
+  .sp-cta-row { flex-direction: column; align-items: stretch; text-align: center; padding: 18px; }
+  .sp-cta-row p { max-width: none; font-size: 1.0625rem; }
+  .sp-cta-row .sp-btn { width: 100%; min-height: 54px; }
+  .sp-closing-cta .sp-btn { width: 100%; }
+  .sp-soft-in { text-align: center; justify-content: center; }
+  .sp-soft-in .sp-btn { width: 100%; }
+  .sp-header-in .sp-btn-sm { padding: 8px 12px; font-size: 0.8125rem; }
+  .sp-brand { font-size: 0.9375rem; }
+  .sp-video .sp-hub { padding: 14px; border-radius: 20px; }
+  .sp-hero::after { opacity: 0.7; }
+  .sp-price span { display: block; margin-top: 6px; }
+}
+
+/* ---------------- Sửa kế thừa màu: thẻ sáng nằm trong khung tối phải tự đặt màu chữ ---------------- */
+.sp-vs-col, .sp-price-card, .sp-table-wrap { color: var(--ink); }
+.sp-vs-good li, .sp-benefits li { color: var(--ink); }
+.sp-table thead th { color: var(--ink); }
+
+/* ---------------- Từ khoá cần nhớ: highlight kiểu bút dạ ---------------- */
+.setup-app .sp-hl {
+  font-weight: 700;
+  color: var(--ink);
+  background: linear-gradient(transparent 58%, rgba(255, 176, 32, 0.5) 58%);
+  padding: 0 2px;
+  border-radius: 2px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+/* Trên nền màu đậm (band hot/night): chữ trắng đậm + gạch nền hồng nhạt */
+.setup-app .sp-hl-on {
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(transparent 60%, rgba(255, 61, 129, 0.65) 60%);
+  padding: 0 2px;
+}
+.sp-vs-good .sp-hl { background: linear-gradient(transparent 58%, rgba(255, 176, 32, 0.55) 58%); }
+.sp-vs-bad .sp-hl { background: linear-gradient(transparent 58%, rgba(255, 61, 129, 0.28) 58%); }
+.sp-lead .sp-hl { font-size: 1.04em; }
+
+/* ---------------- Dải 3 điều cần nhớ ---------------- */
+.sp-facts { padding: 8px 0 clamp(24px, 3vw, 40px); }
+.sp-facts-in { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.sp-fact {
+  --tone: #6366f1;
+  display: grid;
+  gap: 4px;
+  padding: 20px 22px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--tone);
+  border-radius: 16px;
+  box-shadow: 0 18px 40px -26px var(--tone);
+  transition: transform 0.25s var(--ease-quart), box-shadow 0.25s;
+}
+.sp-fact:hover { transform: translateY(-4px); box-shadow: 0 24px 48px -24px var(--tone); }
+.sp-fact--pink { --tone: #ec4899; }
+.sp-fact--cyan { --tone: #06b6d4; }
+.sp-fact--sun { --tone: #f59e0b; }
+.sp-fact strong { font: 800 clamp(1.5rem, 2vw + 0.6rem, 2.125rem)/1.1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); }
+.sp-fact span { color: var(--ink-2); font-size: 0.9375rem; line-height: 1.45; }
+
+@media (max-width: 640px) {
+  .sp-facts-in { grid-template-columns: 1fr; gap: 10px; }
+  .sp-fact { grid-template-columns: auto 1fr; align-items: center; gap: 4px 14px; padding: 14px 16px; }
+  .sp-fact strong { font-size: 1.375rem; white-space: nowrap; }
+  .sp-fact span { font-size: 0.875rem; }
+}
+
+/* ---------------- Bảng so sánh: 2 cột nên luôn vừa khung, không cần min-width ---------------- */
+.sp-table { min-width: 0; table-layout: fixed; }
+.sp-table thead .is-win { background: linear-gradient(120deg, #eef0ff, #fdeaf3); }
+.sp-table .is-win { font-weight: 700; color: var(--ink); }
+
+/* ---------------- Viết hoa đầu từ: mọi tiêu đề và nút hành động ---------------- */
+.setup-app :is(h1, h2, h3),
+.setup-app .sp-btn,
+.setup-app .sp-sticky a,
+.setup-app .sp-btn-hot { text-transform: capitalize; }
+
+/* ---------------- Danh sách tập: khung cuộn riêng, không kéo dài trang ---------------- */
+@media (max-width: 1040px) {
+  .sp-roadmap {
+    max-height: min(54dvh, 380px);
+    overflow-y: auto;
+    padding: 8px;
+    border: 1px solid var(--line-strong);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.7);
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+}
+
+/* ---------------- Mobile: gọn hơn, chữ và nút dễ thao tác (chủ shop 32-40 tuổi) ---------------- */
+@media (max-width: 640px) {
+  .setup-app .sp-btn { min-height: 50px; font-size: 1rem; }
+  /* Header: giữ 1 dòng dù chữ đã viết hoa đầu từ */
+  .sp-header-in { gap: 8px; }
+  .setup-app .sp-brand { white-space: nowrap; font-size: 0.875rem; }
+  .setup-app .sp-header .sp-btn-sm { white-space: nowrap; min-height: 44px; padding: 8px 12px; font-size: 0.8125rem; }
+  .sp-lead, .sp-sub { font-size: 1.0625rem; }
+  .sp-hub-head { gap: 12px; margin-bottom: 16px; }
+  .sp-ring { padding: 10px 14px 10px 10px; }
+  .sp-now { margin-top: 16px; }
+  .sp-now-actions { margin-top: 14px; }
+  .sp-now-title { font-size: 1.25rem; }
+
+  /* Video: tile nhỏ hơn, bỏ dòng mô tả để mỗi bài chỉ cao ~56px */
+  .sp-roadmap { gap: 10px; max-height: min(48dvh, 340px); }
+  .sp-stage ol { padding: 4px; }
+  .sp-item { min-height: 56px; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 10px; padding: 6px; }
+  .sp-tile { width: 44px; height: 44px; }
+  .sp-item-outcome { display: none; }
+  .sp-item-title { font-size: 1rem; }
+
+  /* Số thật từ Loma: lưới 2 cột, thẻ nhỏ, số lớn dễ lướt */
+  .sp-bento { grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+  .sp-cell-hero { grid-column: 1 / 3; padding: 18px; gap: 8px; }
+  .sp-cell:nth-child(4) { grid-column: 1 / 3; }
+  .sp-cell { padding: 14px; gap: 6px; }
+  .sp-cell-value { font-size: 1.75rem; }
+  .sp-cell-hero .sp-cell-value { font-size: 2.5rem; }
+  .sp-cell-label { font-size: 0.6875rem; }
+  .sp-cell-note { font-size: 0.8125rem; line-height: 1.4; }
+  .sp-cell:nth-child(4) { grid-template-columns: auto 1fr; align-items: center; column-gap: 14px; }
+  .sp-cell:nth-child(4) .sp-cell-label { grid-column: 1 / 3; }
+
+  /* Bảng so sánh 2 lựa chọn: 3 cột vừa khít, chữ gọn, không cuộn ngang */
+  .sp-table-wrap, .sp-band--hot .sp-table-wrap { margin-top: 24px; }
+  .sp-table th, .sp-table td { padding: 12px 10px; font-size: 0.9375rem; line-height: 1.4; }
+  .sp-table thead th { font-size: 0.875rem; }
+  .sp-table tbody th { width: 30%; font-size: 0.875rem; color: var(--ink); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .setup-app .sp-btn-hot::after,
+  .sp-down, .sp-chat, .sp-dot, .sp-hero::after, .sp-band::before,
+  .sp-band--hot .sp-price-card { animation: none; }
+}

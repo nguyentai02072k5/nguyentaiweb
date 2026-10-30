@@ -26,10 +26,15 @@ export function SetupStickyBar() {
 
   return (
     <div className={`sp-sticky${show ? ' is-show' : ''}`} aria-hidden={!show}>
-      <a href={ZALO_URL} target="_blank" rel="noopener noreferrer" tabIndex={show ? 0 : -1}>
-        <MessageCircle size={18} aria-hidden />
-        Vướng bước nào? Nhắn Zalo cho mình
-      </a>
+      <div className="sp-sticky-in">
+        <a className="sp-sticky-zalo" href={ZALO_URL} target="_blank" rel="noopener noreferrer" tabIndex={show ? 0 : -1}>
+          <MessageCircle size={18} aria-hidden />
+          Zalo
+        </a>
+        <a className="sp-btn-hot" href="#goi-setup" tabIndex={show ? 0 : -1}>
+          Đăng ký cài giúp 1-1
+        </a>
+      </div>
     </div>
   );
 }
