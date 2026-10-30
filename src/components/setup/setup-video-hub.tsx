@@ -125,6 +125,8 @@ export function SetupVideoHub() {
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const retriedRef = useRef(false);
+  const navRef = useRef<HTMLElement>(null);
+  const pinnedOnceRef = useRef(false);
 
   // Nạp URL ký cho `id`; kết quả ghi vào state qua .then (bất đồng bộ, theo id).
   const loadSrc = useCallback((id: string, signal?: AbortSignal) => {
@@ -141,6 +143,20 @@ export function SetupVideoHub() {
     void loadSrc(activeId, ctrl.signal);
     return () => ctrl.abort();
   }, [activeId, loadSrc]);
+
+  // Ghim bài đang học vào giữa danh sách. Chỉ cuộn BÊN TRONG danh sách (không dùng
+  // scrollIntoView để khỏi kéo cả trang). Lần đầu nhảy thẳng, các lần sau cuộn mượt.
+  useEffect(() => {
+    const nav = navRef.current;
+    const item = nav?.querySelector<HTMLElement>('.sp-item.is-active');
+    if (!nav || !item) return;
+    const offset = item.getBoundingClientRect().top - nav.getBoundingClientRect().top + nav.scrollTop;
+    nav.scrollTo({
+      top: Math.max(0, offset - (nav.clientHeight - item.offsetHeight) / 2),
+      behavior: pinnedOnceRef.current ? 'smooth' : 'auto',
+    });
+    pinnedOnceRef.current = true;
+  }, [activeId]);
 
   const index = SETUP_VIDEOS.findIndex((v) => v.id === activeId);
   const active = SETUP_VIDEOS[index];
@@ -289,7 +305,7 @@ export function SetupVideoHub() {
           </div>
         </div>
 
-        <nav className="sp-roadmap sp-rv" aria-label="Lộ trình 12 video" style={{ '--d': '120ms' } as React.CSSProperties}>
+        <nav ref={navRef} className="sp-roadmap sp-rv" aria-label="Lộ trình 12 video" style={{ '--d': '120ms' } as React.CSSProperties}>
           {SETUP_STAGES.map((stage, stageIndex) => {
             const videos = SETUP_VIDEOS.filter((v) => v.stage === stage.id);
             const stageDone = videos.filter((v) => watched.includes(v.id)).length;

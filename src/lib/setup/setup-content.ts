@@ -80,17 +80,17 @@ export function minutesLeft(seconds: number): number {
 }
 
 export const SETUP_PAINS = [
-  'Khách hỏi giá lúc 23 giờ, không ai trả lời. Sáng ra khách đã mua chỗ khác.',
-  'Báo giá xong khách im lặng, không ai nhắn lại. Phần lớn tiền quảng cáo trôi theo những khách đó.',
-  'Đổi giá phải dặn từng nhân viên, mỗi ca trả lời một kiểu.',
-  'Mua phần mềm về rồi bỏ xó, vì không ai chỉ từng bước.',
+  'Khách hỏi giá lúc **23 giờ**, không ai trả lời. Sáng ra khách đã **mua chỗ khác**.',
+  'Báo giá xong khách im lặng, không ai nhắn lại. **Tiền quảng cáo trôi theo** những khách đó.',
+  'Đổi giá phải dặn từng nhân viên, **mỗi ca trả lời một kiểu**.',
+  'Mua phần mềm về rồi **bỏ xó**, vì không ai chỉ từng bước.',
 ] as const;
 
 export const SETUP_GAINS = [
-  'Bot trả lời dưới 10 giây, cả ngày lẫn đêm.',
-  'Tự nhắn lại khách im lặng sau 12 giờ, 3 ngày, 14 ngày. Không tốn thêm tiền Ads.',
-  'Cập nhật bảng giá trong 5 phút, chỉnh giọng văn trong 2 phút. Mọi ca trả lời giống nhau.',
-  'Có người làm cùng, nên sau 7 ngày bạn tự chủ phần mềm.',
+  'Bot trả lời **dưới 10 giây**, cả ngày lẫn đêm.',
+  '**Tự nhắn lại** khách im lặng sau 12 giờ, 3 ngày, 14 ngày. Không tốn thêm tiền Ads.',
+  'Đổi bảng giá **trong 5 phút**. Mọi ca trả lời **giống nhau**.',
+  'Có người làm cùng, sau 7 ngày bạn **tự chủ** phần mềm.',
 ] as const;
 
 export const SETUP_PROOF = {
@@ -105,48 +105,48 @@ export const SETUP_ROADMAP = [
     when: 'Ngày 1 đến 3',
     title: 'Dựng và bật Bot',
     points: [
-      'Nạp sản phẩm, ảnh, bảng giá sỉ và lẻ',
-      'Viết kịch bản trả lời đúng giọng chốt đơn của shop',
-      'Cài luồng nhắn lại khách im lặng (12 giờ, 3 ngày, 14 ngày)',
-      'Kết nối Fanpage, Zalo và bấm chạy thật',
+      'Nạp **sản phẩm, ảnh, bảng giá** sỉ và lẻ',
+      'Viết kịch bản đúng **giọng chốt đơn** của shop',
+      'Cài luồng **nhắn lại khách im lặng** (12 giờ, 3 ngày, 14 ngày)',
+      'Kết nối Fanpage, Zalo và **bấm chạy thật**',
     ],
   },
   {
     when: 'Cuối ngày 3',
     title: 'Nghiệm thu, không ưng hoàn tiền',
     points: [
-      'Bạn tự thử tốc độ, độ mượt và khả năng xin số điện thoại',
-      'Không hài lòng: hoàn 100% trong 24 giờ',
+      'Bạn tự thử **tốc độ, độ mượt**, khả năng xin số điện thoại',
+      'Không hài lòng: **hoàn 100%** trong 24 giờ',
     ],
   },
   {
     when: 'Ngày 4 đến 7',
     title: 'Làm chủ trên chat thật',
     points: [
-      'Xem các cuộc chat thật để chỉnh câu trả lời sát thực tế',
-      'Tự thêm sản phẩm, đổi bảng giá trong 5 phút',
-      'Tự huấn luyện lại giọng văn Bot, đọc báo cáo chuyển đổi',
-      'Kết thúc: bạn tự chỉnh mọi luồng, không cần thuê kỹ thuật',
+      'Xem **chat thật** để chỉnh câu trả lời sát thực tế',
+      'Tự thêm sản phẩm, **đổi bảng giá trong 5 phút**',
+      'Tự chỉnh giọng văn Bot, đọc **báo cáo chuyển đổi**',
+      'Kết thúc: bạn **tự chỉnh mọi luồng**, không cần thuê kỹ thuật',
     ],
   },
 ] as const;
 
 export const SETUP_BENEFITS = [
-  '3 ngày làm cùng 1-1: nạp sản phẩm, bảng giá, ảnh và bật Bot chạy trên Fanpage, Zalo của bạn.',
-  'Luồng nhắn lại khách im lặng sau báo giá (12 giờ, 3 ngày, 14 ngày) được cài sẵn, chạy mãi.',
-  '4 ngày chỉnh Bot trên các cuộc chat thật, đến khi trả lời đúng ý bạn.',
-  'Học cách tự thêm sản phẩm, đổi giá, sửa giọng văn. Sau 7 ngày không cần thuê kỹ thuật.',
-  'Tài liệu mẫu và giải đáp kỹ thuật qua Zalo sau khi kết thúc.',
-  'Hoàn tiền 100% nếu hết ngày 3 bạn không ưng.',
+  '**3 ngày** làm cùng 1-1: nạp sản phẩm, bảng giá, ảnh, bật Bot trên Fanpage và Zalo.',
+  'Luồng **nhắn lại khách im lặng** (12 giờ, 3 ngày, 14 ngày) cài sẵn, chạy mãi.',
+  '**4 ngày** chỉnh Bot trên chat thật, đến khi trả lời đúng ý bạn.',
+  'Tự thêm sản phẩm, đổi giá, sửa giọng văn. **Không cần thuê kỹ thuật.**',
+  'Tài liệu mẫu và giải đáp qua Zalo sau khi kết thúc.',
+  '**Hoàn tiền 100%** nếu hết ngày 3 bạn không ưng.',
 ] as const;
 
 export const SETUP_COMPARE = {
-  columns: ['Tự làm theo video', 'Thuê agency', `Setup 1-1 cùng mình`],
+  columns: ['Tự làm theo video', 'Setup 1-1 cùng mình'],
   rows: [
-    { label: 'Bot chạy thật sau', values: ['2 đến 4 tuần thử sai', '5 đến 10 ngày chờ', '3 ngày'] },
-    { label: 'Chi phí', values: ['0đ, nhưng tốn thời gian và tiền Ads chạy thử', '5 đến 15 triệu mỗi lần cài', `${SETUP_PRICE} trọn gói, đã gồm VAT`] },
-    { label: 'Sửa Bot về sau', values: ['Dễ làm lỗi luồng', 'Phụ thuộc, sửa là mất phí', 'Tự sửa được sau 7 ngày'] },
-    { label: 'Nếu không ưng', values: ['Mất công và chi phí cơ hội', 'Thường không hoàn tiền', 'Hoàn 100% sau 3 ngày'] },
+    { label: 'Bot chạy thật sau', values: ['2 đến 4 tuần thử sai', '3 ngày'] },
+    { label: 'Chi phí', values: ['0đ, nhưng tốn thời gian và tiền Ads', `${SETUP_PRICE} trọn gói`] },
+    { label: 'Sửa Bot về sau', values: ['Dễ làm lỗi luồng', 'Tự sửa được sau 7 ngày'] },
+    { label: 'Nếu không ưng', values: ['Mất công, mất chi phí', 'Hoàn 100% sau 3 ngày'] },
   ],
 } as const;
 

@@ -1,5 +1,5 @@
 import QRCode from 'qrcode';
-import { ArrowDown, BellRing, Check, MessageCircle, X } from 'lucide-react';
+import { ArrowDown, BellRing, Check, MessageCircle, Sparkles, X } from 'lucide-react';
 import {
   SETUP_BENEFITS,
   SETUP_COMPARE,
@@ -12,6 +12,26 @@ import {
   ZALO_PHONE,
   ZALO_URL,
 } from '@/lib/setup/setup-content';
+
+/**
+ * Tách `**từ khoá**` trong chuỗi nội dung thành <strong> có highlight. Một nguồn duy nhất
+ * cho việc nhấn mạnh: người viết chỉ cần bọc cụm cần nhớ bằng ** trong setup-content.
+ */
+function Rich({ text }: { text: string }) {
+  return (
+    <>
+      {text.split(/\*\*(.+?)\*\*/g).map((part, i) =>
+        i % 2 === 1 ? (
+          <strong key={i} className="sp-hl">
+            {part}
+          </strong>
+        ) : (
+          part
+        ),
+      )}
+    </>
+  );
+}
 
 /** Thanh trên cùng: nhận diện + điều hướng 3 mục + 1 lối thoát (Zalo). */
 export function SetupHeader() {
@@ -30,12 +50,28 @@ export function SetupHeader() {
           <a href="#goi-setup">Gói Setup</a>
           <a href="#hoi-dap">Hỏi đáp</a>
         </nav>
-        <a className="sp-btn sp-btn-sm sp-btn-primary" href={ZALO_URL} target="_blank" rel="noopener noreferrer">
-          <MessageCircle size={15} aria-hidden />
-          Nhắn Zalo
+        <a className="sp-btn sp-btn-sm sp-btn-hot" href="#goi-setup">
+          <Sparkles size={15} aria-hidden />
+          Đăng ký cài giúp
         </a>
       </div>
     </header>
+  );
+}
+
+/**
+ * Hàng nút dẫn xuống khối đăng ký (#goi-setup). Đặt cuối các section chính để khách
+ * ở bất kỳ điểm nào cũng có đúng một lối đi xuống, không phải cuộn tìm.
+ */
+function SectionCta({ text }: { text: string }) {
+  return (
+    <div className="sp-cta-row sp-rv">
+      <p>{text}</p>
+      <a className="sp-btn sp-btn-hot sp-btn-lg" href="#goi-setup">
+        Đăng ký cài giúp 1-1
+        <ArrowDown size={18} className="sp-down" aria-hidden />
+      </a>
+    </div>
   );
 }
 
@@ -83,27 +119,57 @@ export function SetupHero() {
     <section className="sp-hero" id="top">
       <div className="sp-wrap sp-hero-grid">
         <div className="sp-hero-copy">
-          <p className="sp-badge sp-in">Cho chủ shop bán hàng qua Fanpage và Zalo</p>
+          <p className="sp-badge sp-in">
+            <span className="sp-dot" aria-hidden />
+            Cho chủ shop bán hàng qua Fanpage và Zalo
+          </p>
           <h1 className="sp-h1 sp-in" style={{ '--i': 1 } as React.CSSProperties}>
             Khách nhắn lúc 11 giờ đêm. Bot báo giá trong <mark>10 giây</mark>.
           </h1>
           <p className="sp-lead sp-in" style={{ '--i': 2 } as React.CSSProperties}>
-            Tự dựng Chatbot AI trên Mooly qua 12 video ngắn, miễn phí. Muốn nhanh hơn, mình cài cùng bạn trong 3 ngày.
+            Tự dựng Chatbot AI trên Mooly qua <strong className="sp-hl">12 video ngắn, miễn phí</strong>. Muốn nhanh hơn? Mình{' '}
+            <strong className="sp-hl">cài cùng bạn trong 3 ngày</strong>.
           </p>
           <div className="sp-hero-cta sp-in" style={{ '--i': 3 } as React.CSSProperties}>
-            <a className="sp-btn sp-btn-primary sp-btn-lg" href="#video">
-              Xem video đầu tiên
-              <ArrowDown size={18} aria-hidden />
+            <a className="sp-btn sp-btn-hot sp-btn-lg" href="#goi-setup">
+              Đăng ký cài giúp 1-1
+              <ArrowDown size={18} className="sp-down" aria-hidden />
             </a>
-            <a className="sp-btn sp-btn-ghost sp-btn-lg" href="#goi-setup">
-              Nhờ mình cài giúp
+            <a className="sp-btn sp-btn-ghost sp-btn-lg" href="#video">
+              Hoặc tự làm theo video
             </a>
           </div>
+
         </div>
         <div className="sp-in" style={{ '--i': 2 } as React.CSSProperties}>
           <ChatDemo />
         </div>
       </div>
+    </section>
+  );
+}
+
+/**
+ * Dải "3 điều cần nhớ": chủ shop lướt 3 giây là nắm được lời hứa chính của trang.
+ * Số liệu khớp SETUP_COMPARE / SETUP_PROOF, không thêm con số mới.
+ */
+const KEY_FACTS = [
+  { tone: 'pink', value: '< 10 giây', label: 'Bot trả lời khách, cả đêm lẫn ngày' },
+  { tone: 'cyan', value: '3 ngày', label: 'Bot chạy thật trên Fanpage, Zalo' },
+  { tone: 'sun', value: 'Hoàn 100%', label: 'nếu hết ngày 3 bạn chưa ưng' },
+] as const;
+
+export function SetupKeyFacts() {
+  return (
+    <section className="sp-facts sp-rv" aria-label="Ba điều cần nhớ">
+      <ul className="sp-wrap sp-facts-in">
+        {KEY_FACTS.map((f) => (
+          <li key={f.value} className={`sp-fact sp-fact--${f.tone}`}>
+            <strong>{f.value}</strong>
+            <span>{f.label}</span>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }
@@ -116,8 +182,9 @@ export function SetupSoftCta() {
         <p>
           <strong>Tự làm được thì quá tốt.</strong> Nếu bạn ngại kỹ thuật hoặc muốn Bot lên sóng sớm, mình làm cùng bạn 1-1.
         </p>
-        <a className="sp-btn sp-btn-ghost" href="#goi-setup">
+        <a className="sp-btn sp-btn-hot" href="#goi-setup">
           Xem gói Setup
+          <ArrowDown size={16} className="sp-down" aria-hidden />
         </a>
       </div>
     </section>
@@ -126,7 +193,7 @@ export function SetupSoftCta() {
 
 export function SetupPain() {
   return (
-    <section className="sp-section">
+    <section className="sp-section sp-band sp-band--night">
       <div className="sp-wrap">
         <h2 className="sp-h2 sp-rv">Tiền quảng cáo đang rơi mất ngay ở hộp thư</h2>
         <div className="sp-vs">
@@ -136,7 +203,7 @@ export function SetupPain() {
               {SETUP_PAINS.map((p) => (
                 <li key={p}>
                   <X size={16} aria-hidden />
-                  {p}
+                  <span><Rich text={p} /></span>
                 </li>
               ))}
             </ul>
@@ -147,12 +214,13 @@ export function SetupPain() {
               {SETUP_GAINS.map((g) => (
                 <li key={g}>
                   <Check size={16} aria-hidden />
-                  {g}
+                  <span><Rich text={g} /></span>
                 </li>
               ))}
             </ul>
           </div>
         </div>
+        <SectionCta text="Muốn Bot nhận khách thay bạn ngay tuần này?" />
       </div>
     </section>
   );
@@ -188,6 +256,7 @@ export function SetupProof() {
             <p className="sp-cell-note">{auto.note}</p>
           </article>
         </div>
+        <SectionCta text="Muốn Bot chạy cho shop của bạn? Mình cài cùng bạn 1-1." />
       </div>
     </section>
   );
@@ -209,13 +278,14 @@ export function SetupRoadmap() {
                 {step.points.map((p) => (
                   <li key={p}>
                     <Check size={15} aria-hidden />
-                    {p}
+                    <span><Rich text={p} /></span>
                   </li>
                 ))}
               </ul>
             </li>
           ))}
         </ol>
+        <SectionCta text="Thấy hợp? Giữ lịch trước, mỗi tuần mình chỉ nhận 5 đến 7 chủ shop." />
       </div>
     </section>
   );
@@ -231,11 +301,12 @@ export async function SetupPricing() {
   });
 
   return (
-    <section className="sp-section sp-alt" id="goi-setup">
+    <section className="sp-section sp-band sp-band--hot" id="goi-setup">
       <div className="sp-wrap">
         <h2 className="sp-h2 sp-rv">Muốn Bot chạy thật trong 3 ngày? Mình làm cùng bạn.</h2>
         <p className="sp-sub sp-rv">
-          Gói Setup 1-1 trong 7 ngày. Hết ngày thứ 3 chạy thử, không ưng thì hoàn đủ 2.000.000đ trong 24 giờ.
+          Gói Setup 1-1 trong <strong className="sp-hl-on">7 ngày</strong>. Hết ngày thứ 3 chạy thử, không ưng thì{' '}
+          <strong className="sp-hl-on">hoàn đủ 2.000.000đ trong 24 giờ</strong>.
         </p>
 
         <div className="sp-price-card sp-rv">
@@ -248,7 +319,7 @@ export async function SetupPricing() {
               {SETUP_BENEFITS.map((b) => (
                 <li key={b}>
                   <Check size={16} aria-hidden />
-                  {b}
+                  <span><Rich text={b} /></span>
                 </li>
               ))}
             </ul>
@@ -258,9 +329,9 @@ export async function SetupPricing() {
           <div className="sp-price-cta">
             <div className="sp-qr" dangerouslySetInnerHTML={{ __html: qrSvg }} role="img" aria-label={`Mã QR Zalo ${ZALO_PHONE}`} />
             <p className="sp-qr-cap">Quét bằng Zalo để giữ lịch</p>
-            <a className="sp-btn sp-btn-primary sp-btn-lg sp-btn-block" href={ZALO_URL} target="_blank" rel="noopener noreferrer">
+            <a className="sp-btn sp-btn-hot sp-btn-lg sp-btn-block" href={ZALO_URL} target="_blank" rel="noopener noreferrer">
               <MessageCircle size={18} aria-hidden />
-              Nhắn Zalo {ZALO_PHONE}
+              Đăng ký qua Zalo
             </a>
             <p className="sp-qr-note">Đang dùng điện thoại? Bấm nút trên, không cần quét.</p>
           </div>
@@ -274,7 +345,7 @@ export async function SetupPricing() {
                   <span className="sp-sr">Tiêu chí</span>
                 </th>
                 {SETUP_COMPARE.columns.map((c, i) => (
-                  <th key={c} scope="col" className={i === 2 ? 'is-win' : undefined}>
+                  <th key={c} scope="col" className={i === 1 ? 'is-win' : undefined}>
                     {c}
                   </th>
                 ))}
@@ -285,7 +356,7 @@ export async function SetupPricing() {
                 <tr key={r.label}>
                   <th scope="row">{r.label}</th>
                   {r.values.map((v, i) => (
-                    <td key={v} className={i === 2 ? 'is-win' : undefined}>
+                    <td key={v} className={i === 1 ? 'is-win' : undefined}>
                       {v}
                     </td>
                   ))}
@@ -311,6 +382,27 @@ export function SetupFaq() {
               <p>{f.a}</p>
             </details>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/** Chốt cuối trang: ai còn lăn tăn thì nhắn thẳng, hoặc quay lại xem gói. */
+export function SetupClosing() {
+  return (
+    <section className="sp-closing sp-band sp-band--night">
+      <div className="sp-wrap sp-closing-in sp-rv">
+        <h2 className="sp-h2">Còn lăn tăn? Nhắn mình một câu.</h2>
+        <p>Mình trả lời trực tiếp qua Zalo {ZALO_PHONE}.</p>
+        <div className="sp-closing-cta">
+          <a className="sp-btn sp-btn-hot sp-btn-lg" href={ZALO_URL} target="_blank" rel="noopener noreferrer">
+            <MessageCircle size={18} aria-hidden />
+            Nhắn Zalo ngay
+          </a>
+          <a className="sp-btn sp-btn-onnight sp-btn-lg" href="#goi-setup">
+            Xem lại gói Setup
+          </a>
         </div>
       </div>
     </section>
