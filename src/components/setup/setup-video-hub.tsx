@@ -19,6 +19,7 @@ import {
   UserPlus,
   type LucideIcon,
 } from 'lucide-react';
+import { ExternalBrowserLink } from '@/components/setup/external-browser-link';
 import {
   MOOLY_URL,
   SETUP_STAGES,
@@ -272,10 +273,10 @@ export function SetupVideoHub() {
             <h3 className="sp-now-title">{active.title}</h3>
             <p className="sp-now-outcome">{active.outcome}</p>
             <div className="sp-now-actions">
-              <a className="sp-btn sp-btn-primary" href={MOOLY_URL} target="_blank" rel="noopener noreferrer">
+              <ExternalBrowserLink className="sp-btn sp-btn-primary" href={MOOLY_URL}>
                 Mở Mooly: {active.action}
                 <ExternalLink size={16} aria-hidden />
-              </a>
+              </ExternalBrowserLink>
               {next ? (
                 <button
                   type="button"

@@ -107,7 +107,7 @@ function ChatDemo() {
         </div>
         <p className="sp-chat-sys sp-t4">
           <BellRing size={14} aria-hidden />
-          Khách im lặng? Bot tự nhắn lại sau 12 giờ, 3 ngày, 14 ngày.
+          Khách im lặng? Bot tự nhắn lại sau 12 giờ, 3 ngày, 7 ngày.
         </p>
       </div>
     </div>
@@ -124,7 +124,8 @@ export function SetupHero() {
             Cho chủ shop bán hàng qua Fanpage và Zalo
           </p>
           <h1 className="sp-h1 sp-in" style={{ '--i': 1 } as React.CSSProperties}>
-            Khách nhắn lúc 11 giờ đêm. Bot báo giá trong <mark>10 giây</mark>.
+            <span className="sp-line">Khách nhắn lúc 11 giờ đêm.</span>{' '}
+            <span className="sp-line">Bot báo giá trong <mark>10 giây</mark>.</span>
           </h1>
           <p className="sp-lead sp-in" style={{ '--i': 2 } as React.CSSProperties}>
             Tự dựng Chatbot AI trên Mooly qua <strong className="sp-hl">12 video ngắn, miễn phí</strong>. Muốn nhanh hơn? Mình{' '}
@@ -195,7 +196,7 @@ export function SetupPain() {
   return (
     <section className="sp-section sp-band sp-band--night">
       <div className="sp-wrap">
-        <h2 className="sp-h2 sp-rv">Tiền quảng cáo đang rơi mất ngay ở hộp thư</h2>
+        <h2 className="sp-h2 sp-rv"><span className="sp-line">Tiền quảng cáo đang rơi mất</span> <span className="sp-line">ngay ở hộp thư</span></h2>
         <div className="sp-vs">
           <div className="sp-vs-col sp-vs-bad sp-rv">
             <h3>Làm thủ công</h3>
@@ -267,7 +268,7 @@ export function SetupRoadmap() {
   return (
     <section className="sp-section" id="lo-trinh">
       <div className="sp-wrap">
-        <h2 className="sp-h2 sp-rv">Lộ trình 7 ngày, có mốc hoàn tiền ở giữa</h2>
+        <h2 className="sp-h2 sp-rv"><span className="sp-line">Lộ trình 7 ngày,</span> <span className="sp-line">có mốc hoàn tiền ở giữa</span></h2>
         <p className="sp-sub sp-rv">Bạn thấy Bot chạy thật rồi mới quyết định đi tiếp.</p>
         <ol className="sp-track">
           {SETUP_ROADMAP.map((step, i) => (
@@ -303,9 +304,9 @@ export async function SetupPricing() {
   return (
     <section className="sp-section sp-band sp-band--hot" id="goi-setup">
       <div className="sp-wrap">
-        <h2 className="sp-h2 sp-rv">Muốn Bot chạy thật trong 3 ngày? Mình làm cùng bạn.</h2>
+        <h2 className="sp-h2 sp-rv"><span className="sp-line">Muốn Bot chạy thật trong 3 ngày?</span> <span className="sp-line">Mình làm cùng bạn.</span></h2>
         <p className="sp-sub sp-rv">
-          Gói Setup 1-1 trong <strong className="sp-hl-on">7 ngày</strong>. Hết ngày thứ 3 chạy thử, không ưng thì{' '}
+          Gói Setup 1-1 trong <strong className="sp-hl-on">7 ngày</strong>.<br />Hết ngày thứ 3 chạy thử, không ưng thì{' '}
           <strong className="sp-hl-on">hoàn đủ 2.000.000đ trong 24 giờ</strong>.
         </p>
 
@@ -393,7 +394,7 @@ export function SetupClosing() {
   return (
     <section className="sp-closing sp-band sp-band--night">
       <div className="sp-wrap sp-closing-in sp-rv">
-        <h2 className="sp-h2">Còn lăn tăn? Nhắn mình một câu.</h2>
+        <h2 className="sp-h2"><span className="sp-line">Còn lăn tăn?</span> <span className="sp-line">Nhắn mình một câu.</span></h2>
         <p>Mình trả lời trực tiếp qua Zalo {ZALO_PHONE}.</p>
         <div className="sp-closing-cta">
           <a className="sp-btn sp-btn-hot sp-btn-lg" href={ZALO_URL} target="_blank" rel="noopener noreferrer">
