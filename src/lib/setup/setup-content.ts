@@ -88,7 +88,7 @@ export const SETUP_PAINS = [
 
 export const SETUP_GAINS = [
   'Bot trả lời **dưới 10 giây**, cả ngày lẫn đêm.',
-  '**Tự nhắn lại** khách im lặng sau 12 giờ, 3 ngày, 14 ngày. Không tốn thêm tiền Ads.',
+  '**Tự nhắn lại** khách im lặng sau 12 giờ, 3 ngày, 7 ngày. Không tốn thêm tiền Ads.',
   'Đổi bảng giá **trong 5 phút**. Mọi ca trả lời **giống nhau**.',
   'Có người làm cùng, sau 7 ngày bạn **tự chủ** phần mềm.',
 ] as const;
@@ -107,7 +107,7 @@ export const SETUP_ROADMAP = [
     points: [
       'Nạp **sản phẩm, ảnh, bảng giá** sỉ và lẻ',
       'Viết kịch bản đúng **giọng chốt đơn** của shop',
-      'Cài luồng **nhắn lại khách im lặng** (12 giờ, 3 ngày, 14 ngày)',
+      'Cài luồng **nhắn lại khách im lặng** (12 giờ, 3 ngày, 7 ngày)',
       'Kết nối Fanpage, Zalo và **bấm chạy thật**',
     ],
   },
@@ -133,7 +133,7 @@ export const SETUP_ROADMAP = [
 
 export const SETUP_BENEFITS = [
   '**3 ngày** làm cùng 1-1: nạp sản phẩm, bảng giá, ảnh, bật Bot trên Fanpage và Zalo.',
-  'Luồng **nhắn lại khách im lặng** (12 giờ, 3 ngày, 14 ngày) cài sẵn, chạy mãi.',
+  'Luồng **nhắn lại khách im lặng** (12 giờ, 3 ngày, 7 ngày) cài sẵn, chạy mãi.',
   '**4 ngày** chỉnh Bot trên chat thật, đến khi trả lời đúng ý bạn.',
   'Tự thêm sản phẩm, đổi giá, sửa giọng văn. **Không cần thuê kỹ thuật.**',
   'Tài liệu mẫu và giải đáp qua Zalo sau khi kết thúc.',
